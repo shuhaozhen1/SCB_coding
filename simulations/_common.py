@@ -19,6 +19,25 @@ from concurrent.futures import ProcessPoolExecutor
 import numpy as np
 
 
+def undersmooth_h_inf(h_est, n, m_bar, q, c=8.0, floor=0.02):
+    """Inference bandwidth from the estimation bandwidth via the unified rule
+
+        h_inf = h_est * ( 1 - c / ( n^{1/2} * (m_bar / q)^{1/4} ) ),
+
+    where n = number of subjects, m_bar = mean observations per subject, and
+    q = model dimension (number of VCM coefficients). The denominator is the
+    per-coefficient effective resolution: sqrt(n) carries the subject-level
+    information while (m_bar/q)^{1/4} mildly weakens the undersmoothing as the
+    design becomes denser. The ratio -> 1 as n -> infinity, so the band is
+    asymptotically equivalent to using h_est (undersmoothing-for-inference,
+    Calonico-Cattaneo-Titiunik 2014; n*m_bar effective sample size, Yao-
+    Mueller-Wang 2005, Zhang-Wang 2016). c=8 is calibrated once and shared
+    across all settings.
+    """
+    denom = np.sqrt(n) * (m_bar / q) ** 0.25
+    return max(h_est * (1.0 - c / denom), floor)
+
+
 def _sample_gp(times: np.ndarray, var_kind: str, rng: np.random.Generator) -> np.ndarray:
     """Mean-zero Gaussian process at irregular times; var(t) and corr fixed per var_kind."""
     m = times.size

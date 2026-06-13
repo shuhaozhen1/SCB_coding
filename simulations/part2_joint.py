@@ -4,7 +4,9 @@ Cao 2018's plug-in SCB is per-target by construction and is not natively
 applicable to a joint multi-coefficient SCB; we therefore omit it as
 comparator.
 
-Settings (default): n=200, m in {5, 10, 15}, c_rule = 6.5, R = 1000.
+Settings (default): n=200, m in {5, 10, 15}, R = 1000. Inference bandwidth:
+h_inf = h_est*(1 - 8/(sqrt(n)*(m_bar/q)^{1/4})) with q=5 (joint over all
+coefficients); see simulations._common.undersmooth_h_inf.
 """
 from __future__ import annotations
 import argparse, json, sys, time
@@ -20,14 +22,15 @@ import pandas as pd
 from scb import (BootstrapConfig, LocalLinearConfig,
                  band_covers_truth, local_linear_vcm_scb)
 from scb.estimation import local_linear_vcm_fit
-from simulations._common import gen_data_part2, beta_true_part2
+from simulations._common import (gen_data_part2, beta_true_part2,
+                                 undersmooth_h_inf)
 
 ALPHA = 0.05
-C_RULE = 6.5
+C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=P
 P = 5
 SNR = 5.0
-H_GRID = np.linspace(0.06, 0.20, 8)
-T_GRID = np.linspace(0.025, 0.975, 191)
+H_GRID = np.linspace(0.04, 0.16, 13)
+T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 300
 BETA_TRUE = beta_true_part2(T_GRID, P)         # (G, P)
 
@@ -66,7 +69,8 @@ def _one_rep(args):
     subj, t, Z, Y, _ = gen_data_part2(n, m, SNR, base_seed + rep, p=P)
     df = _df_from_arrays(subj, t, Z, Y)
     h_est = _loso_h(subj, t, Z, Y, df, n)
-    h_inf = max(h_est * (1.0 - C_RULE / np.sqrt(n)), 0.01)
+    m_bar = Y.size / n
+    h_inf = undersmooth_h_inf(h_est, n, m_bar, q=P, c=C_INF)
     lc = LocalLinearConfig(bandwidth=h_est, ridge=1e-6, weighting="subject",
                            scaled_design=True)
     bc = BootstrapConfig(n_boot=N_BOOT, alpha=ALPHA, seed=base_seed + rep + 10**6,
@@ -91,7 +95,7 @@ def main():
 
     out_dir = Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
     print(f"Part 2: q={P} joint SCB. n={args.n}, m in {args.m_list}, "
-          f"c={C_RULE}, R={args.reps}, workers={args.workers}")
+          f"c_inf={C_INF}, R={args.reps}, workers={args.workers}")
     rows = []
     for i, m in enumerate(args.m_list, 1):
         base_seed = 20_000_000 + m * 100_000
@@ -105,7 +109,7 @@ def main():
         widths = np.array([r["widths"] for r in results])
         h_hat = np.array([r["h_hat"] for r in results])
         out = {"part": 2, "n": args.n, "m": m, "p": P, "n_reps": args.reps,
-               "c_rule": C_RULE, "snr": SNR,
+               "c_inf": C_INF, "snr": SNR,
                "h_hat_mean": float(h_hat.mean()),
                "h_hat_std": float(h_hat.std(ddof=1)),
                "joint_coverage": float(cov.mean()),

@@ -28,6 +28,7 @@ from scb import (BootstrapConfig, LocalLinearConfig, local_linear_vcm_scb)
 from comparators.cao_2018 import (fit_beta_at_points, select_bandwidth_loso,
                                   simulate_gamma, estimate_plugin_components,
                                   standard_error_curve)
+from simulations._common import undersmooth_h_inf
 
 DATA_PATH = ROOT / "data" / "pbcseq.csv"
 OUT_DIR = ROOT / "results" / "realdata"
@@ -35,9 +36,9 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 CAP_DAYS = 3000.0
 ALPHA = 0.05
-C_RULE = 7
-H_GRID = np.linspace(0.06, 0.20, 8)
-T_GRID = np.linspace(0.05, 0.95, 181)
+C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=3
+H_GRID = np.linspace(0.04, 0.16, 13)
+T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 3000
 COEF_NAMES = ["beta0_intercept", "beta1_treatment", "beta2_age"]
 
@@ -63,8 +64,9 @@ def main():
                          df["age_std"].to_numpy()])
     print(f"PBC VCM: n={n} patients, {len(df)} obs, p=3 covariates")
 
+    m_bar = len(df) / n
     h_est = float(select_bandwidth_loso(sid, t, Z, Y, H_GRID))
-    h_inf = max(h_est * (1.0 - C_RULE / np.sqrt(n)), 0.01)
+    h_inf = undersmooth_h_inf(h_est, n, m_bar, q=3, c=C_INF)
     print(f"LOSO h_est={h_est:.4f}, h_inf={h_inf:.4f}")
 
     gamma_cao = float(simulate_gamma(ALPHA, h_est, n, T_GRID, B=2000,
@@ -87,7 +89,7 @@ def main():
 
     summary = {
         "setting": {"n_patients": n, "n_obs": int(len(df)), "p": 3,
-                    "cap_days": CAP_DAYS, "alpha": ALPHA, "c_rule": C_RULE,
+                    "cap_days": CAP_DAYS, "alpha": ALPHA, "c_inf": C_INF,
                     "h_est": h_est, "h_inf": h_inf, "n_boot": N_BOOT,
                     "joint_qcrit": qc_joint, "cao_gamma": gamma_cao},
         "coefficients": {},

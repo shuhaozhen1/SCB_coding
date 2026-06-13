@@ -1,8 +1,9 @@
 """Part 1: single-coefficient VCM (q=2). Ours vs Cao (2018) per-coef SCB.
 
 Settings (default): n in {200, 300}, m in {5, 10, 15}, noise in
-{gauss, uniform, laplace}, c_rule = 7, R = 1000, target: simultaneous 95%
-coverage of beta_1(t) on a 191-point grid.
+{gauss, uniform, laplace}, R = 1000, target: simultaneous 95% coverage of
+beta_1(t). Inference bandwidth: h_inf = h_est*(1 - 8/(sqrt(n)*(m_bar/q)^{1/4}))
+with q=2 (see simulations._common.undersmooth_h_inf).
 """
 from __future__ import annotations
 import argparse, json, sys, time
@@ -20,12 +21,13 @@ from scb import (BootstrapConfig, LocalLinearConfig,
 from comparators.cao_2018 import (fit_beta_at_points, select_bandwidth_loso,
                                   simulate_gamma, estimate_plugin_components,
                                   standard_error_curve)
-from simulations._common import gen_data_part1, beta_true_part1
+from simulations._common import (gen_data_part1, beta_true_part1,
+                                 undersmooth_h_inf)
 
 ALPHA = 0.05
-C_RULE = 7
-H_GRID = np.linspace(0.06, 0.20, 8)
-T_GRID = np.linspace(0.025, 0.975, 191)
+C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=2
+H_GRID = np.linspace(0.04, 0.16, 13)
+T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 300
 BETA_TRUE = beta_true_part1(T_GRID)            # (G, 2)
 A_BETA1 = np.array([0.0, 1.0])
@@ -52,7 +54,8 @@ def _one_rep(args):
     cao_cov = bool(np.all((BETA_TRUE_BETA1 >= lo) & (BETA_TRUE_BETA1 <= hi)))
     cao_wid = float(np.mean(hi - lo))
     # Ours
-    h_inf = max(h_hat * (1.0 - C_RULE / np.sqrt(n)), 0.01)
+    m_bar = Y.size / n
+    h_inf = undersmooth_h_inf(h_hat, n, m_bar, q=2, c=C_INF)
     df = pd.DataFrame({"id": subj.astype(int), "t": t, "y": Y,
                        "x0": Z[:, 0], "x1": Z[:, 1]})
     lc = LocalLinearConfig(bandwidth=h_hat, ridge=1e-6, weighting="subject",
@@ -113,7 +116,7 @@ def main():
         our_wid = np.array([r["ours_wid"] for r in results])
         h_hat = np.array([r["h_hat"] for r in results])
         out = {"part": 1, "n": n, "m": m, "noise": ns, "n_reps": args.reps,
-               "c_rule": C_RULE,
+               "c_inf": C_INF,
                "h_hat_mean": float(h_hat.mean()),
                "h_hat_std": float(h_hat.std(ddof=1)),
                "cao_coverage": float(cao_cov.mean()),

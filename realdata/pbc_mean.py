@@ -31,6 +31,7 @@ from scipy.interpolate import interp1d
 from scb import (BootstrapConfig, LocalLinearConfig, local_linear_vcm_scb)
 from comparators.cao_2018 import select_bandwidth_loso
 from comparators.caihu_2025 import scb_from_dataset as caihu_scb
+from simulations._common import undersmooth_h_inf
 
 DATA_PATH = ROOT / "data" / "pbcseq.csv"
 OUT_DIR = ROOT / "results" / "realdata"
@@ -38,9 +39,9 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 CAP_DAYS = 3000.0
 ALPHA = 0.05
-C_RULE = 4.5
-H_GRID = np.linspace(0.06, 0.20, 8)
-T_GRID = np.linspace(0.05, 0.95, 181)
+C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=1
+H_GRID = np.linspace(0.04, 0.16, 13)
+T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 3000
 
 
@@ -64,8 +65,9 @@ def main():
 
     # Ours
     Z_int = np.ones((t.size, 1))
+    m_bar = t.size / n
     h_est = float(select_bandwidth_loso(sid, t, Z_int, Y, H_GRID))
-    h_inf = max(h_est * (1.0 - C_RULE / np.sqrt(n)), 0.01)
+    h_inf = undersmooth_h_inf(h_est, n, m_bar, q=1, c=C_INF)
     print(f"Ours: LOSO h_est={h_est:.4f}, h_inf={h_inf:.4f}")
 
     df_o = pd.DataFrame({"id": sid.astype(int), "t": t, "y": Y,
@@ -94,8 +96,8 @@ def main():
           f"Cai-Hu J_n={meta['Jn']} Q={meta['Q']:.3f} wid={wid_f:.4f}")
 
     summary = {
-        "setting": {"n_patients": n, "n_obs": int(len(df)),
-                    "cap_days": CAP_DAYS, "alpha": ALPHA, "c_rule": C_RULE,
+        "setting": {"n_patients": n, "n_obs": int(len(df)), "m_bar": m_bar,
+                    "cap_days": CAP_DAYS, "alpha": ALPHA, "c_inf": C_INF,
                     "h_est": h_est, "h_inf": h_inf, "n_boot": N_BOOT},
         "ours": {"qcrit": qcrit_o, "mean_band_width": wid_o,
                  "mhat_at_t01": float(mhat_o[0]),
@@ -149,7 +151,7 @@ def main():
     ax.set_xlabel("t = day / 3000"); ax.set_ylabel("bilirubin (mg/dL)")
     ax.set_title("clinical scale (back-transformed)")
     ax.legend(fontsize=8, loc="upper left")
-    fig.suptitle(f"PBC mean log-bilirubin (n={n}): Ours c={C_RULE} vs Cai-Hu B-spline")
+    fig.suptitle(f"PBC mean log-bilirubin (n={n}): Ours vs Cai-Hu B-spline")
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(OUT_DIR / "pbc_mean_bands.png", dpi=150, bbox_inches="tight")
 

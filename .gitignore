@@ -11,6 +11,10 @@ venv/
 env/
 .env
 .DS_Store
-results/
-outputs/
 *.log
+
+# Curated deliverables under results/ ARE tracked (figures, summary tables,
+# the Excel workbook, real-data outputs). Bulky regenerated intermediates are
+# not: per-replicate JSON dumps and the plot-curve cache.
+results/**/n*_m*.json
+results/plotdata/

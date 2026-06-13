@@ -1,0 +1,38 @@
+{
+  "setting": {
+    "n_patients": 312,
+    "n_obs": 1790,
+    "p": 3,
+    "cap_days": 3000.0,
+    "alpha": 0.05,
+    "c_inf": 8.0,
+    "h_est": 0.07,
+    "h_inf": 0.04304021437991707,
+    "n_boot": 3000,
+    "joint_qcrit": 3.5444111418561417,
+    "cao_gamma": 3.1478269307025917
+  },
+  "coefficients": {
+    "beta0_intercept": {
+      "ours_joint_avg_band_len": 1.7585975185503326,
+      "cao_marginal_avg_band_len": 1.887591892049496,
+      "len_ratio_ours_over_cao": 0.9316619370731113,
+      "ours_excludes_zero": true,
+      "cao_excludes_zero": true
+    },
+    "beta1_treatment": {
+      "ours_joint_avg_band_len": 2.4084270015959626,
+      "cao_marginal_avg_band_len": 2.846967184989628,
+      "len_ratio_ours_over_cao": 0.8459623329324525,
+      "ours_excludes_zero": false,
+      "cao_excludes_zero": false
+    },
+    "beta2_age": {
+      "ours_joint_avg_band_len": 1.3441217102223237,
+      "cao_marginal_avg_band_len": 1.5461264240999373,
+      "len_ratio_ours_over_cao": 0.8693478678529095,
+      "ours_excludes_zero": false,
+      "cao_excludes_zero": false
+    }
+  }
+}

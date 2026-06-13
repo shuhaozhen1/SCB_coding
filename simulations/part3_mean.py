@@ -1,7 +1,8 @@
 """Part 3: mean function SCB. Ours vs Cai & Hu (2025) B-spline.
 
-Settings (default): n=200, m in {5, 10, 15}, dist in {normal, uniform,
-laplace}, c_rule = 4.5, R = 1000.
+Settings (default): n in {200, 300}, m in {5, 10, 15}, dist in {normal,
+uniform, laplace}, R = 1000. Inference bandwidth: h_inf = h_est*(1 -
+8/(sqrt(n)*(m_bar/q)^{1/4})) with q=1 (see simulations._common.undersmooth_h_inf).
 
 Cao 2018's plug-in is *not* a designed comparator for the mean-function
 problem (its formulation targets local-linear varying-coefficient regression)
@@ -23,12 +24,12 @@ from scb import (BootstrapConfig, LocalLinearConfig,
                  band_covers_truth, local_linear_vcm_scb)
 from comparators.cao_2018 import select_bandwidth_loso
 from comparators.caihu_2025 import (m_true, scb_from_dataset as caihu_scb)
-from simulations._common import gen_data_part3
+from simulations._common import gen_data_part3, undersmooth_h_inf
 
 ALPHA = 0.05
-C_RULE = 4.5
-H_GRID = np.linspace(0.06, 0.20, 8)
-T_GRID = np.linspace(0.05, 0.95, 181)
+C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=1
+H_GRID = np.linspace(0.04, 0.16, 13)
+T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 300
 BETA_TRUE = m_true(T_GRID)
 BT2 = BETA_TRUE.reshape(-1, 1)
@@ -40,7 +41,8 @@ def _one_rep(args):
     Z = np.ones((X.size, 1))
     h_hat = float(select_bandwidth_loso(sid, X, Z, Y, H_GRID))
     # Ours
-    h_inf = max(h_hat * (1.0 - C_RULE / np.sqrt(n)), 0.01)
+    m_bar = Y.size / n
+    h_inf = undersmooth_h_inf(h_hat, n, m_bar, q=1, c=C_INF)
     df = pd.DataFrame({"id": sid.astype(int), "t": X, "y": Y,
                        "x0": np.ones(X.size)})
     lc = LocalLinearConfig(bandwidth=h_hat, ridge=1e-6, weighting="subject",
@@ -68,7 +70,7 @@ def _one_rep(args):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--n", type=int, default=200)
+    p.add_argument("--n-list", type=int, nargs="+", default=[200, 300])
     p.add_argument("--m-list", type=int, nargs="+", default=[5, 10, 15])
     p.add_argument("--dist-list", type=str, nargs="+",
                    default=["normal", "uniform", "laplace"])
@@ -78,11 +80,12 @@ def main():
     args = p.parse_args()
 
     out_dir = Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Part 3: mean function. n={args.n}, m in {args.m_list}, "
-          f"dist in {args.dist_list}, c={C_RULE}, R={args.reps}, "
+    print(f"Part 3: mean function. n in {args.n_list}, m in {args.m_list}, "
+          f"dist in {args.dist_list}, c_inf={C_INF}, R={args.reps}, "
           f"workers={args.workers}")
     rows = []
-    settings = [(args.n, m, d) for m in args.m_list for d in args.dist_list]
+    settings = [(n, m, d) for n in args.n_list for m in args.m_list
+                for d in args.dist_list]
     for i, (n, m, d) in enumerate(settings, 1):
         base_seed = 30_000_000 + i * 100_000
         print(f"[P3 {i}/{len(settings)}] n={n} m={m:>2} {d:>8} ... ",
@@ -98,7 +101,7 @@ def main():
         cw = np.array([r["caihu_wid"] for r in results])
         h_hat = np.array([r["h_hat"] for r in results])
         out = {"part": 3, "n": n, "m": m, "dist": d, "n_reps": args.reps,
-               "c_rule": C_RULE,
+               "c_inf": C_INF,
                "h_hat_mean": float(h_hat.mean()),
                "ours_coverage": float(oc.mean()),
                "ours_cov_mcse": float(np.sqrt(oc.mean()*(1-oc.mean())/args.reps)),
