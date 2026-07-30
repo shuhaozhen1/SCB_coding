@@ -1,0 +1,100 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Cai and Hu}{Cai and Hu}{2025}]{CaiHu2025}
+Cai, L. and Q.~Hu (2025).
+\newblock From sparse to dense functional data: Phase transitions from a simultaneous inference perspective.
+\newblock {\em Statistics and Computing\/}~{\em 35}, 146.
+\newblock Article 146.
+
+\bibitem[\protect\citeauthoryear{Calonico, Cattaneo, and Farrell}{Calonico et~al.}{2018}]{CalonicoCattaneoFarrell2018}
+Calonico, S., M.~D. Cattaneo, and M.~H. Farrell (2018).
+\newblock On the effect of bias estimation on coverage accuracy in nonparametric inference.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 113\/}(522), 767--779.
+
+\bibitem[\protect\citeauthoryear{Calonico, Cattaneo, and Titiunik}{Calonico et~al.}{2014}]{CalonicoCattaneoTitiunik2014}
+Calonico, S., M.~D. Cattaneo, and R.~Titiunik (2014).
+\newblock Robust nonparametric confidence intervals for regression-discontinuity designs.
+\newblock {\em Econometrica\/}~{\em 82\/}(6), 2295--2326.
+
+\bibitem[\protect\citeauthoryear{Cao, Liu, and Zhou}{Cao et~al.}{2018}]{Cao2018}
+Cao, H., W.~Liu, and Z.~Zhou (2018).
+\newblock Simultaneous nonparametric regression analysis of sparse longitudinal data.
+\newblock {\em Bernoulli\/}~{\em 24\/}(4A), 3013--3038.
+
+\bibitem[\protect\citeauthoryear{Carbone, Sharp, Flack, Paximadas, Spiess, Adgey, Griffiths, Lim, et~al.}{Carbone et~al.}{2016}]{Carbone2016}
+Carbone, M., S.~J. Sharp, S.~Flack, D.~Paximadas, K.~Spiess, C.~Adgey, L.~Griffiths, R.~Lim, et~al. (2016).
+\newblock The {UK-PBC} risk scores: Derivation and validation of a scoring system for long-term prediction of end-stage liver disease in primary biliary cholangitis.
+\newblock {\em Hepatology\/}~{\em 63\/}(3), 930--950.
+
+\bibitem[\protect\citeauthoryear{Corpechot, Abenavoli, Rabahi, Chr{\'e}tien, Andr{\'e}ani, Johanet, Chazouill{\`e}res, and Poupon}{Corpechot et~al.}{2008}]{Corpechot2008}
+Corpechot, C., L.~Abenavoli, N.~Rabahi, Y.~Chr{\'e}tien, T.~Andr{\'e}ani, C.~Johanet, O.~Chazouill{\`e}res, and R.~Poupon (2008).
+\newblock Biochemical response to ursodeoxycholic acid and long-term prognosis in primary biliary cirrhosis.
+\newblock {\em Hepatology\/}~{\em 48\/}(3), 871--877.
+
+\bibitem[\protect\citeauthoryear{Dickson, Fleming, Wiesner, Baldus, Fleming, Ludwig, and McCall}{Dickson et~al.}{1985}]{Dickson1985}
+Dickson, E.~R., T.~R. Fleming, R.~H. Wiesner, W.~P. Baldus, C.~R. Fleming, J.~Ludwig, and J.~T. McCall (1985).
+\newblock Trial of penicillamine in advanced primary biliary cirrhosis.
+\newblock {\em New England Journal of Medicine\/}~{\em 312\/}(16), 1011--1015.
+
+\bibitem[\protect\citeauthoryear{Dickson, Grambsch, Fleming, Fisher, and Langworthy}{Dickson et~al.}{1989}]{Dickson1989}
+Dickson, E.~R., P.~M. Grambsch, T.~R. Fleming, L.~D. Fisher, and A.~Langworthy (1989).
+\newblock Prognosis in primary biliary cirrhosis: Model for decision making.
+\newblock {\em Hepatology\/}~{\em 10\/}(1), 1--7.
+
+\bibitem[\protect\citeauthoryear{Hall}{Hall}{1992}]{Hall1992}
+Hall, P. (1992).
+\newblock Effect of bias estimation on coverage accuracy of bootstrap confidence intervals for a probability density.
+\newblock {\em The Annals of Statistics\/}~{\em 20\/}(2), 675--694.
+
+\bibitem[\protect\citeauthoryear{Kaplan and Gershwin}{Kaplan and Gershwin}{2005}]{KaplanGershwin2005}
+Kaplan, M.~M. and M.~E. Gershwin (2005).
+\newblock Primary biliary cirrhosis.
+\newblock {\em New England Journal of Medicine\/}~{\em 353\/}(12), 1261--1273.
+
+\bibitem[\protect\citeauthoryear{Lammers, van Buuren, Hirschfield, Janssen, Invernizzi, Mason, Ponsioen, Floreani, et~al.}{Lammers et~al.}{2014}]{Lammers2014}
+Lammers, W.~J., H.~R. van Buuren, G.~M. Hirschfield, H.~L.~A. Janssen, P.~Invernizzi, A.~L. Mason, C.~Y. Ponsioen, A.~Floreani, et~al. (2014).
+\newblock Levels of alkaline phosphatase and bilirubin are surrogate end points of outcomes of patients with primary biliary cirrhosis: An international follow-up study.
+\newblock {\em Gastroenterology\/}~{\em 147\/}(6), 1338--1349.e5.
+
+\bibitem[\protect\citeauthoryear{Lindor, Bowlus, Boyer, Levy, and Mayo}{Lindor et~al.}{2019}]{Lindor2019}
+Lindor, K.~D., C.~L. Bowlus, J.~Boyer, C.~Levy, and M.~Mayo (2019).
+\newblock Primary biliary cholangitis: 2018 practice guidance from the american association for the study of liver diseases.
+\newblock {\em Hepatology\/}~{\em 69\/}(1), 394--419.
+
+\bibitem[\protect\citeauthoryear{Lindor, Gershwin, Poupon, Kaplan, Bergasa, and Heathcote}{Lindor et~al.}{2009}]{Lindor2009}
+Lindor, K.~D., M.~E. Gershwin, R.~Poupon, M.~Kaplan, N.~V. Bergasa, and E.~J. Heathcote (2009).
+\newblock Primary biliary cirrhosis.
+\newblock {\em Hepatology\/}~{\em 50\/}(1), 291--308.
+
+\bibitem[\protect\citeauthoryear{Murtaugh, Dickson, Van~Dam, Malinchoc, Grambsch, Langworthy, and Gips}{Murtaugh et~al.}{1994}]{Murtaugh1994}
+Murtaugh, P.~A., E.~R. Dickson, G.~M. Van~Dam, M.~Malinchoc, P.~M. Grambsch, A.~L. Langworthy, and C.~H. Gips (1994).
+\newblock Primary biliary cirrhosis: Prediction of short-term survival based on repeated patient visits.
+\newblock {\em Hepatology\/}~{\em 20\/}(1), 126--134.
+
+\bibitem[\protect\citeauthoryear{Prince, Chetwynd, Craig, Metcalf, and James}{Prince et~al.}{2004}]{Prince2004}
+Prince, M.~I., A.~Chetwynd, W.~L. Craig, J.~V. Metcalf, and O.~F.~W. James (2004).
+\newblock Asymptomatic primary biliary cirrhosis: Clinical features, prognosis, and symptom progression in a large population-based cohort.
+\newblock {\em Gut\/}~{\em 53\/}(6), 865--870.
+
+\bibitem[\protect\citeauthoryear{Therneau and Grambsch}{Therneau and Grambsch}{2000}]{TherneauGrambsch2000}
+Therneau, T.~M. and P.~M. Grambsch (2000).
+\newblock {\em Modeling Survival Data: Extending the Cox Model}.
+\newblock New York: Springer.
+\newblock Chapter 8 introduces the Mayo PBC sequential biomarker dataset, distributed as \texttt{pbcseq} in the R \texttt{survival} package.
+
+\bibitem[\protect\citeauthoryear{Wulfsohn and Tsiatis}{Wulfsohn and Tsiatis}{1997}]{WulfsohnTsiatis1997}
+Wulfsohn, M.~S. and A.~A. Tsiatis (1997).
+\newblock A joint model for survival and longitudinal data measured with error.
+\newblock {\em Biometrics\/}~{\em 53\/}(1), 330--339.
+
+\bibitem[\protect\citeauthoryear{Yao, M{\"u}ller, and Wang}{Yao et~al.}{2005}]{YaoMullerWang2005}
+Yao, F., H.-G. M{\"u}ller, and J.-L. Wang (2005).
+\newblock Functional data analysis for sparse longitudinal data.
+\newblock {\em Journal of the American Statistical Association\/}~{\em 100\/}(470), 577--590.
+
+\bibitem[\protect\citeauthoryear{Zhang and Wang}{Zhang and Wang}{2016}]{ZhangWang2016}
+Zhang, X. and J.-L. Wang (2016).
+\newblock From sparse to dense functional data and beyond.
+\newblock {\em The Annals of Statistics\/}~{\em 44\/}(5), 2281--2321.
+
+\end{thebibliography}

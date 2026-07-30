@@ -36,6 +36,7 @@ SNR = 5.0
 H_GRID = np.linspace(0.04, 0.16, 13)
 T_GRID = np.linspace(0.025, 0.975, 96)
 BETA_TRUE = beta_true_part2(T_GRID, P)            # (G, P)
+NOISE_SEED_OFFSET = {"gauss": 0, "uniform": 10_000, "laplace": 20_000}
 
 _GAMMA_CACHE = {}
 
@@ -72,8 +73,8 @@ def _gamma_bonf(h, n, seed):
 
 
 def _one_rep(args):
-    rep, n, m, base = args
-    subj, t, Z, Y, _ = gen_data_part2(n, m, SNR, base + rep, p=P)
+    rep, n, m, noise, base = args
+    subj, t, Z, Y, _ = gen_data_part2(n, m, SNR, base + rep, p=P, noise=noise)
     df = pd.DataFrame({"id": subj.astype(int), "t": t, "y": Y})
     for k in range(P): df[f"x{k}"] = Z[:, k]
     h = _loso_h(df, n)
@@ -96,40 +97,56 @@ def _one_rep(args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--n", type=int, default=200)
+    ap.add_argument("--n", type=int, default=None,
+                    help="Optional single-n shortcut; overrides --n-list.")
+    ap.add_argument("--n-list", type=int, nargs="+", default=[200, 300])
     ap.add_argument("--m-list", type=int, nargs="+", default=[5, 10, 15])
+    ap.add_argument("--noise-list", type=str, nargs="+",
+                    default=["gauss", "uniform", "laplace"],
+                    choices=["gauss", "uniform", "laplace"])
     ap.add_argument("--reps", type=int, default=1000)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--out-dir", type=str, default="results/part2_bonferroni")
     args = ap.parse_args()
+    n_list = [args.n] if args.n is not None else args.n_list
     out_dir = Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
     print(f"Part 2 Bonferroni-Cao: per-coef level alpha/{P}={ALPHA/P:.3f}, "
-          f"n={args.n}, m in {args.m_list}, R={args.reps}, workers={args.workers}")
+          f"n in {n_list}, m in {args.m_list}, noise in {args.noise_list}, "
+          f"R={args.reps}, workers={args.workers}")
     rows = []
-    for m in args.m_list:
-        base = 20_000_000 + m * 100_000   # SAME seeds as part2_joint.py
-        print(f"[P2-Bonf m={m:>2}] ... ", end="", flush=True)
-        t0 = time.perf_counter()
-        args_list = [(r, args.n, m, base) for r in range(args.reps)]
-        with ProcessPoolExecutor(max_workers=args.workers) as ex:
-            results = list(ex.map(_one_rep, args_list, chunksize=4))
-        el = time.perf_counter() - t0
-        cov = np.array([r["joint_cov"] for r in results], float)
-        wid = np.array([r["width_avg"] for r in results], float)
-        gam = np.mean([r["gamma_bonf"] for r in results])
-        out = {"part": 2, "method": "cao_bonferroni", "n": args.n, "m": m, "p": P,
-               "n_reps": args.reps, "alpha_per_coef": ALPHA / P,
-               "joint_coverage": float(cov.mean()),
-               "joint_cov_mcse": float(np.sqrt(cov.mean()*(1-cov.mean())/args.reps)),
-               "width_avg": float(np.nanmean(wid)),
-               "gamma_bonf_mean": float(gam),
-               "elapsed_sec": float(el)}
-        with open(out_dir / f"n{args.n}_m{m}.json", "w") as f:
-            json.dump(out, f, indent=2)
-        rows.append(out)
-        print(f"joint {out['joint_coverage']:.3f} wid {out['width_avg']:.3f} "
-              f"(gamma={gam:.2f}) | {el:.0f}s", flush=True)
-    pd.DataFrame(rows).to_csv(out_dir / "part2_bonferroni_summary.csv", index=False)
+    total = len(n_list) * len(args.m_list) * len(args.noise_list)
+    idx = 0
+    for n in n_list:
+        for m in args.m_list:
+            for noise in args.noise_list:
+                idx += 1
+                base = (20_000_000 + m * 100_000 +
+                        (n - 200) * 1_000_000 + NOISE_SEED_OFFSET[noise])
+                print(f"[P2-Bonf {idx}/{total}] n={n}, m={m:>2}, noise={noise} ... ",
+                      end="", flush=True)
+                t0 = time.perf_counter()
+                args_list = [(r, n, m, noise, base) for r in range(args.reps)]
+                with ProcessPoolExecutor(max_workers=args.workers) as ex:
+                    results = list(ex.map(_one_rep, args_list, chunksize=4))
+                el = time.perf_counter() - t0
+                cov = np.array([r["joint_cov"] for r in results], float)
+                wid = np.array([r["width_avg"] for r in results], float)
+                gam = np.mean([r["gamma_bonf"] for r in results])
+                out = {"part": 2, "method": "cao_bonferroni", "n": n, "m": m,
+                       "noise": noise, "p": P, "n_reps": args.reps,
+                       "alpha_per_coef": ALPHA / P,
+                       "joint_coverage": float(cov.mean()),
+                       "joint_cov_mcse": float(np.sqrt(cov.mean()*(1-cov.mean())/args.reps)),
+                       "width_avg": float(np.nanmean(wid)),
+                       "gamma_bonf_mean": float(gam),
+                       "elapsed_sec": float(el)}
+                with open(out_dir / f"n{n}_m{m}_{noise}.json", "w") as f:
+                    json.dump(out, f, indent=2)
+                rows.append(out)
+                print(f"joint {out['joint_coverage']:.3f} wid {out['width_avg']:.3f} "
+                      f"(gamma={gam:.2f}) | {el:.0f}s", flush=True)
+    pd.DataFrame(rows).sort_values(["n", "m", "noise"]).to_csv(
+        out_dir / "part2_bonferroni_summary.csv", index=False)
 
 
 if __name__ == "__main__":

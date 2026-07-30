@@ -3,7 +3,7 @@
 Sheets:
   Notes       - settings, the undersmoothing rule, column glossary
   Part1       - q=2 VCM marginal SCB (Ours vs Cao 2018), 18 cells
-  Part2       - q=5 joint SCB (Ours vs Bonferroni-Cao), 3 cells
+  Part2       - q=5 joint SCB (Ours vs Bonferroni-Cao), 18 cells
   Part3       - q=1 mean SCB (Ours vs Cai-Hu 2025), 18 cells
   Aggregates  - per-part summary metrics
 
@@ -57,29 +57,41 @@ def load_part3():
 
 
 def load_part2():
-    ours = pd.read_csv(RES / "part2" / "part2_summary.csv").set_index("m")
+    ours = pd.read_csv(RES / "part2" / "part2_summary.csv")
+    if "noise" not in ours.columns:
+        ours["noise"] = "gauss"
     bf_path = RES / "part2_bonferroni" / "part2_bonferroni_summary.csv"
-    bf = pd.read_csv(bf_path).set_index("m") if bf_path.exists() else None
+    bf = pd.read_csv(bf_path) if bf_path.exists() else None
+    if bf is not None and "noise" not in bf.columns:
+        bf["noise"] = "gauss"
     rows = []
-    for m in (5, 10, 15):
-        o = ours.loc[m]
-        row = {"n": 200, "m": m,
+    for _, o in ours.sort_values(["n", "m", "noise"]).iterrows():
+        row = {"n": int(o["n"]), "m": int(o["m"]), "noise": str(o["noise"]),
                "ours_joint_coverage": round(float(o["joint_coverage"]), 3),
                "ours_cov_mcse": round(float(o["joint_cov_mcse"]), 4),
                "ours_width": round(float(o["width_avg"]), 3),
                "h_est_mean": round(float(o["h_hat_mean"]), 4),
                "n_reps": int(o["n_reps"])}
         if bf is not None:
-            b = bf.loc[m]
-            row["bonferroni_cao_coverage"] = round(float(b["joint_coverage"]), 3)
-            row["bonferroni_cao_width"] = round(float(b["width_avg"]), 3)
-            row["width_ratio_ours_over_bonf"] = round(float(o["width_avg"]) / float(b["width_avg"]), 3)
+            match = bf[(bf["n"] == o["n"]) &
+                       (bf["m"] == o["m"]) &
+                       (bf["noise"] == o["noise"])]
+            if not match.empty:
+                b = match.iloc[0]
+                row["bonferroni_cao_coverage"] = round(float(b["joint_coverage"]), 3)
+                row["bonferroni_cao_width"] = round(float(b["width_avg"]), 3)
+                row["width_ratio_ours_over_bonf"] = round(
+                    float(o["width_avg"]) / float(b["width_avg"]), 3)
+            else:
+                row["bonferroni_cao_coverage"] = np.nan
+                row["bonferroni_cao_width"] = np.nan
+                row["width_ratio_ours_over_bonf"] = np.nan
         else:
             row["bonferroni_cao_coverage"] = np.nan
             row["bonferroni_cao_width"] = np.nan
             row["width_ratio_ours_over_bonf"] = np.nan
         rows.append(row)
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows).sort_values(["n", "m", "noise"]).reset_index(drop=True)
 
 
 def aggregates(p1, p2, p3):

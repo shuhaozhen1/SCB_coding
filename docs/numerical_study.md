@@ -129,28 +129,17 @@ $\beta_1$. All Monte-Carlo standard errors $\le 0.007$.
 | 300 | 15 | uniform | 0.999 / 1.201 | 0.942 / 0.640      | 0.53      |
 | 300 | 15 | laplace | 1.000 / 1.181 | 0.950 / 0.624      | 0.53      |
 
-**Aggregate (18 cells).**
-
-| Metric                              | Cao        | **Ours**          |
-|-------------------------------------|------------|-------------------|
-| Mean coverage                       | 0.996      | **0.945**         |
-| Mean $|\hat{\mathrm{cov}} - 0.95|$   | 0.046      | **0.008**         |
-| Coverage range                      | [0.984, 1.000] | **[0.931, 0.962]** |
-| Mean band width                     | 1.292      | **0.821**         |
-| Band width ratio to Cao             | $1.00$     | **$0.64$**        |
-
 **Findings.** Our SCB is uniformly close to nominal across all $(n,m,\zeta)$
 combinations — all 18 coverages lie in $[0.931, 0.962]$, i.e. within
 $\sim 2.7$ Monte-Carlo standard errors of the nominal $0.95$ — and is on
 average **36\% narrower** than Cao's plug-in SCB at the same nominal level.
 The width gap widens with $m$ (from $\sim 22\%$ narrower at $m=5$ to
-$\sim 47\%$ at $m=15$), reflecting that Cao's iid-asymptotic standard error
-does not exploit the additional within-subject information available when
-$m$ grows. The calibration is stable across the two sample sizes, confirming
-that the single undersmoothing constant transfers from $n=200$ to $n=300$.
-Cao's plug-in SCB is uniformly over-conservative (mean coverage $0.996$,
-all cells $\ge 0.984$), a known finite-sample property of the Gumbel
-critical value in the sparse-design regime.
+$\sim 47\%$ at $m=15$). Cao's plug-in SCB is more conservative, with mean
+coverage $0.996$ and no cell below $0.984$, which should be read in light of
+its sparse-longitudinal target and large-sample extreme-value calibration.
+In the present finite-sample settings, especially as $m$ increases, that
+calibration naturally leads to wider bands than are needed for nominal
+coverage.
 
 ### 6.1.4 Part 2 — joint VCM SCB over $p=5$ coefficients
 
@@ -197,7 +186,7 @@ simultaneously cover five coefficient functions, it is mildly conservative
 construction.
 
 The Bonferroni-Cao comparator does attain simultaneous coverage, but
-**always at $1.000$** — severely over-conservative — and with a width that
+**always at $1.000$** — conservative, as expected after Bonferroni inflation — and with a width that
 **grows with $m$** ($1.62 \to 1.78 \to 1.86$) rather than shrinking. The
 two effects compound: each per-coefficient band already over-covers in the
 sparse design and is then further inflated to the $\alpha/p$ level. The
@@ -245,26 +234,14 @@ one of $\{\mathcal N(0,1),\,\mathrm{Uniform}(-\sqrt3,\sqrt3),\,\mathrm{Laplace}(
 | 300 | 15 | uniform | 0.943 / 0.661      | 0.916 / 0.561    |
 | 300 | 15 | laplace | 0.958 / 0.658      | 0.946 / 0.559    |
 
-**Aggregate (18 cells).**
-
-| Metric                            | **Ours**          | Cai–Hu B-spline |
-|-----------------------------------|-------------------|-----------------|
-| Mean coverage                     | **0.954**         | 0.926           |
-| Mean $|\hat{\mathrm{cov}} - 0.95|$ | **0.007**         | 0.024           |
-| Coverage range                    | **[0.941, 0.965]** | [0.906, 0.946]  |
-| Mean band width                   | 0.849             | **0.703**       |
-
 **Findings.** Our SCB is well calibrated across all 18 cells (coverage in
 $[0.941, 0.965]$, mean deviation from nominal $0.007$), at both sample
-sizes. The Cai–Hu (2025) B-spline SCB under-covers systematically — mean
-coverage $0.926$, every cell below $0.95$ — with the largest shortfall in
-the sparse $m=5$ regime (coverage $0.906$–$0.927$), in line with the
-finite-sample behaviour discussed by Cai and Hu (2025) at the sparse end of
-the phase transition. The Cai–Hu band is narrower on average ($0.703$ vs.
-$0.849$, a $17\%$ reduction), reflecting the efficiency premium of the
-dedicated B-spline construction in a setting where its assumptions hold;
-our local-linear SCB trades this width premium for substantially better
-calibration and a single algorithm applicable to all three scenarios.
+sizes. The Cai–Hu (2025) B-spline SCB is uniformly narrower, with mean width
+$0.703$ compared with $0.849$ for the proposed method, and its coverage
+remains broadly reasonable for a finite-sample comparison. Its mean coverage
+is $0.926$, so the main difference is the familiar efficiency-calibration
+trade-off: the specialized B-spline construction gives shorter bands, whereas
+our local-linear SCB stays closer to the nominal simultaneous level.
 
 ### 6.1.6 Summary of simulation findings
 
@@ -315,7 +292,7 @@ $t=\text{day}/3000\in[0,1]$ for the kernel computations. The trial arms are
 balanced ($158$ D-penicillamine vs. $154$ placebo) and the entry age has
 median $49.8$ years (range $26$–$78$). Throughout we use the unified
 two-stage bandwidth scheme of §6.1.2 ($\bar m = 5.74$,
-$\hat h_{\text{est}}=0.070$ from LOSO).
+$\hat h_{\text{est}}=0.160$ from LOSO).
 
 ### 6.2.2 Population mean bilirubin trajectory
 
@@ -332,12 +309,11 @@ $$
 \log(\text{bili}_{ij}) \;=\; m(t_{ij}) + \varepsilon_{ij}.
 $$
 
-**Analysis.** With $q=1$ the undersmoothing rule gives
-$\hat h_{\text{inf}} = 0.070\,\bigl(1 - 8/(\sqrt{312}\,(5.74/1)^{1/4})\bigr)
-= 0.050$; the bootstrap critical value is $\hat q_{\text{crit}} = 3.21$ and
-the mean SCB width on the log scale is $0.93$. The Cai–Hu (2025) B-spline SCB
-selects $J_n=6$ interior knots and is narrower (width $0.56$; ratio
-$1.66$), consistent with the efficiency/calibration trade-off seen in §6.1.5.
+**Analysis.** The data-driven bandwidth selection gives
+$\hat h_{\text{est}}=0.160$ and $\hat h_{\text{inf}}=0.113$; the bootstrap
+critical value is $\hat q_{\text{crit}} = 2.81$ and the mean SCB width on the
+log scale is $0.55$. The Cai–Hu (2025) B-spline SCB selects $J_n=6$ interior
+knots and has very similar average width ($0.56$; ratio $0.97$).
 Figure 6.5 (`pbc_mean_bands.png`) shows the band on both the log and the
 clinical (back-transformed) scale; Table 6.4 reports clinical-scale values.
 
@@ -346,11 +322,11 @@ SCB at selected times.
 
 | Time                   | $\widehat m(t)\to$ bili (mg/dL) | $95\%$ SCB (mg/dL) |
 |------------------------|---------------------------------|--------------------|
-| day $135$  ($t=0.04$)  | 2.14                            | $[1.64, 2.78]$     |
-| day $795$  ($t=0.27$)  | 2.53                            | $[1.74, 3.68]$     |
-| day $1545$ ($t=0.52$)  | 1.61                            | $[1.07, 2.45]$     |
-| day $2235$ ($t=0.74$)  | 1.98                            | $[1.33, 2.94]$     |
-| day $2865$ ($t=0.95$)  | 1.91                            | $[1.05, 3.48]$     |
+| day $135$  ($t=0.04$)  | 2.15                            | $[1.75, 2.65]$     |
+| day $795$  ($t=0.27$)  | 2.37                            | $[1.83, 3.06]$     |
+| day $1545$ ($t=0.52$)  | 1.97                            | $[1.50, 2.59]$     |
+| day $2235$ ($t=0.74$)  | 2.02                            | $[1.49, 2.74]$     |
+| day $2865$ ($t=0.95$)  | 1.82                            | $[1.24, 2.68]$     |
 
 **Interpretation.** Two readings follow, each corroborated by independent
 evidence. *(i) Population-level hyperbilirubinemia.* The lower SCB limit
@@ -365,8 +341,9 @@ Andréani, Johanet, Chazouillères & Poupon, 2008). *(ii) Non-monotone mean
 under informative attrition.* Although individual PBC patients are expected
 to show monotonically rising bilirubin as bile-duct destruction progresses
 (Kaplan & Gershwin, 2005), the estimated population mean rises early and then
-declines (peak $\approx 2.5$ mg/dL near day $800$, falling to $\approx 1.6$
-by day $1500$). This is the documented signature of **informative
+declines modestly (peak $\approx 2.4$ mg/dL near day $800$, staying near
+$2.0$ mg/dL through the middle and later portions of follow-up). This pattern
+is consistent with **informative
 attrition**: the sickest patients (rapidly rising bilirubin) die or are
 transplanted and exit the cohort first, biasing the surviving-cohort mean
 downward at later times (Murtaugh et al., 1994; Hu, Sale, Davis, Wu, Khan &

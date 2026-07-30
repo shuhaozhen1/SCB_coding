@@ -1,10 +1,14 @@
-"""PBC VCM application: joint 95% SCB over (beta_0, beta_1, beta_2) for
-the log-bilirubin trajectory with covariates D-penicillamine treatment and
-standardized baseline age.
+"""PBC VCM application: joint 95% SCB for the log-bilirubin trajectory.
 
 Model:
-    log(bili_ij) = beta_0(t_ij) + beta_1(t_ij) trt_i + beta_2(t_ij) age_i + eps_ij,
+    log(bili_ij) = beta_0(t_ij) + beta_1(t_ij) trt_i
+                 + beta_2(t_ij) edema_ij + beta_3(t_ij) albumin_ij
+                 + beta_4(t_ij) protime_ij + beta_5(t_ij) log(alk.phos_ij)
+                 + eps_ij,
 where t = day / 3000 (normalized to [0, 1]).
+
+All non-binary clinical covariates are standardized, so their coefficients
+represent one-standard-deviation changes on the log-bilirubin scale.
 
 Outputs (under results/realdata/):
     pbc_vcm_summary.json
@@ -36,22 +40,67 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 CAP_DAYS = 3000.0
 ALPHA = 0.05
-C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=3
+C_INF = 8.0
 H_GRID = np.linspace(0.04, 0.16, 13)
 T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 3000
-COEF_NAMES = ["beta0_intercept", "beta1_treatment", "beta2_age"]
+COEF_NAMES = [
+    "beta0_intercept",
+    "beta1_treatment",
+    "beta2_edema",
+    "beta3_albumin",
+    "beta4_protime",
+    "beta5_log_alk_phos",
+]
+COEF_TITLES = [
+    "Intercept",
+    "D-penicillamine",
+    "Edema score",
+    "Albumin",
+    "Prothrombin time",
+    "log(ALP)",
+]
 
 
 def load_pbc():
     df = pd.read_csv(DATA_PATH)
-    df = df[["id", "day", "trt", "age", "bili"]].dropna()
+    df = df[["id", "day", "trt", "edema", "bili", "albumin",
+             "protime", "alk.phos"]].dropna()
     df = df[df["day"] <= CAP_DAYS].copy()
     df["t"] = df["day"] / CAP_DAYS
     df["logbili"] = np.log(df["bili"].clip(lower=1e-3))
-    df["age_std"] = (df["age"] - df["age"].mean()) / df["age"].std()
     df["trt01"] = (df["trt"] == df["trt"].max()).astype(float)
+    df["edema_std"] = (df["edema"] - df["edema"].mean()) / df["edema"].std()
+    df["albumin_std"] = ((df["albumin"] - df["albumin"].mean())
+                         / df["albumin"].std())
+    df["protime_std"] = ((df["protime"] - df["protime"].mean())
+                         / df["protime"].std())
+    log_alp = np.log(df["alk.phos"])
+    df["log_alp_std"] = (log_alp - log_alp.mean()) / log_alp.std()
     return df
+
+
+def exclusion_intervals(grid, lower, upper):
+    """Return intervals where the simultaneous band excludes zero."""
+    mask_pos = lower > 0
+    mask_neg = upper < 0
+    intervals = []
+    for sign, mask in (("positive", mask_pos), ("negative", mask_neg)):
+        start = None
+        for idx, flag in enumerate(mask):
+            if flag and start is None:
+                start = idx
+            if start is not None and (not flag or idx == len(mask) - 1):
+                end = idx if flag and idx == len(mask) - 1 else idx - 1
+                intervals.append({
+                    "sign": sign,
+                    "t_start": float(grid[start]),
+                    "t_end": float(grid[end]),
+                    "day_start": float(grid[start] * CAP_DAYS),
+                    "day_end": float(grid[end] * CAP_DAYS),
+                })
+                start = None
+    return intervals
 
 
 def main():
@@ -60,13 +109,20 @@ def main():
     df["pid"] = df["id"].map({v: k for k, v in enumerate(uniq)}).astype(int)
     n = len(uniq); sid = df["pid"].to_numpy()
     t = df["t"].to_numpy(); Y = df["logbili"].to_numpy()
-    Z = np.column_stack([np.ones(len(df)), df["trt01"].to_numpy(),
-                         df["age_std"].to_numpy()])
-    print(f"PBC VCM: n={n} patients, {len(df)} obs, p=3 covariates")
+    print(f"PBC VCM: n={n} patients, {len(df)} obs, p=6 coefficients")
 
     m_bar = len(df) / n
+    Z = np.column_stack([
+        np.ones(len(df)),
+        df["trt01"].to_numpy(),
+        df["edema_std"].to_numpy(),
+        df["albumin_std"].to_numpy(),
+        df["protime_std"].to_numpy(),
+        df["log_alp_std"].to_numpy(),
+    ])
+    q = Z.shape[1]
     h_est = float(select_bandwidth_loso(sid, t, Z, Y, H_GRID))
-    h_inf = undersmooth_h_inf(h_est, n, m_bar, q=3, c=C_INF)
+    h_inf = undersmooth_h_inf(h_est, n, m_bar, q=q, c=C_INF)
     print(f"LOSO h_est={h_est:.4f}, h_inf={h_inf:.4f}")
 
     gamma_cao = float(simulate_gamma(ALPHA, h_est, n, T_GRID, B=2000,
@@ -74,32 +130,42 @@ def main():
     cao_beta_grid = fit_beta_at_points(T_GRID, t, Z, Y, h_est)
     comp_cao = estimate_plugin_components(T_GRID, t, Z, Y, h_est)
 
-    # Joint Ours SCB over all 3 coefficients
+    # Joint Ours SCB over all coefficients
     df_o = pd.DataFrame({"id": sid.astype(int), "t": t, "y": Y,
-                         "x0": Z[:, 0], "x1": Z[:, 1], "x2": Z[:, 2]})
+                         "x0": Z[:, 0], "x1": Z[:, 1], "x2": Z[:, 2],
+                         "x3": Z[:, 3], "x4": Z[:, 4], "x5": Z[:, 5]})
     lc = LocalLinearConfig(bandwidth=h_est, ridge=1e-6, weighting="subject",
                            scaled_design=True)
     bc = BootstrapConfig(n_boot=N_BOOT, alpha=ALPHA, seed=2026,
                          center_influence=True, residual_method="loo")
-    scb_joint = local_linear_vcm_scb(data=df_o, q=3, grid=T_GRID,
+    scb_joint = local_linear_vcm_scb(data=df_o, q=q, grid=T_GRID,
                                      local_config=lc, bootstrap_config=bc,
-                                     components=[0, 1, 2], bandwidth_inf=h_inf)
+                                     components=list(range(q)),
+                                     bandwidth_inf=h_inf)
     qc_joint = float(scb_joint.qcrit)
     print(f"Ours joint qcrit = {qc_joint:.3f}; Cao gamma = {gamma_cao:.3f}")
 
     summary = {
-        "setting": {"n_patients": n, "n_obs": int(len(df)), "p": 3,
+        "setting": {"n_patients": n, "n_obs": int(len(df)), "p": q,
                     "cap_days": CAP_DAYS, "alpha": ALPHA, "c_inf": C_INF,
                     "h_est": h_est, "h_inf": h_inf, "n_boot": N_BOOT,
                     "joint_qcrit": qc_joint, "cao_gamma": gamma_cao},
+        "covariates": {
+            "treatment": "1 = D-penicillamine, 0 = placebo",
+            "edema_std": "standardized edema score",
+            "albumin_std": "standardized serum albumin",
+            "protime_std": "standardized prothrombin time",
+            "log_alp_std": "standardized log alkaline phosphatase",
+        },
         "coefficients": {},
     }
     band_rows = []
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
+    fig, axes = plt.subplots(2, 3, figsize=(15, 8.4), sharex=True)
+    axes = axes.ravel()
     for k, name in enumerate(COEF_NAMES):
         b_o = scb_joint.beta_hat[:, k]
         lo_o = scb_joint.lower[:, k]; hi_o = scb_joint.upper[:, k]
-        a_k = np.zeros(3); a_k[k] = 1.0
+        a_k = np.zeros(q); a_k[k] = 1.0
         b_c = cao_beta_grid @ a_k
         se_c = standard_error_curve(a_k, comp_cao["fhat"], comp_cao["omega"],
                                     comp_cao["lambda"], n, h_est)
@@ -109,10 +175,13 @@ def main():
         excl_o = bool(np.any((lo_o > 0) | (hi_o < 0)))
         excl_c = bool(np.any((lo_c > 0) | (hi_c < 0)))
         summary["coefficients"][name] = {
+            "title": COEF_TITLES[k],
             "ours_joint_avg_band_len": len_o,
             "cao_marginal_avg_band_len": len_c,
             "len_ratio_ours_over_cao": len_o / len_c if len_c > 0 else None,
             "ours_excludes_zero": excl_o, "cao_excludes_zero": excl_c,
+            "ours_exclusion_fraction": float(np.mean((lo_o > 0) | (hi_o < 0))),
+            "ours_exclusion_intervals": exclusion_intervals(T_GRID, lo_o, hi_o),
         }
         for j in range(T_GRID.size):
             band_rows.append({"coef": name, "t": float(T_GRID[j]),
@@ -130,9 +199,9 @@ def main():
         ax.plot(T_GRID, lo_c, "C1:", lw=1.0)
         ax.plot(T_GRID, hi_c, "C1:", lw=1.0, label="Cao 95% marginal")
         ax.axhline(0.0, color="gray", lw=0.6)
-        ax.set_xlabel("t = day / 3000"); ax.set_title(name)
+        ax.set_xlabel("t = day / 3000"); ax.set_title(COEF_TITLES[k])
         if k == 0: ax.legend(fontsize=8, loc="best")
-    fig.suptitle(f"PBC VCM (n={n}): Ours JOINT 95% SCB vs Cao marginal 95% SCB")
+    fig.suptitle(f"PBC VCM (n={n}): joint 95% SCB for clinical and biochemical covariates")
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(OUT_DIR / "pbc_vcm_bands.png", dpi=150, bbox_inches="tight")
 

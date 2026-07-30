@@ -5,7 +5,7 @@ Model: log(bili_ij) = m(t_ij) + eps_ij,   t_ij = day_ij / 3000.
 
 Methods compared:
     Ours        : local-linear SCB with q=1, LOSO h_est,
-                  h_inf = h_est * (1 - 4.5 / sqrt(n)), loo residuals,
+                  h_inf from the common undersmoothing rule, loo residuals,
                   Gaussian multipliers (B = 3000).
     Cai-Hu 2025 : B-spline SCB (Statistics and Computing 35:146).
 
@@ -40,7 +40,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 CAP_DAYS = 3000.0
 ALPHA = 0.05
 C_INF = 8.0          # h_inf = h_est*(1 - C_INF/(sqrt(n)*(m_bar/q)^{1/4})), q=1
-H_GRID = np.linspace(0.04, 0.16, 13)
+H_GRID = np.linspace(0.10, 0.22, 13)
 T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 3000
 

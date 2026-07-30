@@ -4,7 +4,8 @@ Cao 2018's plug-in SCB is per-target by construction and is not natively
 applicable to a joint multi-coefficient SCB; we therefore omit it as
 comparator.
 
-Settings (default): n=200, m in {5, 10, 15}, R = 1000. Inference bandwidth:
+Settings (default): n in {200, 300}, m in {5, 10, 15}, observation noise in
+{Gaussian, uniform, Laplace}, R = 1000. Inference bandwidth:
 h_inf = h_est*(1 - 8/(sqrt(n)*(m_bar/q)^{1/4})) with q=5 (joint over all
 coefficients); see simulations._common.undersmooth_h_inf.
 """
@@ -33,6 +34,7 @@ H_GRID = np.linspace(0.04, 0.16, 13)
 T_GRID = np.linspace(0.025, 0.975, 96)   # step 0.01
 N_BOOT = 300
 BETA_TRUE = beta_true_part2(T_GRID, P)         # (G, P)
+NOISE_SEED_OFFSET = {"gauss": 0, "uniform": 10_000, "laplace": 20_000}
 
 
 def _df_from_arrays(subj, t, Z, Y):
@@ -65,8 +67,8 @@ def _loso_h(subj, t, Z, Y, df_all, n):
 
 
 def _one_rep(args):
-    rep, n, m, base_seed = args
-    subj, t, Z, Y, _ = gen_data_part2(n, m, SNR, base_seed + rep, p=P)
+    rep, n, m, noise, base_seed = args
+    subj, t, Z, Y, _ = gen_data_part2(n, m, SNR, base_seed + rep, p=P, noise=noise)
     df = _df_from_arrays(subj, t, Z, Y)
     h_est = _loso_h(subj, t, Z, Y, df, n)
     m_bar = Y.size / n
@@ -86,43 +88,59 @@ def _one_rep(args):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--n", type=int, default=200)
+    p.add_argument("--n", type=int, default=None,
+                   help="Optional single-n shortcut; overrides --n-list.")
+    p.add_argument("--n-list", type=int, nargs="+", default=[200, 300])
     p.add_argument("--m-list", type=int, nargs="+", default=[5, 10, 15])
+    p.add_argument("--noise-list", type=str, nargs="+",
+                   default=["gauss", "uniform", "laplace"],
+                   choices=["gauss", "uniform", "laplace"])
     p.add_argument("--reps", type=int, default=1000)
     p.add_argument("--workers", type=int, default=6)
     p.add_argument("--out-dir", type=str, default="results/part2")
     args = p.parse_args()
 
+    n_list = [args.n] if args.n is not None else args.n_list
     out_dir = Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Part 2: q={P} joint SCB. n={args.n}, m in {args.m_list}, "
-          f"c_inf={C_INF}, R={args.reps}, workers={args.workers}")
+    print(f"Part 2: q={P} joint SCB. n in {n_list}, m in {args.m_list}, "
+          f"noise in {args.noise_list}, c_inf={C_INF}, R={args.reps}, "
+          f"workers={args.workers}")
     rows = []
-    for i, m in enumerate(args.m_list, 1):
-        base_seed = 20_000_000 + m * 100_000
-        print(f"[P2 {i}/{len(args.m_list)}] m={m:>2} ... ", end="", flush=True)
-        t0 = time.perf_counter()
-        args_list = [(r, args.n, m, base_seed) for r in range(args.reps)]
-        with ProcessPoolExecutor(max_workers=args.workers) as ex:
-            results = list(ex.map(_one_rep, args_list, chunksize=4))
-        el = time.perf_counter() - t0
-        cov = np.array([r["joint_cov"] for r in results])
-        widths = np.array([r["widths"] for r in results])
-        h_hat = np.array([r["h_hat"] for r in results])
-        out = {"part": 2, "n": args.n, "m": m, "p": P, "n_reps": args.reps,
-               "c_inf": C_INF, "snr": SNR,
-               "h_hat_mean": float(h_hat.mean()),
-               "h_hat_std": float(h_hat.std(ddof=1)),
-               "joint_coverage": float(cov.mean()),
-               "joint_cov_mcse": float(np.sqrt(cov.mean()*(1-cov.mean())/args.reps)),
-               "width_per_dim": [float(widths[:, k].mean()) for k in range(P)],
-               "width_avg": float(widths.mean()),
-               "elapsed_sec": float(el), "per_rep": results}
-        with open(out_dir / f"n{args.n}_m{m}.json", "w") as f:
-            json.dump(out, f, indent=2)
-        rows.append({k: v for k, v in out.items() if k != "per_rep"})
-        print(f"joint {out['joint_coverage']:.3f} wid {out['width_avg']:.3f} "
-              f"| {el:.0f}s")
-    pd.DataFrame(rows).to_csv(out_dir / "part2_summary.csv", index=False)
+    total = len(n_list) * len(args.m_list) * len(args.noise_list)
+    idx = 0
+    for n in n_list:
+        for m in args.m_list:
+            for noise in args.noise_list:
+                idx += 1
+                # Preserve the original n=200 Gaussian seeds, then offset by n and noise.
+                base_seed = (20_000_000 + m * 100_000 +
+                             (n - 200) * 1_000_000 + NOISE_SEED_OFFSET[noise])
+                print(f"[P2 {idx}/{total}] n={n}, m={m:>2}, noise={noise} ... ",
+                      end="", flush=True)
+                t0 = time.perf_counter()
+                args_list = [(r, n, m, noise, base_seed) for r in range(args.reps)]
+                with ProcessPoolExecutor(max_workers=args.workers) as ex:
+                    results = list(ex.map(_one_rep, args_list, chunksize=4))
+                el = time.perf_counter() - t0
+                cov = np.array([r["joint_cov"] for r in results])
+                widths = np.array([r["widths"] for r in results])
+                h_hat = np.array([r["h_hat"] for r in results])
+                out = {"part": 2, "n": n, "m": m, "noise": noise, "p": P,
+                       "n_reps": args.reps, "c_inf": C_INF, "snr": SNR,
+                       "h_hat_mean": float(h_hat.mean()),
+                       "h_hat_std": float(h_hat.std(ddof=1)) if args.reps > 1 else 0.0,
+                       "joint_coverage": float(cov.mean()),
+                       "joint_cov_mcse": float(np.sqrt(cov.mean()*(1-cov.mean())/args.reps)),
+                       "width_per_dim": [float(widths[:, k].mean()) for k in range(P)],
+                       "width_avg": float(widths.mean()),
+                       "elapsed_sec": float(el), "per_rep": results}
+                with open(out_dir / f"n{n}_m{m}_{noise}.json", "w") as f:
+                    json.dump(out, f, indent=2)
+                rows.append({k: v for k, v in out.items() if k != "per_rep"})
+                print(f"joint {out['joint_coverage']:.3f} wid {out['width_avg']:.3f} "
+                      f"| {el:.0f}s")
+    pd.DataFrame(rows).sort_values(["n", "m", "noise"]).to_csv(
+        out_dir / "part2_summary.csv", index=False)
 
 
 if __name__ == "__main__":

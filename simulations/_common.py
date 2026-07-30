@@ -4,8 +4,8 @@ DGPs:
     gen_data_part1  -- single-covariate VCM (q=2): Cao 2018 design with
                        subject-level multiplicative noise zeta_i * X_i.
     gen_data_part2  -- five-coefficient VCM (q=5): FDA Part-2 design with
-                       Karhunen-Loeve-like subject loadings; iid Gaussian noise
-                       calibrated to a target SNR.
+                       Karhunen-Loeve-like subject loadings; standardized
+                       measurement noise calibrated to a target SNR.
     gen_data_part3  -- mean function DGP (q=1): Cai-Hu style sparse functional
                        data with 4-component KL noise; uses caihu_2025 helpers.
 
@@ -115,12 +115,14 @@ def beta_true_part2(t: np.ndarray, p: int = 5) -> np.ndarray:
     return out
 
 
-def gen_data_part2(n: int, m: int, snr: float, seed: int, p: int = 5):
-    """KL-like covariates + iid Gaussian noise calibrated to SNR.
+def gen_data_part2(n: int, m: int, snr: float, seed: int, p: int = 5,
+                   noise: str = "gauss"):
+    """KL-like covariates + iid standardized measurement noise calibrated to SNR.
 
     Z_{ij,k} = a^(0)_{ik} + a^(1)_{ik} sin(2 pi T_ij) + a^(2)_{ik} cos(2 pi T_ij)
               + 0.2 * eps,   each a_i ~ iid N(0,1).
     Y_ij = sum_k Z_{ij,k} beta_k(T_ij) + sigma * eps_ij,   sigma calibrated to SNR.
+    The standardized eps distribution is one of {gauss, uniform, laplace}.
     Returns lists keyed by subject for compatibility with the joint inference loop.
     """
     rng = np.random.default_rng(seed)
@@ -142,7 +144,7 @@ def gen_data_part2(n: int, m: int, snr: float, seed: int, p: int = 5):
     sigma = float(np.sqrt(signal_sq / max(1, total_pts) / snr))
     subj = np.concatenate(subj_list); times = np.concatenate(times_list)
     Z = np.concatenate(Z_list, axis=0)
-    eps = rng.normal(loc=0.0, scale=sigma, size=total_pts)
+    eps = np.array([_draw_zeta(noise, rng) for _ in range(total_pts)], dtype=float) * sigma
     Y = np.concatenate(signal_list) + eps
     return subj, times, Z, Y, sigma
 
