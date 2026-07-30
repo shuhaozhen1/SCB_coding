@@ -12,6 +12,16 @@ env/
 .env
 .DS_Store
 *.log
+.tools/
+
+# Local template scratch space and LaTeX build products.
+SS-template/
+*.aux
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
 
 # Curated deliverables under results/ ARE tracked (figures, summary tables,
 # the Excel workbook, real-data outputs). Bulky regenerated intermediates are

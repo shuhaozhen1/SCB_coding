@@ -13,6 +13,11 @@ Local dependencies:
 - `results/figures/*.png`
 - `results/realdata/*.png`
 
+The same curated package is also archived at repository root as
+`upload_numerical_study_ss.zip`. The archive intentionally includes only the
+TeX source, compiled PDF, bibliography files, style file, and local figures;
+LaTeX temporary files are omitted.
+
 Compile with:
 
 ```bash

@@ -23,12 +23,15 @@ under **[`results/`](results/)**.
 * **`simulations/`** — the three Monte-Carlo experiments plus the plotting and
   Excel-export pipeline (see below).
 * **`realdata/`** — the Mayo PBC application: data illustration, mean-function
-  analysis, and varying-coefficient analysis on log-bilirubin.
+  analysis, and a six-coefficient varying-coefficient analysis on log-bilirubin.
 * **`data/pbcseq.csv`** — Mayo PBC dataset (Therneau & Grambsch 2000;
   R `survival::pbcseq`).
 * **`results/`** — committed deliverables: simulation/real-data figures,
   per-cell summary tables (CSV), and `simulation_results.xlsx`.
 * **`docs/numerical_study.md`** — the final write-up (§6 Numerical Study).
+* **`docs/numerical_study_ss.tex`** and **`upload_numerical_study_ss/`** —
+  the Statistica Sinica-template numerical-study source and upload-ready
+  package, with local bibliography and figures.
 * **`tests/`** — pytest smoke tests covering all three method modules.
 
 ---
@@ -70,15 +73,17 @@ pytest.
 
 ## Reproducing everything
 
-The pipeline has four stages. `R=1000` full runs take a few hours on 6–8 cores;
-use small `--reps` for a quick check.
+The pipeline has four stages. `R=1000` full runs are compute-heavy; Part 2
+alone took roughly 22 hours on this Windows workstation with 6–8 workers. Use
+small `--reps` for a quick check. A concise audit of the reproducibility
+artifacts is in **[`docs/reproducibility.md`](docs/reproducibility.md)**.
 
 **1. Monte-Carlo simulation** (writes per-cell summaries to `results/part*/`):
 
 ```bash
 python simulations/part1_vcm.py        --reps 1000 --workers 6   # q=2 VCM  vs Cao 2018
-python simulations/part2_joint.py      --reps 1000 --workers 6   # q=5 joint VCM
-python simulations/part2_bonferroni.py --reps 1000 --workers 8   # Bonferroni-Cao comparator for Part 2
+python simulations/part2_joint.py      --reps 1000 --workers 6   # q=5 joint VCM, 18 cells
+python simulations/part2_bonferroni.py --reps 1000 --workers 8   # Bonferroni-Cao comparator, 18 cells
 python simulations/part3_mean.py       --reps 1000 --workers 6   # q=1 mean  vs Cai-Hu 2025 (n in {200,300})
 ```
 
@@ -87,7 +92,7 @@ python simulations/part3_mean.py       --reps 1000 --workers 6   # q=1 mean  vs 
 ```bash
 python realdata/pbc_data_illustration.py   # Figure: trajectories, sparsity, log transform
 python realdata/pbc_mean.py                # mean log-bilirubin SCB vs Cai-Hu
-python realdata/pbc_vcm.py                 # joint VCM SCB (treatment + age) vs Cao
+python realdata/pbc_vcm.py                 # joint 6-coefficient VCM SCB vs Cao
 ```
 
 **3. Illustration figures** (representative replicate per setting):
@@ -117,10 +122,10 @@ python simulations/part1_vcm.py --n-list 200 --m-list 5 --noise-list gauss --rep
 | Part | model | comparator | Ours mean cov / width | comparator mean cov / width |
 |------|-------|------------|-----------------------|-----------------------------|
 | 1 | q=2 VCM, marginal $\beta_1$ | Cao 2018          | 0.945 / 0.822 | 0.996 / 1.292 |
-| 2 | q=5 VCM, joint              | Bonferroni-Cao    | 0.962 / 0.956 | 1.000 / 1.752 |
+| 2 | q=5 VCM, joint              | Bonferroni-Cao    | 0.954 / 0.836 | 1.000 / 1.617 |
 | 3 | q=1 mean function           | Cai–Hu 2025       | 0.954 / 0.849 | 0.926 / 0.703 |
 
-All 39 simulation cells have coverage in `[0.931, 0.967]`. See
+All 54 proposed-method simulation cells have coverage in `[0.931, 0.967]`. See
 `results/simulation_results.xlsx` (sheets: Notes, Aggregates, Part1/2/3) and
 `docs/numerical_study.md` for the full tables, figures, and discussion.
 
@@ -164,7 +169,12 @@ SCB_coding/
 │   ├── realdata/                 # real-data figures + summaries + band CSVs
 │   └── simulation_results.xlsx
 ├── docs/
-│   └── numerical_study.md        # final write-up (§6)
+│   ├── numerical_study.md        # final write-up (§6)
+│   ├── numerical_study_ss.tex    # SS-template numerical-study source
+│   ├── references.bib
+│   └── reproducibility.md        # numerical reproduction audit
+├── upload_numerical_study_ss/    # upload-ready SS-template package
+├── upload_numerical_study_ss.zip # same package as a zip archive
 ├── tests/
 ├── requirements.txt
 ├── LICENSE                       # MIT
