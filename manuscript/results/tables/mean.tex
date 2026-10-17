@@ -1,0 +1,33 @@
+\begin{table}[!tbp]
+\centering
+\caption{Coverage probability (CP) and average width (AW) of nominal 95\% bands for the mean function. Each row uses 1,000 datasets; $m=5,20,80$ denote sparse, mild, and dense sampling.}
+\label{tab:mean-new}
+\renewcommand{\baselinestretch}{1.2}\small
+\begin{tabular}{llrrrrr}
+\toprule
+& & & \multicolumn{2}{c}{Proposed} & \multicolumn{2}{c}{Cai--Hu}\\
+Innovations & $n$ & $m$ & CP & AW & CP & AW\\
+\midrule
+Gaussian & 200 & 5 & 0.937 & 0.609 & 0.939 & 0.534\\
+ & 200 & 20 & 0.941 & 0.458 & 0.945 & 0.427\\
+ & 200 & 80 & 0.948 & 0.400 & 0.954 & 0.396\\
+ & 400 & 5 & 0.942 & 0.479 & 0.938 & 0.379\\
+ & 400 & 20 & 0.950 & 0.345 & 0.947 & 0.313\\
+ & 400 & 80 & 0.938 & 0.293 & 0.943 & 0.281\\
+\midrule
+Laplace & 200 & 5 & 0.946 & 0.608 & 0.947 & 0.533\\
+ & 200 & 20 & 0.941 & 0.457 & 0.952 & 0.427\\
+ & 200 & 80 & 0.954 & 0.398 & 0.958 & 0.394\\
+ & 400 & 5 & 0.936 & 0.477 & 0.936 & 0.378\\
+ & 400 & 20 & 0.939 & 0.344 & 0.938 & 0.313\\
+ & 400 & 80 & 0.932 & 0.293 & 0.941 & 0.280\\
+\midrule
+Adjusted $\chi^2_5$ & 200 & 5 & 0.928 & 0.609 & 0.951 & 0.534\\
+ & 200 & 20 & 0.925 & 0.455 & 0.937 & 0.425\\
+ & 200 & 80 & 0.938 & 0.401 & 0.944 & 0.397\\
+ & 400 & 5 & 0.919 & 0.477 & 0.932 & 0.379\\
+ & 400 & 20 & 0.945 & 0.344 & 0.947 & 0.312\\
+ & 400 & 80 & 0.941 & 0.293 & 0.941 & 0.281\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,860 @@
+\documentclass[12pt]{article}
+
+\usepackage[sectionbib,authoryear,round]{natbib}
+\usepackage{array,epsfig,fancyhdr,rotating}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,graphicx,booktabs,multirow,placeins}
+\usepackage{sectsty,secdot}
+\usepackage{xr-hyper}
+\usepackage[hidelinks]{hyperref}
+\renewcommand{\bibsection}{\section*{References}}
+\usepackage{etoolbox}
+\AtBeginDocument{\apptocmd{\thebibliography}{\interlinepenalty=10000\clubpenalty=10000\widowpenalty=10000}{}{}}
+\sectionfont{\fontsize{12}{14pt plus.8pt minus .6pt}\selectfont}
+\subsectionfont{\fontsize{12}{14pt plus.8pt minus .6pt}\selectfont}
+\textwidth=31.9pc
+\textheight=46.5pc
+\oddsidemargin=1pc
+\evensidemargin=1pc
+\headsep=15pt
+\topmargin=.6cm
+\parindent=1.7pc
+\parskip=0pt
+\emergencystretch=1em
+\clubpenalty=10000
+\widowpenalty=10000
+\brokenpenalty=10000
+\setcounter{page}{1}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{}
+\renewcommand{\subsectionmark}[1]{}
+\lhead[\footnotesize\thepage\fancyplain{}\leftmark]{}
+\chead[]{}
+\rhead[]{\fancyplain{}\rightmark\footnotesize\thepage}
+\cfoot{}
+\fancypagestyle{firstpage}{\fancyhf{}\fancyhead[L]{\footnotesize\rm Statistica Sinica}\fancyhead[R]{\footnotesize\thepage}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{step}{Step}
+\newtheorem{setting}{Setting}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+\newcommand{\ba}{{\mathbf a}}
+\newcommand{\bb}{{\mathbf b}}
+\newcommand{\be}{{\mathbf e}}
+\newcommand{\bh}{{\mathbf h}}
+\newcommand{\br}{{\mathbf r}}
+\newcommand{\bu}{{\mathbf u}}
+\newcommand{\bv}{{\mathbf v}}
+\newcommand{\bx}{{\mathbf x}}
+\newcommand{\bA}{{\mathbf A}}
+\newcommand{\bB}{{\mathbf B}}
+\newcommand{\bC}{{\mathbf C}}
+\newcommand{\bD}{{\mathbf D}}
+\newcommand{\bE}{{\mathbf E}}
+\newcommand{\bG}{{\mathbf G}}
+\newcommand{\bH}{{\mathbf h}}
+\newcommand{\bI}{{\mathbf I}}
+\newcommand{\bK}{{\mathbf K}}
+\newcommand{\bL}{{\mathbf L}}
+\newcommand{\bM}{{\mathbf M}}
+\newcommand{\bQ}{{\mathbf Q}}
+\newcommand{\bR}{{\mathbf R}}
+\newcommand{\bS}{{\mathbf S}}
+\newcommand{\bT}{{\mathbf T}}
+\newcommand{\bU}{{\mathbf U}}
+\newcommand{\bV}{{\mathbf V}}
+\newcommand{\bW}{{\mathbf W}}
+\newcommand{\bX}{{\mathbf X}}
+\newcommand{\bY}{{\mathbf Y}}
+\newcommand{\bZ}{{\mathbf Z}}
+\newcommand{\bbeta}  {\boldsymbol{\beta}}
+\newcommand{\btheta}  {\boldsymbol{\theta}}
+\newcommand{\bmu} {\boldsymbol{{\mathbf \mu}}}
+\newcommand{\bpsi} {\boldsymbol{{\mathbf \psi}}}
+\newcommand{\bxi} {\boldsymbol{{\mathbf \xi}}}
+\newcommand{\bGamma} {\boldsymbol{\Gamma}}
+\newcommand{\bSigma} {\boldsymbol{\Sigma}}
+\newcommand{\bPsi} {\boldsymbol{\Psi}}
+\newcommand{\bPhi} {\boldsymbol{\Phi}}
+\newcommand{\bXi} {\boldsymbol{\Xi}}
+\newcommand{\bOmega} {\boldsymbol{\Omega}}
+\newcommand{\bDelta} {\boldsymbol{\Delta}}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\expect}{\mathbb{E}}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\diag}{\textrm{diag}}
+
+\newcommand{\trans}{{\scriptscriptstyle\mathsf{T}}}
+\newcommand{\wh}{\widehat}
+\newcommand{\wt}{\widetilde}
+\newcommand{\bone}{{\mathbf 1}}
+\newcommand{\supp}{{\mathrm supp}}
+
+
+
+\numberwithin{equation}{section}
+\newcommand{\bodyfont}{\fontsize{12}{14pt plus.8pt minus .6pt}\selectfont}
+\newcommand{\referencefont}{\bibhang=1.7pc\bibsep=2pt\fontsize{9}{14pt plus.8pt minus .6pt}\selectfont}
+\externaldocument[][nocite]{fscb-supplement}
+
+\begin{document}
+\renewcommand{\baselinestretch}{2}
+\bodyfont
+\markboth{\hfill{\footnotesize\rm HAOZHEN SHU, ZHENHUA LIN AND YINAN LIN}\hfill}
+{\hfill{\footnotesize\rm BANDS FOR FUNCTIONAL REGRESSION}\hfill}
+\thispagestyle{firstpage}
+$\ $\par\vspace{0.8pc}
+\centerline{\large\bf SIMULTANEOUS CONFIDENCE BANDS FOR}
+\vspace{2pt}
+\centerline{\large\bf FUNCTIONAL VARYING-COEFFICIENT MODELS}
+\vspace{.4cm}
+\centerline{Haozhen Shu$^1$, Zhenhua Lin$^2$ and Yinan Lin$^3$}
+\vspace{.4cm}
+\centerline{\it $^1$National Institute of Education,}
+\centerline{\it Nanyang Technological University,}
+\centerline{\it $^2$National University of Singapore and}
+\centerline{\it $^3$Chongqing Normal University}
+\vspace{.55cm}
+
+\fontsize{9}{11.5pt plus.8pt minus.6pt}\selectfont
+\begin{quotation}
+\noindent {\it Abstract:} We develop quantitative simultaneous inference for functional varying-coefficient models under sparse and dense sampling. A subject-level linear representation connects local polynomial estimation to high-dimensional Gaussian approximation without reconstructing individual trajectories. Explicit error bounds account for dimension, sampling frequency, smoothing bias, estimated designs, and fitted residuals. A Gaussian multiplier bootstrap calibrates joint confidence bands over time and coefficients. The theory allows growing regression dimension and extends to high-dimensional functional means. Simulations and a liver-disease biomarker analysis illustrate the procedure.
+\par
+\vspace{9pt}
+\noindent {\it Key words and phrases:} Functional data, Gaussian approximation, multiplier bootstrap, simultaneous inference, varying-coefficient model.
+\end{quotation}
+\newpage\bodyfont
+\section{Introduction}\label{sec:intro}
+
+Simultaneous inference for functional data requires uncertainty to be controlled over an entire time interval and, for multivariate targets, across several functions at once. This problem is particularly challenging under sparse and irregular sampling, when individual trajectories cannot be accurately reconstructed from their own measurements. Varying-coefficient models (VCMs) provide an important setting: they describe associations that evolve over time through a vector of coefficient functions \citep{hastie_tibshirani_1993,gu_et_al_2014,cao_simultaneous_2018}. Joint confidence bands must account for dependence within subjects and across coefficient estimates, while remaining valid as the number of observations per subject increases. We study this problem through quantitative Gaussian and bootstrap approximation, with explicit control of the errors that determine simultaneous coverage.
+
+The sampling design has long been central to functional data analysis; see \citet{wang_functional_2016}. Dense-data inference can exploit accurate trajectory reconstruction \citep{zhang_chen_2007}, whereas sparse-data methods pool information across subjects \citep{yao_functional_2005}. Uniform estimation theory and optimal mean-estimation rates clarify the transition between these settings \citep{li_hsing_2010,cai_optimal_2011}. \citet{zhang_wang_2016} also distinguish equal-subject and equal-observation weighting when counts differ. These choices change how sampling frequency enters the variance and cannot be interchanged without checking the resulting theory.
+
+Simultaneous inference is available in both classical regimes. For mean curves, dense-data bands include \citet{degras_2011,cao_yang_todem_2012}, and sparse-data bands include \citet{ma_yang_carroll_2012,zheng_smooth_2014}. For regression, local polynomial and spline methods provide established estimation and inference tools \citep{wu_chiang_2000,huang_wu_zhou_2004,fan_simultaneous_2000}. \citet{gu_et_al_2014} develop sparse-data coefficient bands with time-independent covariates, while \citet{cao_simultaneous_2018} allow time-varying covariates under sparse irregular sampling. Dense functional-response regression is studied by \citet{zhu_li_kong_2012,chang_lin_ogden_2017}. \citet{zhou_el_2024} develop empirical-likelihood M-estimation and simultaneous regions for functional responses with subject-level covariates observed on a common grid. More recently, \citet{chang_mckeague_2024} construct empirical-likelihood bands for concurrent regression on a dense fixed grid, allowing nonsmooth functional features. These dense-grid results and sparse random-design results address different observation schemes.
+
+Several inferential methods accommodate a range of observation frequencies. \citet{kim_zhao_2013} study longitudinal mean inference, \citet{chen_yao_2017} develop self-normalized pointwise inference for varying coefficients, and \citet{wang_et_al_2018} provide empirical-likelihood pointwise regions and global tests for concurrent functional regression. These pointwise and global procedures address different inferential targets from bands calibrated jointly over time and coefficient functions.
+
+For scalar mean functions, \citet{cai_hu_2025} and \citet{LouWu2026} develop unified simultaneous inference using B-spline and local linear estimators, respectively. Their Gaussian approximations yield asymptotically valid bands and characterize covariance transitions across sampling frequencies. Our focus is quantitative simultaneous inference for vector-valued functional parameters throughout this transition.
+
+We take a nonasymptotic approach based on high-dimensional Gaussian approximation and comparison theory \citep{chernozhukov_central_2017,chernozhukov_et_al_2022}. Representing the estimation error through independent subject contributions allows us to analyze sparse observations without reconstructing individual trajectories. We derive explicit bounds for Gaussian approximation, conditional bootstrap approximation, and joint coverage error. These bounds quantify how sample size, dimension, observation frequency, and bandwidth determine inferential accuracy, providing a quantitative explanation of the sparse-to-dense phase transition and distinguishing its consequences for approximation error and band width.
+
+A Gaussian multiplier bootstrap calibrates the joint maximum directly from fitted subject contributions, avoiding separate estimation of the functional-error covariance surface or selection of a sampling regime. We establish its validity while accounting for fitted residuals, estimated design matrices, and studentization. The framework accommodates local polynomial estimators of any fixed degree and yields joint bands for VCMs with random time-varying predictors and growing dimension. We further extend the analysis to high-dimensional functional means, with simultaneous coverage over time and a growing collection of coordinates.
+
+Section~\ref{sec:method} introduces the model, estimator, and regularity conditions. Section~\ref{sec:theory} develops the linear representation, Gaussian and bootstrap approximation, simultaneous bands, and a high-dimensional mean extension. Section~\ref{sec:numerical-study} reports simulations and an exploratory Mayo PBC analysis. The Supplementary Material provides proofs, additional sampling-frequency and mean results, and bandwidth and implementation details.
+
+\section{Model and regularity conditions}\label{sec:method}
+
+\subsection{Model and estimation}\label{sec:model}\label{sec:estimation}
+
+Let $Y_i(t)$ be a scalar response and
+$\bX_i(t)=\{X_{i1}(t),\ldots,X_{ip}(t)\}^\trans$ a vector of predictors
+for subject $i$ at time $t\in\mathcal T=[0,1]$.
+We consider the functional varying-coefficient model
+\begin{equation}
+Y_i(t)=\bX_i(t)^\trans\bbeta(t)+\varepsilon_i(t),
+\qquad i=1,\ldots,n,
+\label{eq:model-VCM-pop}
+\end{equation}
+where $\bbeta(t)=\{\beta_1(t),\ldots,\beta_p(t)\}^\trans$ is a vector of
+unknown coefficient functions and $\varepsilon_i(t)$ is a functional
+error process. The coefficient $\beta_k(t)$ describes the linear
+association between the response and the $k$th predictor at time $t$,
+with the other predictors included in the model. A constant coordinate
+$X_{i1}(t)\equiv1$ supplies an intercept; time-independent covariates can
+likewise be included as constant coordinate processes. Both the predictors
+and their associations with the response may vary over time, and the
+dimension $p=p_n$ may increase with $n$.
+
+The subject processes are independent across $i$, while dependence within
+a subject is retained. We impose the pointwise orthogonality condition
+$\expect\{\bX_i(t)\varepsilon_i(t)\}=\mathbf0$.
+Writing $\bOmega(t)=\expect\{\bX_i(t)\bX_i(t)^\trans\}$, this condition
+identifies the population linear regression coefficient as
+\[
+\bbeta(t)=\bOmega(t)^{-1}\expect\{\bX_i(t)Y_i(t)\}
+\]
+whenever $\bOmega(t)$ is nonsingular. In particular, this formulation
+does not require the predictor and error processes to be independent.
+
+The trajectories are observed at subject-specific times. Subject $i$
+supplies $(T_{ij},\bX_{ij},Y_{ij})$, $j=1,\ldots,m_i$, where
+\[
+\bX_{ij}=\bX_i(T_{ij}),\qquad Y_{ij}=Y_i(T_{ij}),\qquad
+\varepsilon_{ij}=\varepsilon_i(T_{ij}).
+\]
+The observation times have a common density $f$ and are independent of
+the subject processes. The counts $m_i$ may differ across subjects and
+may remain bounded or increase with $n$. We pool observations across
+subjects for estimation and simultaneous inference over all
+$t\in\mathcal T$ and all $p$ coefficient functions, without first
+reconstructing individual trajectories.
+
+To construct a local polynomial estimator, fix a degree $r\ge0$ and a
+bandwidth $h>0$. At every target time $t\in\mathcal T$, approximate each
+coefficient function by its Taylor polynomial in
+a neighborhood of $t$. Under the smoothness condition in
+Assumption~\ref{ass:design},
+\[
+\beta_k(v)=\sum_{a=0}^r\frac{h^a\beta_k^{(a)}(t)}{a!}
+\left(\frac{v-t}{h}\right)^a+O(|v-t|^{r+1}),
+\qquad |v-t|\le h,
+\]
+where $v\in\mathcal T$, $\beta_k^{(0)}=\beta_k$, and the remainder
+bound is uniform in $k$ and $t$.
+Thus the coefficient of the normalized power $\{(v-t)/h\}^a$
+approximates $h^a\bbeta^{(a)}(t)/a!$.
+The polynomial approximation concerns the coefficient functions; the
+predictors enter through their observed values $\bX_{ij}$.
+
+Let $K$ be a nonnegative kernel supported on $[-1,1]$ and put
+$K_h(u)=K(u/h)/h$. Define
+\[
+\btheta_r(u)=(1,u,\ldots,u^r)^\trans,\qquad
+\bpsi_{ij}(t)=\btheta_r\{(T_{ij}-t)/h\}\otimes\bX_{ij},
+\]
+where $\otimes$ denotes the Kronecker product.
+Write the local polynomial coefficients as a block vector
+\[
+\bb=(\bb_0^\trans,\ldots,\bb_r^\trans)^\trans\in\real^{(r+1)p}.
+\]
+The corresponding local predictor is
+\[
+\bpsi_{ij}(t)^\trans\bb
+=\sum_{a=0}^r\bX_{ij}^\trans\bb_a
+\left(\frac{T_{ij}-t}{h}\right)^a.
+\]
+We estimate the blocks by equal-subject weighted least squares:
+\begin{equation}
+\wh\bb(t)=\arg\min_{\bb\in\real^{(r+1)p}}
+\frac1n\sum_{i=1}^n\frac1{m_i}\sum_{j=1}^{m_i}
+K_h(T_{ij}-t)\{Y_{ij}-\bpsi_{ij}(t)^\trans\bb\}^2.
+\label{eq:local-polynomial-fit}
+\end{equation}
+The kernel localizes the fit to observations within distance $h$ of $t$.
+The factor $1/m_i$ first averages the losses within each subject, so that
+every subject receives the same total weight before localization. This
+weighting keeps subjects with more observations from receiving greater
+total weight solely because of their observation counts.
+
+For computation, define the empirical and population design matrices
+\[
+\wh{\bD}_h(t)=\frac1n\sum_{i=1}^n\frac1{m_i}\sum_{j=1}^{m_i}
+K_h(T_{ij}-t)\bpsi_{ij}(t)\bpsi_{ij}(t)^\trans,
+\qquad \bD_h(t)=\expect\{\wh{\bD}_h(t)\}.
+\]
+When $\wh{\bD}_h(t)$ is invertible, the normal equations for
+\eqref{eq:local-polynomial-fit} give
+\[
+\wh\bb(t)=\wh{\bD}_h(t)^{-1}
+\frac1n\sum_{i=1}^n\frac1{m_i}\sum_{j=1}^{m_i}
+K_h(T_{ij}-t)\bpsi_{ij}(t)Y_{ij}.
+\]
+Partition $\wh\bb(t)$ into its $p$-dimensional blocks
+$\wh\bb_0(t),\ldots,\wh\bb_r(t)$. Evaluating the fitted polynomial at
+its center gives the coefficient estimator
+\[
+\wh\bbeta(t)=\wh\bb_0(t)=\bL\wh\bb(t),\qquad
+\bL=[\bI_p\ \mathbf0\ \cdots\ \mathbf0].
+\]
+
+The same fit also supplies derivative estimators. Differentiating the
+fitted polynomial with respect to its time argument and evaluating at
+$t$ yields
+\begin{equation}
+\wh\bbeta^{(a)}(t)=\frac{a!}{h^a}\wh\bb_a(t),
+\qquad a=0,\ldots,r,
+\label{eq:local-polynomial-derivatives}
+\end{equation}
+with $\wh\bbeta^{(0)}=\wh\bbeta$.
+For local linear fitting ($r=1$), the first two blocks estimate
+$\bbeta(t)$ and $h\bbeta'(t)$, respectively, so that
+$\wh\bbeta'(t)=\wh\bb_1(t)/h$. For $r\ge2$, the second derivative is
+estimated by $2\wh\bb_2(t)/h^2$. The notation in
+\eqref{eq:local-polynomial-derivatives} refers to derivatives of the
+local fitted polynomial at its center; these estimators need not equal
+derivatives of the curve obtained by moving the fitting center $t$.
+The simultaneous bands developed below concern the coefficient functions
+corresponding to $a=0$.
+
+For a vector or matrix function $A$, $\|A\|_{\infty,I}$ is the largest
+absolute entry, maximized over $t\in I$; $\|A\|_{2,I}$ is the analogous
+supremum of its Euclidean norm when $A$ is a vector.
+Constants in $\lesssim$ and $O_P$ are independent of $n,p,h$ and the counts.
+We use $\mathcal F_n$ for the sigma-field generated by all observations;
+conditional probabilities and expectations are written explicitly given
+$\mathcal F_n$.
+
+\subsection{Regularity conditions}\label{sec:conditions}
+
+The dimension $p=p_n$ may grow; $r$ and $q\ge4$ are fixed.
+All constants in the following conditions are uniform in $n$, $p$,
+and the observation counts. We use $\|\cdot\|_{\mathrm{op}}$ for the
+spectral norm and $\preceq$ for the positive-semidefinite order.
+All processes are assumed jointly measurable and separable, and all
+suprema below are measurable. All time-indexed conditions hold uniformly
+over $\mathcal T=[0,1]$.
+
+\begin{assumption}[Sampling]\label{ass:core}
+For each $n$, the pairs $(\bX_i,\varepsilon_i)$ are independent and
+identically distributed across subjects, and the counts $m_i\ge1$
+are deterministic. Their common process law may depend on $n$.
+The times $T_{ij}$ are mutually independent with common density $f$,
+and independent of the subject processes. The model
+\eqref{eq:model-VCM-pop} satisfies
+$\expect\{\bX(t)\varepsilon(t)\}=\mathbf0$ for all $t$.
+\end{assumption}
+
+\begin{assumption}[Smoothness and identification]\label{ass:design}
+The coordinates of $\bbeta$ belong to a common bounded
+$C^{r,1}(\mathcal T)$ class: they have $r$ continuous derivatives,
+and their $r$th derivatives are Lipschitz; for $r=0$, the functions
+themselves are Lipschitz. The density $f$ is Lipschitz and
+$0<c_f\le f\le C_f$. With
+$\bOmega(t)=\expect\{\bX(t)\bX(t)^\trans\}$,
+\[
+c_\Omega\bI_p\preceq\bOmega(t)\preceq C_\Omega\bI_p,
+\qquad
+\|\bOmega(t)-\bOmega(u)\|_{\mathrm{op}}\le C|t-u|.
+\]
+\end{assumption}
+
+\begin{assumption}[Kernel and bandwidth]\label{ass:kernel}
+The kernel $K$ is nonnegative, symmetric, Lipschitz on $\mathbb R$,
+supported on $[-1,1]$, and has integral one. The bandwidth is
+deterministic, $0<h\le1/2$, and $h\to0$.
+\end{assumption}
+
+\begin{assumption}[Coordinate moments]\label{ass:moments}
+For a fixed $q\ge4$,
+\[
+\max_{k\le p}\expect\{\sup_t|X_k(t)|^{2q}\}
++\max_{k\le p}\expect\{\sup_t|X_k(t)\varepsilon(t)|^q\}\le C.
+\]
+Write
+\[
+F_i=1+\sup_t\|\bX_i(t)\|_\infty^2+
+\sup_t\|\bX_i(t)\varepsilon_i(t)\|_\infty,
+\qquad \|F_i\|_{L^q}\le K_n.
+\]
+The coordinate moment bounds yield the worst-case upper bound
+$\|F_i\|_{L^q}\le Cp^{1/q}$, and we can take $1\le K_n\le Cp^{1/q}$. Stronger assumptions that yield smaller
+$K_n$ lead to sharper rates.
+\end{assumption}
+
+\begin{assumption}[Score covariance]\label{ass:covariance}
+Define the score covariance kernel by
+\[
+\bC(u,v)=\expect\{\bX(u)\varepsilon(u)\varepsilon(v)\bX(v)^\trans\}.
+\]
+It satisfies
+\[
+\begin{gathered}
+\sup_{u,v}\|\bC(u,v)\|_{\mathrm{op}}\le C,\\
+\|\bC(u,v)-\bC(u',v')\|_{\mathrm{op}}
+\le C(|u-u'|+|v-v'|).
+\end{gathered}
+\]
+For $\bV_F(t)=\bOmega(t)^{-1}\bC(t,t)\bOmega(t)^{-1}$,
+$\inf_{t\in\mathcal T}\min_{k\le p}[\bV_F(t)]_{kk}\ge c_F>0$.
+\end{assumption}
+
+Assumptions~\ref{ass:core}--\ref{ass:kernel} describe independently
+sampled subjects with noninformative random observation times, smooth
+coefficients, and a uniformly well-conditioned design, while retaining
+within-subject dependence. Examples include well-conditioned banded
+second-moment matrices with uniformly Lipschitz entries and a fixed
+number of nonzero diagonals, and the Epanechnikov kernel used in our
+numerical studies.
+
+Assumptions~\ref{ass:moments}--\ref{ass:covariance} accommodate growing
+dimension, polynomial tails of sufficiently high order, and dependence
+across times and coordinates, with $K_n$ recording the size of the
+largest-coordinate envelope. The coordinate variance condition holds,
+for example, for mean-zero functional errors independent of the
+predictors with uniformly positive variances. The general condition
+also allows singular score covariance matrices.
+
+\section{Simultaneous inference}\label{sec:theory}
+
+The argument follows three steps: a subject-level linear representation,
+Gaussian and bootstrap approximation, and calibration of the joint bands.
+
+\subsection{Linear representation}\label{sec:theory-linear}
+
+Define the subject score and its population-weighted contribution by
+\begin{equation*}
+\bu_i(t)=\frac1{m_i}\sum_{j=1}^{m_i}
+K_h(T_{ij}-t)\bpsi_{ij}(t)\varepsilon_{ij},
+\qquad \bPsi_i(t)=\bL\bD_h(t)^{-1}\bu_i(t).
+\end{equation*}
+The $\bPsi_i$ are independent and centered. Put $s=r+1$ and
+\begin{equation}
+\begin{gathered}
+\kappa_{a,n}=\frac1n\sum_{i=1}^n m_i^{-a}\quad(a=1,3),\qquad
+v_n^2=1+\frac{\kappa_{1,n}}h,\qquad L_n=\log(np/h),\\
+\delta_n=v_n\sqrt{\frac{L_n}{n}}+
+\frac{K_n L_n}{n^{1-1/q}h},\\
+\rho_n=p^{q/(2q-2)}v_n\sqrt{\frac{L_n}{n}}
++\frac{pL_n}{n^{1-1/q}h}.
+\end{gathered}
+\label{eq:basic-rates}
+\end{equation}
+Here $K_n\ge1$ bounds the $L^q$ norm of the largest coordinate design and
+score envelope, defined in Assumption~\ref{ass:moments}.
+The scale $v_n^2$ is the order of the average coordinate variance of the
+subject contributions. The rate $\delta_n$ controls score coordinates,
+whereas $\rho_n$ controls the empirical design in spectral norm.
+Direct matrix moment bounds give $\rho_n\lesssim p\delta_n$.
+The matrix envelope has $L^q$ norm of order at most $p$, directly
+from the coordinate moments.
+
+\begin{theorem}[Uniform linear representation]\label{thm:linear}
+Under Assumptions~\ref{ass:core}--\ref{ass:moments}, if $\rho_n\to0$,
+the empirical design is uniformly invertible on $\mathcal T$ with
+probability tending to one, and
+\begin{equation*}
+\wh\bbeta(t)-\bbeta(t)=\frac1n\sum_{i=1}^n\bPsi_i(t)+\bR_n(t),
+\qquad t\in\mathcal T,
+\end{equation*}
+where
+\begin{align*}
+\|\wh\bbeta-\bbeta\|_{2,\mathcal T}
+&=O_P\{\sqrt p(\delta_n+h^s)\},\\
+\|\bR_n\|_{\infty,\mathcal T}
+&=O_P\{\sqrt p(\rho_n\delta_n+h^s)\}.
+\end{align*}
+\end{theorem}
+
+The remainder records both estimation of the local design and smoothing
+bias. Its bound over the full fitting interval also controls residuals
+evaluated at the observed times. When the variance terms dominate
+$\rho_n$ and $\delta_n$, the stochastic remainder has order
+$p^{1+1/(2q-2)}v_n^2L_n/n$.
+The factor $\sqrt p$ in the bias bound
+reflects coordinatewise smoothness of the $p$ coefficient functions.
+
+\subsection{Gaussian and bootstrap approximation}\label{sec:theory-gaussian}
+\label{sec:theory-bootstrap}
+
+Let $\tau_k^2(t)=n^{-1}\sum_i\expect\{\Psi_{ik}^2(t)\}$ and let $G_n$ be a
+centered continuous Gaussian process with
+\begin{equation*}
+\expect\{G_{n,k}(u)G_{n,l}(t)\}=
+\frac{\sum_{i=1}^n\expect\{\Psi_{ik}(u)\Psi_{il}(t)\}}
+{n\tau_k(u)\tau_l(t)}.
+\end{equation*}
+Under Assumption~\ref{ass:covariance}, $\tau_k(t)\asymp v_n$ uniformly;
+the covariance calculation is in Section~\ref{app:covariance-proof}.
+For comparison with $S_{G,n}=\|G_n\|_{\infty,\mathcal T}$, define
+\[
+T_n^\circ=\sup_{t\in\mathcal T}\max_{k\le p}
+\frac{\sqrt n\,|\wh\beta_k(t)-\beta_k(t)|}{\tau_k(t)}.
+\]
+Set $T_n^\circ=0$ on the exceptional design event.
+Define the moment scales and the Gaussian approximation error by
+\begin{equation}
+\begin{aligned}
+\Lambda_n&=\frac{1+\kappa_{3,n}/h^3}{v_n^4},\qquad
+B_n=\max\left\{\frac{\sqrt p\,K_n}{hv_n},p\sqrt{\Lambda_n}\right\},\\
+\gamma_n&=\left(\frac{B_n^2L_n^5}{n}\right)^{1/4}
++\frac{B_nL_n^{3/2-1/q}}{n^{1/2-1/q}}\\
+&\quad+\left(\frac{\sqrt{npL_n}\,\rho_n\delta_n}{v_n}\right)^{1/2}
++\frac{\sqrt{npL_n}\,h^s}{v_n}.
+\end{aligned}
+\label{eq:gaussian-rate}
+\end{equation}
+
+\begin{theorem}[Gaussian approximation]\label{thm:gaussian}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance}, if
+$\rho_n\to0$, then, for all sufficiently large $n$,
+\begin{equation*}
+\sup_z\left|\prob(T_n^\circ\le z)-\prob(S_{G,n}\le z)\right|
+\le C\gamma_n.
+\end{equation*}
+\end{theorem}
+
+The first two terms of $\gamma_n$ control Gaussian approximation of
+the subject scores; the remaining terms account for design estimation
+and smoothing bias. Smaller discretization and exceptional-event terms
+are absorbed into this bound, as shown in the proof.
+
+For implementation, form $\wh\varepsilon_{ij}
+=Y_{ij}-\bX_{ij}^\trans\wh\bbeta(T_{ij})$ and
+\begin{equation}
+\begin{split}
+\wh\bPsi_i(t)&=\bL\wh{\bD}_h(t)^{-1}\frac1{m_i}
+\sum_{j=1}^{m_i}K_h(T_{ij}-t)\bpsi_{ij}(t)\wh\varepsilon_{ij},\\
+\wh\sigma_k^2(t)&=\frac1n\sum_{i=1}^n\wh\Psi_{ik}^2(t).
+\end{split}
+\label{eq:estimated-subject-contribution}
+\end{equation}
+Independently of the data, draw independent $\xi_i\sim N(0,1)$ and set
+\begin{equation}
+G_{n,k}^*(t)=\frac1{\sqrt n}\sum_{i=1}^n
+\xi_i\frac{\wh\Psi_{ik}(t)}{\wh\sigma_k(t)},\qquad
+S_n^*=\|G_n^*\|_{\infty,\mathcal T}.
+\label{eq:multiplier-process}
+\end{equation}
+A single multiplier is shared by all observations and coordinates of a
+subject. The statistic being calibrated is
+\[
+T_n=\sup_{t\in\mathcal T}\max_{k\le p}
+\frac{\sqrt n\,|\wh\beta_k(t)-\beta_k(t)|}{\wh\sigma_k(t)}.
+\]
+Collect the covariance and fitted-score errors in
+\begin{equation}
+e_n=p\left\{\sqrt{\frac{\Lambda_nL_n}{n}}
++\frac{K_n^2L_n}{n^{1-2/q}h^2v_n^2}
++\sqrt p(\delta_n+h^s)\right\}.
+\label{eq:bootstrap-covariance-scales}
+\end{equation}
+On samples with a singular local design or a nonpositive fitted variance,
+set $T_n,S_n^*,G_n^*$ to zero and the bands to the empty set.
+The oracle statistic $T_n^\circ$ keeps its earlier convention.
+The proofs include the probability of these exceptional samples.
+The first two terms in $e_n$ control empirical covariance fluctuations;
+
+This bound uses the same observations for estimation and calibration.
+
+\begin{theorem}[Bootstrap approximation]\label{thm:bootstrap}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance}, if $e_n\to0$,
+then
+\begin{align*}
+\sup_z\left|\prob(S_n^*\le z\mid\mathcal F_n)
+-\prob(S_{G,n}\le z)\right|
+&=O_P(\sqrt{e_n}\,L_n),
+\\
+\sup_z\left|\prob(T_n\le z)
+-\prob(S_n^*\le z\mid\mathcal F_n)\right|
+&=O_P(\gamma_n+\sqrt{e_n}\,L_n).
+\end{align*}
+\end{theorem}
+
+The bounds are consistent if $\gamma_n\to0$ and $e_nL_n^2\to0$.
+These conditions specify the admissible joint growth of dimension and
+sampling frequency, together with the bandwidth; they do not treat $p$
+as a constant.
+
+\subsection{Simultaneous confidence bands}\label{sec:SCB}
+
+For $v\in(0,1)$, define the conditional quantile
+\begin{equation}
+\wh q_v=\inf\{z:\prob(S_n^*\le z\mid\mathcal F_n)\ge v\}.
+\label{eq:method-bootstrap-quantile}
+\end{equation}
+At confidence level $1-\alpha$, the bands are
+\begin{equation*}
+\mathcal C_{1-\alpha,k}(t)=
+\left[\wh\beta_k(t)\ \pm\
+\frac{\wh q_{1-\alpha}\wh\sigma_k(t)}{\sqrt n}\right],
+\qquad t\in\mathcal T,\quad k=1,\ldots,p.
+\end{equation*}
+The common critical value calibrates coverage jointly over time and
+coefficient functions.
+
+\begin{theorem}[Simultaneous coverage]\label{thm:coverage}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance}, suppose
+$\gamma_n\to0$ and $e_nL_n^2\to0$. For every fixed $\alpha\in(0,1)$,
+\begin{equation*}
+\begin{split}
+\Big|\prob\{\beta_k(t)\in\mathcal C_{1-\alpha,k}(t)
+\text{ for all }t\in\mathcal T,\ k\le p\}-(1-\alpha)\Big|\\
+\le C\{\gamma_n+(e_nL_n^2)^{1/3}\}.
+\end{split}
+\end{equation*}
+\end{theorem}
+
+The bands use the uncorrected local polynomial estimate, so the bandwidth
+must make smoothing bias negligible for simultaneous inference. In
+particular, $\gamma_n\to0$ includes the undersmoothing requirement
+\begin{equation}
+\frac{\sqrt{npL_n}\,h^{r+1}}{v_n}\to0.
+\label{eq:vcm-undersmoothing}
+\end{equation}
+The uniform bias bound is $O(\sqrt p\,h^{r+1})$, and the coordinate
+standard errors have order $v_n/\sqrt n$. The additional factor
+$\sqrt{L_n}$ controls the effect of this bias on the distribution of the
+joint maximum. The remaining terms of $\gamma_n$ and $e_n$ also restrict
+how small $h$ may be. The multiplier bootstrap calibrates stochastic
+fluctuations; the displayed bandwidth condition controls smoothing bias.
+
+The coverage bound follows from a probability bound for covariance error
+and a bracket for the random critical value. In practice, $\wh q_{1-\alpha}$
+is approximated by the empirical quantile of independent multiplier draws.
+Section~\ref{app:implementation} describes simulation and grid error.
+The supplementary results also sharpen the rates under comparable counts.
+
+\subsection{Phase transition for inference}\label{sec:fixedp-phase}
+
+To display the role of repeated measurements, take $p$ fixed and
+$m_i=m=m_n$ in this subsection. Then $K_n=O(1)$ and the coordinate
+standard errors have order
+$\{n^{-1}+(nmh)^{-1}\}^{1/2}$. The following specialization describes
+the transition through both Gaussian approximation and band width.
+
+\begin{corollary}[Gaussian approximation and band width]
+\label{cor:fixedp-phase}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance}, take fixed $p$,
+$m_i=m$, and $q>4$. Suppose $h\ge n^{-A}$ for some fixed $A>0$, and
+\begin{equation}
+\begin{aligned}
+n\wedge(nmh)&\gtrsim n^{4/q}(\log n)^{3-4/q},\\
+\{n\wedge(nmh)\}^{3/4}h^s&\lesssim(\log n)^{5/4}.
+\end{aligned}
+\label{eq:fixedp-phase-conditions}
+\end{equation}
+Then, for all sufficiently large $n$,
+\begin{equation}
+\begin{aligned}
+&\sup_z\left|\prob(T_n^\circ\le z)-\prob(S_{G,n}\le z)\right|\\
+&\quad\le C\left\{\frac{\log^7 n}{n\wedge(nmh)}\right\}^{1/4}.
+\end{aligned}
+\label{eq:fixedp-phase-clt}
+\end{equation}
+For every fixed $\alpha\in(0,1)$, the bands have simultaneous coverage
+tending to $1-\alpha$. Their half-widths
+$w_{n,k}(t)=\wh q_{1-\alpha}\wh\sigma_k(t)/\sqrt n$ satisfy, with
+probability tending to one,
+\begin{equation}
+\begin{gathered}
+c\left\{\frac1{\sqrt n}+\sqrt{\frac{\log(1/h)}{nmh}}\right\}
+\le w_{n,k}(t)\le
+C\left\{\frac1{\sqrt n}+\sqrt{\frac{\log(1/h)}{nmh}}\right\},\\
+t\in\mathcal T,\qquad k\le p.
+\end{gathered}
+\label{eq:fixedp-phase-width}
+\end{equation}
+\end{corollary}
+
+The first balance in \eqref{eq:fixedp-phase-conditions} makes the
+finite-moment term no larger than the Gaussian approximation term;
+the second places smoothing bias below the same bound. These are
+sufficient simplifications of the general rates. They hold, for
+example, for $q=8$, $r\ge1$, and $h=n^{-2/5}$ for every $m\ge1$.
+Section~\ref{app:refined-sampling-bounds} gives the derivation and verifies
+the coverage conditions.
+
+From the Gaussian approximation perspective, $mh\le1$ gives the bound
+$\{\log^7 n/(nmh)\}^{1/4}$, whereas $mh\ge1$ gives
+$(\log^7 n/n)^{1/4}$. Thus the effective sample size increases with
+the number $nmh$ of observations in local windows and reaches the
+order of the number $n$ of independent subjects at $mh\asymp1$.
+The reference Gaussian law retains the corresponding covariance
+throughout this transition.
+
+Band width gives a complementary perspective. When
+$mh\ll\log(1/h)$, the half-width has order
+$\{\log(1/h)/(nmh)\}^{1/2}$; when $mh\gtrsim\log(1/h)$, it has
+order $n^{-1/2}$. The additional logarithm is the cost of simultaneous
+coverage over time. Consequently, the crossover for band width occurs
+later than the crossover for coordinate variance.
+
+Repeated measurements reduce the uncertainty from observing a
+trajectory at finitely many times. They continue to share the same
+subject-specific functional error, however, so increasing their number
+cannot remove variation between subjects. Once the local sampling
+contribution is small, further visits mainly resolve an already
+observed trajectory and yield diminishing improvements in inference.
+Increasing the number of independent subjects reduces the remaining
+uncertainty and narrows the bands beyond this plateau.
+
+\subsection{A mean-function corollary}
+\label{sec:mean-model}
+
+The same subject-score argument applies to a growing collection of mean
+functions. Replace the random predictor vector by a scalar intercept
+in each of $p=p_n$ response coordinates:
+\[
+Y_{ij,k}=\mu_k(T_{ij})+\varepsilon_{i,k}(T_{ij}),\qquad
+j\le m_i,\quad k\le p=p_n.
+\]
+The mean-zero error processes are independent and identically distributed
+across subjects and independent of the observation times; their coordinates
+may be dependent. The counts $m_i$ are deterministic positive integers,
+and all observation times are mutually independent with common density $f$.
+Keep the sampling-density, kernel, and bandwidth conditions from
+Section~\ref{sec:conditions}, and suppose the $\mu_k$ belong to a common
+bounded $C^{r,1}(\mathcal T)$ class. Retain polynomial moment assumptions:
+for fixed $q\ge4$,
+\begin{equation}
+\begin{gathered}
+\max_{k\le p}\expect\{\sup_t|\varepsilon_{i,k}(t)|^q\}\le C,\\
+\left\|1+\sup_t\max_{k\le p}|\varepsilon_{i,k}(t)|\right\|_{L^q}
+\le K_n,\qquad 1\le K_n\le Cp^{1/q}.
+\end{gathered}
+\label{eq:mean-polynomial-moments}
+\end{equation}
+The covariance entries $C_{kl}(u,t)=\expect\{
+\varepsilon_{i,k}(u)\varepsilon_{i,l}(t)\}$ are jointly Lipschitz with
+one common constant, and $\inf_{t,k}C_{kk}(t,t)\ge c>0$.
+These are coordinatewise conditions; the full covariance may be singular.
+
+Fit each mean by the equal-subject local polynomial criterion
+\eqref{eq:local-polynomial-fit}, using scalar predictor one and response
+$Y_{ij,k}$. All $p$ fits share the same $(r+1)\times(r+1)$ matrix
+\[
+\widehat H(t)=\frac1n\sum_i\frac1{m_i}\sum_j K_h(T_{ij}-t)
+\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)
+\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)^\trans.
+\]
+Let $\widehat\mu_k$ denote the fitted intercept, and put
+$\widehat\varepsilon_{ij,k}=Y_{ij,k}-\widehat\mu_k(T_{ij})$.
+With $\be_0=(1,0,\ldots,0)^\trans\in\real^{r+1}$, the fitted
+subject contributions are
+\[
+\widehat\Psi_{ik}(t)=\be_0^\trans\widehat H(t)^{-1}\frac1{m_i}
+\sum_jK_h(T_{ij}-t)\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)
+\widehat\varepsilon_{ij,k}.
+\]
+Their oracle versions use $H=\expect\widehat H$ and the true errors.
+Define $\tau_k$, $\widehat\sigma_k$, and the subject multiplier bootstrap
+as before, with one multiplier shared across all coordinates of a subject.
+In this subsection, $T_n^\circ,T_n,S_n^*,S_{G,n}$ denote the corresponding
+mean-model statistics, and the bands $\mathcal C_{1-\alpha,k}$ are centered
+at $\widehat\mu_k$, with the same exceptional-sample conventions.
+The scales $v_n,L_n$ remain those in
+\eqref{eq:basic-rates}, and $\delta_n$ uses the mean envelope $K_n$ in
+\eqref{eq:mean-polynomial-moments}.
+
+Only the design-concentration and coordinate-mixing steps change.
+Define the scalar-design rate and the resulting approximation errors by
+\begin{equation}
+\begin{aligned}
+a_n&=\sqrt{\frac{\kappa_{1,n}\log(n/h)}{nh}}
++\frac{\log(n/h)}{nh},\\
+\gamma_n^\mu&=\left(\frac{K_n^2L_n^5}{nh^2v_n^2}\right)^{1/4}
++\frac{K_nL_n^{3/2-1/q}}{n^{1/2-1/q}hv_n}\\
+&\quad+\left(\frac{\sqrt{nL_n}\,a_n\delta_n}{v_n}\right)^{1/2}
++\frac{\sqrt{nL_n}\,h^s}{v_n},\\
+e_n^\mu&=\sqrt{\frac{\Lambda_nL_n}{n}}
++\frac{K_n^2L_n}{n^{1-2/q}h^2v_n^2}+\delta_n+h^s.
+\end{aligned}
+\label{eq:mean-rates}
+\end{equation}
+The shared design has fixed size, its inverse acts separately on each
+coordinate, and each residual uses only its own mean estimate. Thus
+$a_n$ replaces the regression design rate $\rho_n$, and the polynomial
+factors in $p$ from coordinate mixing and residual fitting disappear.
+The score rate $\delta_n$ and covariance scale $\Lambda_n$ retain their
+definitions, with the actual number of responses $p$ in $L_n$.
+
+\begin{corollary}[Joint mean inference under polynomial moments]
+\label{cor:hdmean}
+Under the preceding conditions, suppose $a_n\to0$. Then, uniformly in $t,k$,
+\[
+\begin{gathered}
+\widehat\mu_k(t)-\mu_k(t)=\frac1n\sum_i\Psi_{ik}(t)+R_{nk}(t),\\
+\|\widehat\bmu-\bmu\|_{\infty,\mathcal T}
+=O_P(\delta_n+h^s),\qquad
+\|\bR_n\|_{\infty,\mathcal T}=O_P(a_n\delta_n+h^s).
+\end{gathered}
+\]
+Here $\bR_n=(R_{n1},\ldots,R_{np})^\trans$.
+For all sufficiently large $n$,
+\begin{equation}
+\sup_z|\prob(T_n^\circ\le z)-\prob(S_{G,n}\le z)|\le C\gamma_n^\mu.
+\label{eq:mean-gaussian}
+\end{equation}
+If $e_n^\mu\to0$, the bootstrap conclusions are
+\begin{align*}
+\sup_z|\prob(S_n^*\le z\mid\mathcal F_n)-\prob(S_{G,n}\le z)|
+&=O_P(\sqrt{e_n^\mu}\,L_n),\\
+\sup_z|\prob(T_n\le z)-\prob(S_n^*\le z\mid\mathcal F_n)|
+&=O_P(\gamma_n^\mu+\sqrt{e_n^\mu}\,L_n).
+\end{align*}
+If $\gamma_n^\mu\to0$ and $e_n^\mu L_n^2\to0$, then, for every fixed
+$\alpha\in(0,1)$,
+\begin{equation}
+\begin{aligned}
+&\left|\prob\{\mu_k(t)\in\mathcal C_{1-\alpha,k}(t)
+\text{ for all }t\in\mathcal T,\ k\le p\}-(1-\alpha)\right|\\
+&\quad\le C\{\gamma_n^\mu+(e_n^\mu L_n^2)^{1/3}\}.
+\end{aligned}
+\label{eq:mean-coverage}
+\end{equation}
+\end{corollary}
+
+The proof specializes the linearization, covariance, and quantile-bracketing
+arguments of Theorems~\ref{thm:linear}--\ref{thm:coverage}; details are in
+Section~\ref{app:highd-mean}. The mean bands also use an uncorrected
+estimate, so $\gamma_n^\mu\to0$ requires
+\begin{equation}
+\frac{\sqrt{nL_n}\,h^{r+1}}{v_n}\to0.
+\label{eq:mean-undersmoothing}
+\end{equation}
+This puts the bias below the coordinate standard error by a factor
+$\sqrt{L_n}$, which suffices for the joint-maximum comparison used here.
+With $m_i=m$, it is
+equivalent, up to constants, to
+$\{n\wedge(nmh)\}L_nh^{2r+2}\to0$. For local linear fits this becomes
+$nmh^5L_n\to0$ when $mh\to0$, and $nh^4L_n\to0$ when $mh$ is bounded
+away from zero.
+
+The only dimension dependence is through $L_n$ and the envelope $K_n$.
+Coordinate polynomial moments give the worst-case bound $K_n\lesssim
+p^{1/q}$; a bounded or polylogarithmic envelope yields logarithmic
+dimension dependence without requiring exponential moments. In particular,
+with $q=8$, $K_n=O(1)$, local linear fits, $m_i=1$, and $h=n^{-1/4}$,
+$\log p=o(n^{3/20})$ gives coverage error $O(n^{-1/8}L_n^{5/6})$.
+Section~\ref{app:mean-heavy-tail-example} gives a polynomial-tailed model
+with a dimension-free envelope, demonstrating exponentially many mean
+functions under sparse sampling.
+
+\input{numerical-main.tex}
+
+\section{Discussion}\label{sec:discussion}
+
+Subject contributions link local polynomial estimates to
+Gaussian and bootstrap approximation without requiring
+individual trajectory reconstruction. The bounds quantify the effects of
+sampling frequency, dimension, smoothing bias, and estimation of the
+design and residuals. Their explicit dimension dependence permits growing
+VCMs; the coordinatewise mean extension has no growing regression matrix
+to invert. Its dimension dependence enters through a logarithm and the
+maximum-coordinate moment envelope. Polynomial-tailed models with a
+bounded envelope allow exponentially many functions under sparse sampling.
+
+The explicit powers of $p$ in our bounds follow worst-case inequalities
+under the stated assumptions. They account for mixing coordinate scores
+through the inverse local design and accumulating coefficient errors in
+fitted residuals. Designs with diagonal second-moment matrices or
+fixed-size groups of correlated predictors can reduce these
+dimension factors when the inverse-design absolute row sums remain
+uniformly bounded. The stated dimension restrictions are therefore
+sufficient conditions and need not be sharp.
+
+The results assume error-free predictors and observation times independent
+of the trajectories. They require a bandwidth satisfying the displayed
+approximation and bias conditions. The numerical comparisons show that
+moderate-sample joint undercoverage can remain. Extensions to informative
+visits, measurement error in predictors, and justified finite-sample
+corrections are therefore useful directions for further work.
+
+
+\section*{Supplementary Material}
+The supplementary document contains proofs, sampling-frequency and bandwidth results, the high-dimensional mean extension, and additional numerical and data-processing details. Reproduction code and complete simulation records accompany the manuscript.
+\referencefont
+\bibliographystyle{Chicago}
+\bibliography{bibfile}
+
+\bigskip
+\noindent\begin{minipage}{\textwidth}
+\noindent Haozhen Shu. National Institute of Education, Nanyang Technological University, Singapore.\\
+E-mail: \href{mailto:haozhen.shu@nie.edu.sg}{haozhen.shu@nie.edu.sg}
+\medskip
+
+\noindent Zhenhua Lin. Department of Statistics and Data Science, National University of Singapore, Singapore.\\
+E-mail: \href{mailto:linz@nus.edu.sg}{linz@nus.edu.sg}
+\medskip
+
+\noindent Yinan Lin. National Center for Applied Mathematics in Chongqing, Chongqing Normal University, Chongqing, China.\\
+E-mail: \href{mailto:linyn@cqnu.edu.cn}{linyn@cqnu.edu.cn}
+\end{minipage}
+\end{document}

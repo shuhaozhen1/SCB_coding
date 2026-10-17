@@ -1,0 +1,33 @@
+\begin{table}[!tbp]
+\centering
+\caption{Coverage probability (CP) and average width (AW) of nominal 95\% bands for all five coefficients jointly. Each row uses 1,000 datasets; $m=5,20,80$ denote sparse, mild, and dense sampling.}
+\label{tab:joint-new}
+\renewcommand{\baselinestretch}{1.2}\small
+\begin{tabular}{llrrrrr}
+\toprule
+& & & \multicolumn{2}{c}{Proposed} & \multicolumn{2}{c}{CLZ (Bonferroni)}\\
+Innovations & $n$ & $m$ & CP & AW & CP & AW\\
+\midrule
+Gaussian & 200 & 5 & 0.822 & 0.703 & 0.458 & 0.566\\
+ & 200 & 20 & 0.906 & 0.545 & 0.042 & 0.288\\
+ & 200 & 80 & 0.912 & 0.497 & 0.000 & 0.144\\
+ & 400 & 5 & 0.910 & 0.556 & 0.581 & 0.458\\
+ & 400 & 20 & 0.919 & 0.412 & 0.073 & 0.229\\
+ & 400 & 80 & 0.940 & 0.362 & 0.000 & 0.115\\
+\midrule
+Laplace & 200 & 5 & 0.871 & 0.698 & 0.491 & 0.565\\
+ & 200 & 20 & 0.904 & 0.543 & 0.047 & 0.288\\
+ & 200 & 80 & 0.914 & 0.492 & 0.000 & 0.143\\
+ & 400 & 5 & 0.904 & 0.550 & 0.618 & 0.454\\
+ & 400 & 20 & 0.925 & 0.410 & 0.063 & 0.228\\
+ & 400 & 80 & 0.929 & 0.361 & 0.001 & 0.115\\
+\midrule
+Adjusted $\chi^2_5$ & 200 & 5 & 0.847 & 0.698 & 0.484 & 0.563\\
+ & 200 & 20 & 0.901 & 0.545 & 0.044 & 0.289\\
+ & 200 & 80 & 0.910 & 0.494 & 0.000 & 0.144\\
+ & 400 & 5 & 0.885 & 0.553 & 0.580 & 0.457\\
+ & 400 & 20 & 0.924 & 0.410 & 0.064 & 0.229\\
+ & 400 & 80 & 0.934 & 0.362 & 0.000 & 0.115\\
+\bottomrule
+\end{tabular}
+\end{table}

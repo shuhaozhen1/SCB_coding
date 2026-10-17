@@ -1,0 +1,77 @@
+\section{Numerical studies}\label{sec:numerical-study}
+\input{results/tables/generated-values.tex}
+
+\subsection{Simulation design and competing methods}\label{subsec:simulation}
+
+The factorial design compares nominal 95\% bands with $n\in\{200,400\}$ subjects, $m\in\{5,20,80\}$ observations per subject, and Gaussian, Laplace, or adjusted chi-square innovations in the functional errors. We refer to these three sampling frequencies as sparse, mild, and dense; these are finite-sample labels. Every configuration uses $R=1{,}000$ independent datasets. We examine a single coefficient in a two-coefficient model, simultaneous coverage of all five coefficients in a five-coefficient model, and the intercept-only mean problem.
+
+Observation times are independent Uniform$(0,1)$. Predictors and the single functional error are generated from smooth finite-basis processes. Error innovations have mean zero and variance one: $N(0,1)$, Laplace$(0,1/\sqrt2)$, or $(\chi^2_5-5)/\sqrt{10}$. The latter two examine heavier symmetric tails and positive skewness, respectively. The standardized $\chi^2_5$ law has skewness $\sqrt{8/5}$ and excess kurtosis $12/5$, providing a moderately skewed case. The coefficient functions include linear, oscillating, quadratic, and exponential trends. Section~\ref{app:simulation-design} gives the complete generating mechanism and targets. We use local linear fits with the Epanechnikov kernel, one common bandwidth for the estimate and residuals, and $B=1{,}999$ Gaussian multiplier draws. Both methods in each comparison use the same 201 equally spaced evaluation points in $[0.15,0.85]$. Coverage probability (CP) requires coverage of the entire grid and all targeted coefficients; average width (AW) averages over that grid and those coefficients. These are grid-coverage measurements.
+
+For coefficient bands, we compare with \citet{cao_simultaneous_2018}, abbreviated CLZ. Both local linear estimators use the same bandwidth; with equal counts their point estimates agree, while covariance estimation and calibration differ. For the five-function target, CLZ uses Bonferroni-adjusted marginal bands. Section~\ref{app:comparator-formulas} specifies its kernel variance estimates and finite-observation Gaussian calibration. The CLZ theory concerns sparse longitudinal sampling, so its mild and dense entries assess performance beyond that regime.
+
+For the mean problem, we compare with the B-spline bands of \citet{cai_hu_2025}, which also accommodate varying sampling frequencies. Their cubic-spline fit uses BIC-selected knots and a subject-score covariance estimate. The design, full results, and computational details for this specialization are in Section~\ref{app:numerics}.
+
+\subsection{Coverage and width}
+
+\input{results/tables/joint.tex}
+
+Table~\ref{tab:joint-new} reports joint coverage and width for every sampling frequency and all three innovation distributions. Table~\ref{tab:single-new} in the supplement gives the single-coefficient comparison. At $R=1{,}000$, the Monte Carlo standard error of CP near 0.95 is approximately 0.007. Complete replication records, configuration-specific uncertainty, and paired coverage differences are supplied with the code. All \TotalReplications\ replications of this factorial experiment completed without a singular-fit or variance failure.
+
+\input{results/tables/comparison-text.tex}
+
+\input{results/tables/gaussian-rerun-text.tex}
+
+\subsection{Multivariate functional means}\label{subsec:highd-mean-simulation}
+
+We examine Corollary~\ref{cor:hdmean} with $n=200,400$ subjects,
+$m=5,20,80$ observations per subject, and $p=50,100$ mean functions.
+The functional errors combine common
+and coordinate-specific innovations from the same three distributions
+as above, with cross-coordinate correlation $1/2$.
+Each $(n,m,\text{innovation law})$ uses 1,000 independent datasets and
+999 subject multiplier draws. The two dimensions are nested coordinate
+prefixes of the same datasets and use the same multipliers. All 36
+configurations are evaluated under this fixed design.
+Coverage requires all coordinates at all 51 equally spaced points on
+$[0,1]$, including endpoints. The shared scalar design permits computation
+in response blocks while retaining a single joint bootstrap critical value.
+Section~\ref{app:highd-mean-simulation} specifies the curves, random streams,
+bandwidth, implementation checks, and timing convention.
+
+\input{results/tables/highd-mean.tex}
+
+Table~\ref{tab:highd-mean} reports joint grid coverage and width for
+every configuration. Monte Carlo uncertainty and computation
+times are retained with the replication records.
+\input{results/tables/highd-mean-text.tex}
+
+\FloatBarrier
+\subsection{Mayo PBC sequential biomarker data}\label{subsec:realdata}
+
+We analyze the Mayo Clinic PBC sequential data available as \texttt{pbcseq} in the R package \texttt{survival} \citep{survival_pbcseq}, originating from the D-penicillamine trial \citep{Dickson1985}. The full file contains 1,945 visits from 312 patients. Restricting follow-up to 3,000 days and retaining complete observations with positive bilirubin and alkaline phosphatase leaves 1,741 visits from all 312 patients for the regression. Counts range from 1 to 10, with harmonic mean 3.489. Section~\ref{app:numerics} shows the observation schedule, the separate mean analysis, and preprocessing details.
+
+The protocol included scheduled visits, with additional visits potentially prompted by worsening health; laboratory measurements can also be missing \citep{survival_pbcseq}. Consequently, independent observation times and noninformative follow-up are not established. We interpret the fitted bands as an exploratory application under a working sampling model and describe observed-visit associations.
+
+Let $t=\mathrm{day}/3000$, let $D_i$ indicate D-penicillamine, and standardize edema, albumin, prothrombin time, and log alkaline phosphatase by their observation-level means and standard deviations, obtaining $E,A,P,L$.
+
+The regression model is
+\begin{equation}
+\begin{split}
+\log(\mathrm{bili}_{ij})={}&\beta_1(t_{ij})+\beta_2(t_{ij})D_i
++\beta_3(t_{ij})E_{ij}\\
+&+\beta_4(t_{ij})A_{ij}+\beta_5(t_{ij})P_{ij}
++\beta_6(t_{ij})L_{ij}+\varepsilon_i(t_{ij}).
+\end{split}
+\label{eq:pbc-model-new}
+\end{equation}
+For model~\eqref{eq:pbc-model-new}, equal-subject weights are recomputed after filtering. The common bandwidth is $0.09510$, about 285 days. Calibration uses 9,999 multipliers and is joint over the six coefficients and 201 points from day 450 to day 2,550. The resulting critical value is 3.437; at least 95 patients contribute to each evaluation window.
+
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=\linewidth]{results/realdata/pbc_vcm_bands.pdf}
+\caption{PBC coefficient estimates and nominal joint 95\% bands under the working model. Independent visit times and noninformative follow-up are not established for these data.}
+\label{fig:pbc-vcm-new}
+\end{figure}
+
+In Figure~\ref{fig:pbc-vcm-new}, the treatment band contains zero throughout the displayed interval, while the log-ALP band remains above zero. Edema and prothrombin time have positive exclusions on portions of follow-up; albumin has short negative exclusions. Bandwidth factors 0.8 and 1.2 and a shorter 2,000-day horizon preserve the treatment and log-ALP descriptions but change the shorter exclusions. Full sensitivity results are in Section~\ref{app:numerics}. These are descriptive adjusted associations: conditioning on contemporaneous biomarkers does not identify a randomized treatment effect, and a band containing zero does not establish equivalence.
+\FloatBarrier

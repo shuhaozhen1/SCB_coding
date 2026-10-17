@@ -1,0 +1,1836 @@
+\documentclass[10pt]{book}
+
+\usepackage[sectionbib,authoryear,round]{natbib}
+\usepackage{array,epsfig,fancyhdr,rotating}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,graphicx,booktabs,multirow,placeins}
+\usepackage{sectsty,secdot}
+\usepackage{xr-hyper}
+\usepackage[hidelinks]{hyperref}
+\renewcommand{\bibsection}{\section*{References}}
+\usepackage{etoolbox}
+\AtBeginDocument{\apptocmd{\thebibliography}{\interlinepenalty=10000\clubpenalty=10000\widowpenalty=10000}{}{}}
+\sectionfont{\fontsize{12}{14pt plus.8pt minus .6pt}\selectfont}
+\subsectionfont{\fontsize{12}{14pt plus.8pt minus .6pt}\selectfont}
+\textwidth=31.9pc
+\textheight=46.5pc
+\oddsidemargin=1pc
+\evensidemargin=1pc
+\headsep=15pt
+\topmargin=.6cm
+\parindent=1.7pc
+\parskip=0pt
+\emergencystretch=1em
+\clubpenalty=10000
+\widowpenalty=10000
+\brokenpenalty=10000
+\setcounter{page}{1}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{}
+\renewcommand{\subsectionmark}[1]{}
+\lhead[\footnotesize\thepage\fancyplain{}\leftmark]{}
+\chead[]{}
+\rhead[]{\fancyplain{}\rightmark\footnotesize\thepage}
+\cfoot{}
+\fancypagestyle{firstpage}{\fancyhf{}\fancyhead[L]{\footnotesize\rm Statistica Sinica: Supplement}\fancyhead[R]{\footnotesize\thepage}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{step}{Step}
+\newtheorem{setting}{Setting}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+\newcommand{\ba}{{\mathbf a}}
+\newcommand{\bb}{{\mathbf b}}
+\newcommand{\be}{{\mathbf e}}
+\newcommand{\bh}{{\mathbf h}}
+\newcommand{\br}{{\mathbf r}}
+\newcommand{\bu}{{\mathbf u}}
+\newcommand{\bv}{{\mathbf v}}
+\newcommand{\bx}{{\mathbf x}}
+\newcommand{\bA}{{\mathbf A}}
+\newcommand{\bB}{{\mathbf B}}
+\newcommand{\bC}{{\mathbf C}}
+\newcommand{\bD}{{\mathbf D}}
+\newcommand{\bE}{{\mathbf E}}
+\newcommand{\bG}{{\mathbf G}}
+\newcommand{\bH}{{\mathbf h}}
+\newcommand{\bI}{{\mathbf I}}
+\newcommand{\bK}{{\mathbf K}}
+\newcommand{\bL}{{\mathbf L}}
+\newcommand{\bM}{{\mathbf M}}
+\newcommand{\bQ}{{\mathbf Q}}
+\newcommand{\bR}{{\mathbf R}}
+\newcommand{\bS}{{\mathbf S}}
+\newcommand{\bT}{{\mathbf T}}
+\newcommand{\bU}{{\mathbf U}}
+\newcommand{\bV}{{\mathbf V}}
+\newcommand{\bW}{{\mathbf W}}
+\newcommand{\bX}{{\mathbf X}}
+\newcommand{\bY}{{\mathbf Y}}
+\newcommand{\bZ}{{\mathbf Z}}
+\newcommand{\bbeta}  {\boldsymbol{\beta}}
+\newcommand{\btheta}  {\boldsymbol{\theta}}
+\newcommand{\bmu} {\boldsymbol{{\mathbf \mu}}}
+\newcommand{\bpsi} {\boldsymbol{{\mathbf \psi}}}
+\newcommand{\bxi} {\boldsymbol{{\mathbf \xi}}}
+\newcommand{\bGamma} {\boldsymbol{\Gamma}}
+\newcommand{\bSigma} {\boldsymbol{\Sigma}}
+\newcommand{\bPsi} {\boldsymbol{\Psi}}
+\newcommand{\bPhi} {\boldsymbol{\Phi}}
+\newcommand{\bXi} {\boldsymbol{\Xi}}
+\newcommand{\bOmega} {\boldsymbol{\Omega}}
+\newcommand{\bDelta} {\boldsymbol{\Delta}}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\expect}{\mathbb{E}}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\diag}{\textrm{diag}}
+
+\newcommand{\trans}{{\scriptscriptstyle\mathsf{T}}}
+\newcommand{\wh}{\widehat}
+\newcommand{\wt}{\widetilde}
+\newcommand{\bone}{{\mathbf 1}}
+\newcommand{\supp}{{\mathrm supp}}
+
+
+
+\numberwithin{equation}{section}
+\newcommand{\bodyfont}{\fontsize{12}{14pt plus.8pt minus .6pt}\selectfont}
+\newcommand{\referencefont}{\bibhang=1.7pc\bibsep=2pt\fontsize{9}{14pt plus.8pt minus .6pt}\selectfont}
+\externaldocument[][nocite]{fscb-draft}
+
+\begin{document}
+\renewcommand{\baselinestretch}{2}
+\bodyfont
+\markboth{\hfill{\footnotesize\rm HAOZHEN SHU, ZHENHUA LIN AND YINAN LIN}\hfill}
+{\hfill{\footnotesize\rm BANDS FOR FUNCTIONAL REGRESSION}\hfill}
+\thispagestyle{firstpage}
+$\ $\par\vspace{0.8pc}
+\centerline{\large\bf SIMULTANEOUS CONFIDENCE BANDS FOR}
+\vspace{2pt}
+\centerline{\large\bf FUNCTIONAL VARYING-COEFFICIENT MODELS}
+\vspace{.4cm}
+\centerline{Haozhen Shu$^1$, Zhenhua Lin$^2$ and Yinan Lin$^3$}
+\vspace{.4cm}
+\centerline{\it $^1$National Institute of Education,}
+\centerline{\it Nanyang Technological University,}
+\centerline{\it $^2$National University of Singapore and}
+\centerline{\it $^3$Chongqing Normal University}
+\vspace{.55cm}
+
+\raggedbottom
+\centerline{\bf Supplementary Material}
+\vspace{.55cm}
+\fontsize{9}{11.5pt plus.8pt minus.6pt}\selectfont
+This supplement uses the notation of the main article. Sections S1--S2 prove the main results under the assumptions stated in the main article. Section S3 discusses sampling frequency, dimension, bandwidth, and implementation. Section S4 extends the analysis to high-dimensional functional means. Section S5 reports computational details and additional results.
+\par\bodyfont
+\setcounter{section}{0}
+\def\thesection{S\arabic{section}}
+\numberwithin{equation}{section}
+\numberwithin{lemma}{section}
+\numberwithin{proposition}{section}
+\numberwithin{corollary}{section}
+\numberwithin{theorem}{section}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\section{Linearization and covariance bounds}
+\label{app:hd-linear-covariance}
+
+We use Assumptions~\ref{ass:core}--\ref{ass:covariance} from the main
+article. Constants are uniform in $n,p,h$ and the observation counts;
+$r$ and $q$ are fixed, and $s=r+1$.
+Write $P=(r+1)p$ and use $\|\cdot\|_{\max}$ for the largest absolute
+entry of a vector or matrix at one time point. Estimation, residuals,
+and inference all use $\mathcal T=[0,1]$. All other notation is as in
+Sections~\ref{sec:method} and~\ref{sec:theory}.
+
+We use the scales in \eqref{eq:basic-rates},
+\eqref{eq:gaussian-rate}, and \eqref{eq:bootstrap-covariance-scales},
+and the local basis and block selector from Section~\ref{sec:method}.
+Set
+\[
+\begin{split}
+\bS_i(t)&=m_i^{-1}\sum_jK_h(T_{ij}-t)
+\bpsi_{ij}(t)\bpsi_{ij}(t)^\trans,\qquad
+\widehat{\bD}_h=n^{-1}\sum_i\bS_i,\\
+\bu_i(t)&=m_i^{-1}\sum_jK_h(T_{ij}-t)
+\bpsi_{ij}(t)\varepsilon_i(T_{ij}),\qquad
+\bar\bu=n^{-1}\sum_i\bu_i,\\
+\bD_h(t)&=\expect\{\widehat{\bD}_h(t)\},\qquad
+\bPsi_i(t)=\bL\bD_h(t)^{-1}\bu_i(t).
+\end{split}
+\]
+
+\subsection{Population design and uniform concentration}
+
+\begin{lemma}[Population design]\label{lem:hd-population}
+Under Assumptions~\ref{ass:core}, \ref{ass:design}, and
+\ref{ass:kernel}, uniformly on $\mathcal T$,
+\[
+c_D\bI_P\preceq\bD_h(t)\preceq C_D\bI_P,
+\qquad
+\|\bD_h(t)-\bD_h(u)\|_{\mathrm{op}}
+\le Ch^{-1}|t-u|.
+\]
+Define the kernel-window moment matrix by
+\[
+\begin{gathered}
+I_{t,h}=[-1,1]\cap[-t/h,(1-t)/h],\\
+\bGamma_r(t,h)=\int_{I_{t,h}}
+\btheta_r(z)\btheta_r(z)^\trans K(z)\,dz.
+\end{gathered}
+\]
+Then, uniformly for $t\in\mathcal T$,
+\[
+\bD_h(t)=\bGamma_r(t,h)\otimes\{f(t)\bOmega(t)\}
++O_{\mathrm{op}}(h).
+\]
+\end{lemma}
+
+\begin{proof}
+The exact formula is
+\[
+\bD_h(t)=\int_{I_{t,h}}\btheta_r(z)\btheta_r(z)^\trans K(z)
+\otimes\{f(t+hz)\bOmega(t+hz)\}\,dz.
+\]
+For $h\le1/2$, this interval contains either $[0,1]$ or $[-1,0]$.
+Continuity, symmetry, nonnegativity, and unit integral imply that $K$
+is positive on a nonempty interval in $(0,1)$ and on its reflection.
+The polynomial Gram matrix on either half is positive definite:
+a nonzero polynomial cannot vanish on such an interval.  Its dimension
+$r+1$ is fixed.  The eigenvalue bounds for $f\bOmega$ therefore give
+the asserted uniform lower bound; the upper bound
+follows from boundedness of the basis and the kernel.
+The $L^1$ increment, between evaluation points $t$ and $s$, of each
+scalar kernel $u\mapsto K_h(u-t)((u-t)/h)^a$, $0\le a\le2r$,
+is at most $Ch^{-1}|t-s|$.
+Integrating against the operator-bounded $f\bOmega$ proves the
+increment bound. Operator-norm Lipschitz continuity of $f\bOmega$
+on $\mathcal T$ gives the stated expansion with $\bGamma_r(t,h)$,
+uniformly in $t$.  The inverse matrices have
+the same uniform operator bound and an $O(h^{-1})$ Lipschitz constant
+by the resolvent identity.
+\end{proof}
+
+For the Taylor remainder, put
+\[
+\begin{aligned}
+\br(t,u)&=\bbeta(u)-\sum_{a=0}^r
+\frac{\bbeta^{(a)}(t)}{a!}(u-t)^a,
+\\
+\ba_i(t)&=m_i^{-1}\sum_jK_h(T_{ij}-t)
+\bpsi_{ij}(t)\bX_{ij}^\trans\br(t,T_{ij}),
+\end{aligned}
+\]
+and $\ba_n=n^{-1}\sum_i\ba_i$. Each coordinate of $\br$ is bounded
+by $Ch^s$ on the kernel support, so
+$\|\br(t,u)\|_2\le C\sqrt p\,h^s$ there.
+
+\begin{lemma}[Uniform first and second moments]
+\label{lem:hd-concentration}
+Under Assumptions~\ref{ass:core}--\ref{ass:moments}, define
+\[
+\begin{gathered}
+\mathcal D_n=\sup_t\|\widehat{\bD}_h(t)-\bD_h(t)\|_{\mathrm{op}},\quad
+\mathcal U_n=\|\bar\bu\|_{\infty,\mathcal T},\\
+\mathcal A_n=\frac{\|\ba_n-\expect\{\ba_n\}\|_{2,\mathcal T}}
+{\sqrt p\,h^s}.
+\end{gathered}
+\]
+Then
+\[
+\expect(\mathcal D_n^2+\mathcal A_n^2)\le C\rho_n^2,
+\qquad \expect(\mathcal U_n^2)\le C\delta_n^2.
+\]
+Moreover,
+\[
+\|\expect\{\ba_n\}\|_{2,\mathcal T}\le C\sqrt p\,h^s.
+\]
+\end{lemma}
+
+\begin{proof}
+We first obtain a matrix variance bound from the existing coordinate
+moments and the upper eigenvalue bound for $\bOmega$. For every
+$\|\bv\|_2=1$, Minkowski's inequality gives
+$\|\bv^\trans\bX(u)\|_{L^{2q}}\le C\sqrt p$, whereas
+$\|\bv^\trans\bX(u)\|_{L^2}\le C$. Interpolation and H\"older's
+inequality therefore imply
+\[
+\begin{split}
+\expect\{X_k(u)^2(\bv^\trans\bX(u))^2\}
+&\le C\|\bv^\trans\bX(u)\|_{L^{2q/(q-1)}}^2
+\le Cp^{1/(q-1)},\\
+\left\|\expect\{\|\bX(u)\|_2^2\bX(u)\bX(u)^\trans\}
+\right\|_{\mathrm{op}}&\le Cp^{q/(q-1)}.
+\end{split}
+\]
+These bounds hold uniformly in $u$. The bounded, fixed-dimensional
+local polynomial basis preserves them up to a constant.
+
+Condition on a subject's trajectories and separate identical from
+distinct observation indices in the second moments. Identical indices
+contribute a kernel integral of order $h^{-1}$; distinct indices
+contribute bounded double integrals. For the latter, the squared
+conditional mean is bounded by the weighted integral of the squared
+mark. Explicitly, for a nonnegative weight $w$ and self-adjoint
+matrix $A(u)$,
+\[
+\left\{\int w(u)A(u)\,du\right\}^2
+\preceq\left\{\int w(u)\,du\right\}
+\int w(u)A(u)^2\,du.
+\]
+Apply this with $w(u)=K_h(u-t)f(u)$ and the matrix mark
+$\btheta_r\btheta_r^\trans\otimes\bX_i(u)\bX_i(u)^\trans$;
+the vector version applies to the Taylor mark.
+The matrix moment bound and
+$\|\br(t,u)\|_2\le C\sqrt p\,h^s$ thus give
+\[
+\begin{gathered}
+\left\|\expect\{(\bS_i(t)-\expect\bS_i(t))^2\}
+\right\|_{\mathrm{op}}
+\le Cp^{q/(q-1)}\{1+(m_i h)^{-1}\},\\
+\frac{\expect\|\ba_i(t)-\expect\ba_i(t)\|_2^2}{p h^{2s}}
+\le Cp^{q/(q-1)}\{1+(m_i h)^{-1}\}.
+\end{gathered}
+\]
+The subject envelopes of $\bS_i$ in spectral norm and of
+$\ba_i/(\sqrt p\,h^s)$ in Euclidean norm are at most
+$Ch^{-1}\sup_u\|\bX_i(u)\|_2^2$. Minkowski's inequality gives
+\[
+\left\|\sup_u\|\bX_i(u)\|_2^2\right\|_{L^q}
+\le\sum_{k=1}^p\left\|\sup_u|X_{ik}(u)|^2\right\|_{L^q}
+\le Cp.
+\]
+
+Use a uniform grid $\chi_n$ of mesh at most
+\[
+\Delta_n=n^{-8}h^{10}(pK_n)^{-8},
+\]
+Then $\log(2P|\chi_n|)\le CL_n$.
+For each subject, form a block diagonal matrix whose blocks are the
+centered design matrices at all grid points. Its spectral norm is
+the largest block norm, and the matrix variance parameter of the sum
+is at most $Cnp^{q/(q-1)}v_n^2$. Its largest summand has $L^2$ norm
+at most $Cpn^{1/q}/h$.
+The second-moment inequality in Theorem~I of
+\citet{tropp_expected_2016}, divided by $n$, yields
+\[
+\begin{aligned}
+&\left[\expect\max_{t\text{ on grid}}
+\|\widehat{\bD}_h(t)-\bD_h(t)\|_{\mathrm{op}}^2\right]^{1/2}\\
+&\le C\left\{p^{q/(2q-2)}v_n\sqrt{L_n/n}
++\frac{pL_n}{n^{1-1/q}h}\right\}=C\rho_n.
+\end{aligned}
+\]
+Apply the rectangular version of the same inequality to a block
+diagonal matrix with column blocks
+$\{\ba_i(t)-\expect\ba_i(t)\}/(\sqrt p\,h^s)$.
+Both matrix variance parameters are bounded by the displayed vector
+second moments. This proves the same grid bound for $\mathcal A_n$.
+
+For the score, every coordinate has envelope $CF_i/h$ and second
+moment at most $C\{1+(m_i h)^{-1}\}$. Applying Lemmas~E.1 and
+E.2(ii) of \citet{chernozhukov_central_2017} simultaneously to the
+score coordinates and grid points gives expected maximum at most
+$C\delta_n$ and, above twice that expectation, the tail bound
+\[
+\exp(-cnx^2/v_n^2)+
+\frac{Cn^{1-q}K_n^q}{h^q x^q},\qquad x>0.
+\]
+Integrating, with the polynomial term capped at one, gives the score
+second moment bound because $q>2$.
+
+The samplewise Lipschitz constants of the design in spectral norm
+and of $\ba_i/(\sqrt p\,h^s)$ in Euclidean norm are at most
+$CpF_i h^{-2}$; score coordinates have constants $CF_i h^{-2}$.
+For the Taylor term, use
+$|\partial_t r_k(t,u)|\le C|u-t|^r$ almost everywhere on the kernel
+support; for $r=0$, use the Lipschitz property of $\beta_k$.
+The compactly supported Lipschitz kernel gives the same increment
+bound across the support boundary. Thus interpolation errors have
+$L^2$ norm at most $CpK_n\Delta_n h^{-2}$, which is absorbed by the
+respective rates.
+Finally,
+\[
+\expect\{\ba_n(t)\}=\int K_h(u-t)
+\{\btheta_r((u-t)/h)\otimes\bOmega(u)\}\br(t,u)f(u)\,du.
+\]
+The operator bound for $\bOmega$, the bounded basis, and
+$\|\br(t,u)\|_2\le C\sqrt p\,h^s$ prove the last assertion.
+\end{proof}
+
+\begin{lemma}[Uniform linear representation]\label{lem:hd-linear}
+Suppose Assumptions~\ref{ass:core}--\ref{ass:moments} hold and
+$\rho_n\to0$. With probability tending to one,
+$\widehat{\bD}_h$ is invertible throughout $\mathcal T$, and
+\[
+\widehat{\bbeta}(t)-\bbeta(t)
+=n^{-1}\sum_i\bPsi_i(t)+\bR_n(t),\qquad t\in\mathcal T.
+\]
+Uniformly on this domain,
+\[
+\|\widehat{\bbeta}-\bbeta\|_2
+=O_P\{\sqrt p(\delta_n+h^s)\},\qquad
+\|\bR_n\|_{\max}
+=O_P\{\sqrt p(\rho_n\delta_n+h^s)\}.
+\]
+More precisely, there is an event $\mathcal E_n$ with
+$\prob(\mathcal E_n^c)\le C\rho_n^2$ such that, on this event,
+\[
+\begin{gathered}
+\sup_t\|\widehat{\bD}_h(t)^{-1}\|_{\mathrm{op}}\le C,\qquad
+\|\widehat{\bD}_h^{-1}-\bD_h^{-1}\|_{\mathrm{op},\mathcal T}
+\le C\mathcal D_n,\\
+\|\widehat{\bbeta}-\bbeta\|_{2,\mathcal T}
+\le C\sqrt p(\mathcal U_n+h^s),\qquad
+\|\bR_n\|_{\infty,\mathcal T}
+\le C\sqrt p\,\mathcal D_n\mathcal U_n+C\sqrt p\,h^s.
+\end{gathered}
+\]
+\end{lemma}
+
+\begin{proof}
+Let
+\[
+\mathcal E_n=\{\mathcal D_n\le c_D/2,\quad \mathcal A_n\le1\}.
+\]
+Lemma~\ref{lem:hd-concentration} and Markov's inequality give its
+exceptional probability.  Weyl's inequality and the resolvent
+identity give the two inverse bounds.  On $\mathcal E_n$,
+\[
+\|\ba_n\|_{2,\mathcal T}
+\le C\sqrt p\,h^s+\sqrt p\,h^s\mathcal A_n
+\le C\sqrt p\,h^s.
+\]
+The exact normal equation is
+\[
+\widehat{\bbeta}-\bbeta
+=\bL\widehat{\bD}_h^{-1}(\bar\bu+\ba_n).
+\]
+Here the Taylor coefficients are stacked with their factors
+$h^a/a!$, so their first block is exactly $\bbeta(t)$.
+Since $\|\bar\bu\|_2\le\sqrt P\,\mathcal U_n$, the estimation
+bound follows.  Subtracting $\bL\bD_h^{-1}\bar\bu$ yields
+\[
+\bR_n=\bL(\widehat{\bD}_h^{-1}-\bD_h^{-1})\bar\bu
++\bL\widehat{\bD}_h^{-1}\ba_n.
+\]
+Its first term is at most $C\sqrt p\,\mathcal D_n\mathcal U_n$ in
+Euclidean norm, and hence in maximum norm.  The second is at most
+$C\sqrt p\,h^s$ on $\mathcal E_n$. Lemma~\ref{lem:hd-concentration}
+also gives
+$\expect(\mathcal D_n\mathcal U_n)\le C\rho_n\delta_n$
+by Cauchy--Schwarz. This proves all assertions and the quantitative
+transfer bound used below.
+\end{proof}
+
+The preceding lemma proves Theorem~\ref{thm:linear}.
+
+\subsection{Covariance and its sampling components}\label{app:covariance-proof}
+
+\begin{lemma}[Covariance identity and variance order]
+\label{lem:hd-covariance}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance}, define
+\[
+\bA_h(t,u)=\bL\bD_h(t)^{-1}
+\{\btheta_r((u-t)/h)\otimes\bI_p\}K_h(u-t).
+\]
+Then the covariance of $n^{-1/2}\sum_i\bPsi_i$ is
+\[
+\begin{split}
+\bV_n(s,t)&=\kappa_{1,n}\bV_{h,d}(s,t)
++(1-\kappa_{1,n})\bV_{h,o}(s,t),\\
+\bV_{h,d}(s,t)&=\int\bA_h(s,u)\bC(u,u)\bA_h(t,u)^\trans f(u)\,du,\\
+\bV_{h,o}(s,t)&=\iint\bA_h(s,u)\bC(u,v)
+\bA_h(t,v)^\trans f(u)f(v)\,du\,dv.
+\end{split}
+\]
+Let $\be_0=(1,0,\ldots,0)^\trans$ and define
+\[
+\begin{gathered}
+K_{r,t,h}(z)=\be_0^\trans\bGamma_r(t,h)^{-1}
+\btheta_r(z)K(z)\mathbf1_{I_{t,h}}(z),\\
+\nu_r(t,h)=\int K_{r,t,h}(z)^2\,dz.
+\end{gathered}
+\]
+There are constants $0<c_\nu<C_\nu$ such that
+$c_\nu\le\nu_r(t,h)\le C_\nu$ uniformly in $t,h$.
+Uniformly on $\mathcal T$,
+\[
+\bV_n(t,t)=\left\{1-\kappa_{1,n}+
+\frac{\kappa_{1,n}\nu_r(t,h)}{h f(t)}\right\}\bV_F(t)
++O_{\mathrm{op}}(hv_n^2).
+\]
+In particular, with $\tau_k^2(t)=[\bV_n(t,t)]_{kk}$,
+\[
+cv_n^2\le\tau_k^2(t)\le Cv_n^2\qquad(t\in\mathcal T, k\le p).
+\]
+\end{lemma}
+
+\begin{proof}
+Expand the two subject sums.  Identical observation indices have
+score second moment $\bC(u,u)$; distinct indices have joint moment
+$\bC(u,v)$ and independent times with density $f(u)f(v)$.
+There are $m_i$ pairs of the first type and $m_i(m_i-1)$ of the
+second.  Averaging the identity over subjects gives the result.
+Both covariance components arise from the single functional error
+process; their distinction concerns observation indices.
+
+Lemma~\ref{lem:hd-population} and the operator inverse identity give,
+uniformly for $t\in\mathcal T$ and $z\in I_{t,h}$,
+\[
+h\bA_h(t,t+hz)=\frac{K_{r,t,h}(z)}{f(t)}\bOmega(t)^{-1}
++O_{\mathrm{op}}(h).
+\]
+The moment identity
+\[
+\bGamma_r(t,h)\be_0=\int_{I_{t,h}}\btheta_r(z)K(z)\,dz
+\]
+implies $\int K_{r,t,h}=1$. The uniform inverse bound for
+$\bGamma_r(t,h)$ gives $\nu_r(t,h)\le C$; Cauchy--Schwarz and
+$|I_{t,h}|\le2$ give $\nu_r(t,h)\ge1/2$.
+Changing variables in the two covariance integrals and using
+operator-norm Lipschitz continuity gives, uniformly on $\mathcal T$,
+\[
+\begin{aligned}
+\bV_{h,d}(t,t)&=\frac{\nu_r(t,h)}{hf(t)}\bV_F(t)
++O_{\mathrm{op}}(1),\\
+\bV_{h,o}(t,t)&=\bV_F(t)+O_{\mathrm{op}}(h).
+\end{aligned}
+\]
+The weighted error is at most $C(h+\kappa_{1,n})=Chv_n^2$.
+The coordinate variances of $\bV_F$ are bounded above by the
+operator bounds and below by assumption.  The scalar coefficient
+in braces is comparable to $1+\kappa_{1,n}/h$, uniformly over
+$0\le\kappa_{1,n}\le1$.  Absorbing the $O(hv_n^2)$ error proves
+the variance bounds.
+\end{proof}
+
+Write
+\[
+\bT(t)=\operatorname{diag}(\tau_1^2(t),\ldots,\tau_p^2(t)),\qquad
+\bM_i(t)=\bT(t)^{-1/2}\bPsi_i(t),
+\]
+and $\bQ_n(s,t)=n^{-1}\sum_i\expect\{\bM_i(s)\bM_i(t)^\trans\}$.
+Thus each coordinate of the matching Gaussian process has variance
+one, without any requirement that its full covariance be invertible.
+
+\subsection{Oracle moments and empirical covariance}
+
+\begin{lemma}[Subject moments and oracle covariance]
+\label{lem:hd-oracle-covariance}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance},
+\[
+\max_i\left\|\sup_{t\in\mathcal T}\|\bM_i(t)\|_\infty
+\right\|_{L^q}\le\frac{C\sqrt p K_n}{hv_n},\qquad
+\sup_{t,k}\frac1n\sum_i\expect\{|M_{ik}(t)|^4\}
+\le Cp^2\Lambda_n.
+\]
+Moreover,
+\[
+\expect\{R_{Q,n}\}\le Ce_n,\qquad
+R_{Q,n}=\left\|n^{-1}\sum_i\bM_i(s)\bM_i(t)^\trans
+-\bQ_n(s,t)\right\|_{\infty,\mathcal T^2}.
+\]
+For
+\[
+J_{i,kl}(t)=m_i^{-1}\sum_jK_h(T_{ij}-t)|X_{ijk}X_{ijl}|,
+\]
+define
+\[
+\mathcal J_n=\max\left\{
+\sup_{t,a}\frac1{nv_n^2}\sum_i u_{ia}(t)^2,
+\sup_{t,k,l}\frac1{nv_n^2}\sum_iJ_{i,kl}(t)^2\right\}.
+\]
+There is a fixed $C_J$ for which
+$\prob(\mathcal J_n>C_J)\le Ce_n$.
+\end{lemma}
+
+\begin{proof}
+Every row of $\bL\bD_h^{-1}$ has uniformly bounded Euclidean norm,
+so its sum of absolute entries is at most $C\sqrt p$.
+Since every score coordinate is bounded by $CF_i/h$, this proves
+the envelope bound.
+For any scalar score entry, expanding its fourth moment into groups
+with $d\in\{1,2,3,4\}$ distinct observation indices gives
+\[
+\expect\{|u_{ia}(t)|^4\}\le C\{1+(m_i h)^{-3}\}.
+\]
+Indeed, a time appearing $b$ times contributes
+$\int|K_h(u-t)|^b f(u)\,du\le Ch^{1-b}$, mixed fourth mark
+moments are uniformly bounded by H\"older's inequality, and the
+group contains at most $Cm_i^d$ terms.  Its contribution is at most
+$C(m_i h)^{d-4}$.  The same argument applies to $J_{i,kl}$.
+Minkowski's inequality and the $C\sqrt p$ row-sum bound therefore
+give a fourth moment at most $Cp^2\{1+(m_i h)^{-3}\}$ for each
+$\Psi_{ik}$.  Divide by $\tau_k^4\asymp v_n^4$ and average.
+
+For covariance products the average coordinate variance is at most
+$Cp^2\Lambda_n$, by Cauchy--Schwarz and the last bound. Their
+common envelope is $CpF_i^2/(h^2v_n^2)$, whose maximum over subjects
+has $L^2$ norm at most
+\[
+\frac{Cp}{h^2v_n^2}
+\left(\sum_i\expect\{F_i^q\}\right)^{2/q}
+\le\frac{Cp n^{2/q}K_n^2}{h^2v_n^2}.
+\]
+Applying the same expectation maximal inequality to all signed
+coordinate products and pairs of grid points gives
+\[
+\expect R_{Q,n}\le C\left\{p\sqrt{\Lambda_nL_n/n}
++\frac{pK_n^2L_n}{n^{1-2/q}h^2v_n^2}\right\}\le Ce_n.
+\]
+
+For completeness, interpolation here can also be controlled
+uniformly in $p$.  The weights satisfy
+\begin{align*}
+\int\|\bA_h(t,u)-\bA_h(s,u)\|_{\mathrm{op}}^2 f(u)\,du
+&\le Ch^{-3}|t-s|^2,\\
+\int\|\bA_h(t,u)-\bA_h(s,u)\|_{\mathrm{op}}f(u)\,du
+&\le Ch^{-1}|t-s|.
+\end{align*}
+These follow from the kernel increments and the $O(h^{-1})$
+Lipschitz bound for $\bD_h^{-1}$.  The covariance identity and the
+operator bound for $\bC$ imply
+\[
+\frac1n\sum_i\expect\{|\Psi_{ik}(t)-\Psi_{ik}(s)|^2\}
+\le Cv_n^2h^{-2}|t-s|^2.
+\]
+The reverse triangle inequality in this $L^2$ norm gives
+$|\tau_k(t)-\tau_k(s)|\le Cv_nh^{-1}|t-s|$.
+Consequently, samplewise on $\mathcal T$,
+\[
+\sup_k|M_{ik}(t)-M_{ik}(s)|
+\le\frac{C\sqrt p F_i}{v_nh^2}|t-s|.
+\]
+The expected covariance-product interpolation error is therefore
+at most $CpK_n^2\Delta_n/(h^3v_n^2)$, which is absorbed by $e_n$,
+since $e_n\ge p^{3/2}\delta_n\ge\sqrt{L_n/n}$.
+
+Finally, each coordinate of $\bu_i/v_n$ and $J_{i,kl}/v_n$ has
+average second moment bounded by a constant.  Their fourth moments
+and product envelopes obey the same calculation with the row-sum
+factor omitted (while keeping $L_n$ and $K_n$). Thus the expected
+maximum fluctuation of their empirical squares is at most
+\[
+C\left\{\sqrt{\Lambda_nL_n/n}
++\frac{K_n^2L_n}{n^{1-2/q}h^2v_n^2}\right\}\le Ce_n.
+\]
+Markov's inequality at a fixed threshold above the population
+second-moment bound proves the assertion about $\mathcal J_n$.
+\end{proof}
+
+\subsection{Fitted residuals and covariance control}
+
+Let $\widehat\varepsilon_{ij}=Y_{ij}-\bX_{ij}^\trans
+\widehat{\bbeta}(T_{ij})$, and define $\widehat\bu_i$ by replacing
+$\varepsilon_i(T_{ij})$ in $\bu_i$ by this fitted residual.  Put
+$\widehat{\bPsi}_i=\bL\widehat{\bD}_h^{-1}\widehat\bu_i$ and
+\[
+\widehat\sigma_k^2(t)=n^{-1}\sum_i\widehat\Psi_{ik}(t)^2,
+\quad
+\widehat{\bQ}_n(s,t)_{kl}=
+\frac{n^{-1}\sum_i\widehat\Psi_{ik}(s)\widehat\Psi_{il}(t)}
+{\widehat\sigma_k(s)\widehat\sigma_l(t)}.
+\]
+Let $\mathcal V_n$ be the event that $\widehat{\bD}_h$ is invertible
+on $\mathcal T$ and all fitted coordinate variances are positive
+on $\mathcal T$.  On this event define
+\[
+\vartheta_n=\sup_{t,k}\left|
+\frac{\widehat\sigma_k(t)}{\tau_k(t)}-1\right|,
+\qquad
+\Delta_{Q,n}=\|\widehat{\bQ}_n-\bQ_n\|_{\infty,\mathcal T^2}.
+\]
+Set both quantities to $+\infty$ on $\mathcal V_n^c$.
+
+\begin{lemma}[Quantitative feasible covariance]
+\label{lem:hd-feasible-covariance}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance}, if $e_n\to0$,
+then, for all sufficiently large $n$ and $0<u\le1/2$,
+\[
+\prob\{\vartheta_n+\Delta_{Q,n}>u\}\le Ce_n/u.
+\]
+In particular, $\prob(\mathcal V_n^c)\le Ce_n$ and the discrepancies
+are $O_P(e_n)$.  The fitted-score replacement obeys
+\[
+\sup_{t,k}\left[
+\frac1n\sum_i
+\left\{\frac{\widehat\Psi_{ik}(t)-\Psi_{ik}(t)}{\tau_k(t)}\right\}^2
+\right]^{1/2}
+=O_P\{p^{3/2}(\delta_n+h^s)\}.
+\]
+\end{lemma}
+
+\begin{proof}
+The condition $e_n\to0$ implies $p\delta_n\to0$ and hence
+$\rho_n\to0$, so
+Lemma~\ref{lem:hd-linear} applies.  Define
+\[
+\mathcal H_n=\mathcal E_n\cap\{R_{Q,n}\le1,
+\ \mathcal J_n\le C_J\}.
+\]
+Its complement has probability at most $C(\rho_n^2+e_n)$.
+Let $b_n^{\mathrm{fit}}=
+\|\widehat{\bbeta}-\bbeta\|_{2,\mathcal T}$ and
+$J_i^0(t)=\sum_kJ_{i,kk}(t)$.
+Uniform empirical invertibility gives, on $\mathcal H_n$,
+\[
+\sup_{t,k}\sum_{a=1}^P|[\bL\widehat{\bD}_h(t)^{-1}]_{ka}|
+\le\sqrt P\sup_t\|\bL\widehat{\bD}_h(t)^{-1}\|_{\mathrm{op}}
+\le C\sqrt p.
+\]
+The residual identity and weighted Cauchy--Schwarz give, for a score
+coordinate $a$ corresponding to predictor coordinate $k$,
+\[
+|\widehat u_{ia}(t)-u_{ia}(t)|
+\le b_n^{\mathrm{fit}}\{J_{i,kk}(t)J_i^0(t)\}^{1/2}.
+\]
+Since $J_i^0=\sum_lJ_{i,ll}$, the definition of $\mathcal J_n$ implies
+\[
+\begin{gathered}
+\sup_t\frac1{nv_n^2}\sum_i\|\bu_i(t)\|_2^2\le Cp,\\
+\sup_{t,a}\frac1{nv_n^2}\sum_i
+|\widehat u_{ia}(t)-u_{ia}(t)|^2
+\le Cp(b_n^{\mathrm{fit}})^2.
+\end{gathered}
+\]
+Indeed, each summand satisfies
+\[
+n^{-1}\sum_iJ_{i,kk}J_{i,ll}
+\le \{n^{-1}\sum_iJ_{i,kk}^2\}^{1/2}
+\{n^{-1}\sum_iJ_{i,ll}^2\}^{1/2}\le Cv_n^2.
+\]
+Use the exact decomposition
+\[
+\widehat{\bPsi}_i-\bPsi_i
+=\bL(\widehat{\bD}_h^{-1}-\bD_h^{-1})\bu_i
++\bL\widehat{\bD}_h^{-1}(\widehat\bu_i-\bu_i).
+\]
+Applying the empirical $L^2$ norm to each coordinate and using
+the empirical row-sum bound gives a fitted-score discrepancy at most
+\[
+\zeta_n=C\sqrt p\,\mathcal D_n
++Cp^{3/2}(\mathcal U_n+h^s),
+\]
+where we used $b_n^{\mathrm{fit}}\le C\sqrt p(\mathcal U_n+h^s)$.
+Lemma~\ref{lem:hd-concentration} and $\rho_n\lesssim p\delta_n$ give
+\[
+\expect\zeta_n\le Cp^{3/2}(\delta_n+h^s),\qquad
+\expect\zeta_n^2\le Cp^3(\delta_n+h^s)^2.
+\]
+No independence of fitted residuals and the fitting observations is
+used in these inequalities.
+
+Before dividing by fitted variances, write
+\[
+\mathcal W_n=\sup_{s,t,k,l}
+\left|\frac{n^{-1}\sum_i
+\widehat\Psi_{ik}(s)\widehat\Psi_{il}(t)}
+{\tau_k(s)\tau_l(t)}-[\bQ_n(s,t)]_{kl}\right|.
+\]
+On $\mathcal H_n$, the empirical oracle coordinate second moments
+are at most $2$, because $R_{Q,n}\le1$.  Expanding the difference
+of products and applying Cauchy--Schwarz therefore gives
+\[
+\begin{aligned}
+\mathcal W_n&\le R_{Q,n}+C\zeta_n+\zeta_n^2,\\
+\expect\{\mathbf1_{\mathcal H_n}\mathcal W_n\}
+&\le C\{e_n+p^3(\delta_n+h^s)^2\}\\
+&\le Ce_n.
+\end{aligned}
+\]
+The integrand is defined to be zero outside $\mathcal H_n$.
+If $\mathcal W_n$ is smaller than a fixed constant, its diagonal
+entries give positive fitted variances and fitted-to-oracle variance
+ratios in $[1/2,3/2]$.  The square-root and inverse square-root maps
+are Lipschitz on this interval.  Since $|[\bQ_n(s,t)]_{kl}|\le1$,
+\[
+\vartheta_n+\Delta_{Q,n}\le C\mathcal W_n
+\]
+on this event.  Consequently, for $0<u\le1/2$, Markov's inequality
+and the exceptional-probability bound give
+\[
+\prob\{\vartheta_n+\Delta_{Q,n}>u\}
+\le C(\rho_n^2+e_n)+Ce_n/u\le Ce_n/u.
+\]
+The last step uses $\rho_n^2\lesssim p^2\delta_n^2
+\le p^3(\delta_n+h^s)^2\le e_n$ for all sufficiently large $n$.
+This proves the tail bound, and the
+fitted-score rate follows from its samplewise bound on
+$\mathcal H_n$ and the vanishing exceptional probability.
+\end{proof}
+
+\section{Gaussian and bootstrap approximation}
+\label{app:hd-approximation}\label{app:approximation-proofs}
+
+Recall $L_n=\log(np/h)$, $s=r+1$, and let $\mathcal F_n$ denote the
+sigma-field generated by the observations. All conditional probabilities
+and expectations below condition on this sigma-field. Put
+\[
+ M_{ik}(t)=\Psi_{ik}(t)/\tau_k(t),\qquad
+ Z_{n,k}(t)=n^{-1/2}\sum_i M_{ik}(t),
+\]
+and write
+\[
+Q_n(u,t)=n^{-1}\sum_i\expect\{M_i(u)M_i(t)^\trans\}.
+\]
+The matching Gaussian process $G_n$, its supremum $S_{G,n}$, the
+statistics $T_n^\circ,T_n$, and the multiplier process and maximum
+$G_n^*,S_n^*$ are those defined in Section~\ref{sec:theory}.
+
+The preceding lemmas give the following inputs. With
+$F_i=1+\sup_t\|\bX_i(t)\|_\infty^2+
+\sup_t\|\bX_i(t)\varepsilon_i(t)\|_\infty$,
+we have $\|F_i\|_q\le CK_n$, where $1\le K_n\le Cp^{1/q}$.
+Lemma~\ref{lem:hd-covariance} gives $\tau_k(t)\asymp v_n$ uniformly.
+The subject moment bounds imply
+\begin{equation}
+ \left\|\max_k\sup_t|M_{ik}(t)|\right\|_q\le CH_n,
+ \qquad
+ \max_k\sup_t\frac1n\sum_i\expect\{M_{ik}(t)^4\}\le CA_n,
+ \label{eq:hd-standardized-inputs}
+\end{equation}
+where
+\[
+ H_n=\frac{\sqrt pK_n}{hv_n},\qquad
+ A_n=p^2\Lambda_n,\qquad
+ B_n=\max\{H_n,\sqrt{A_n}\}.
+\]
+The $\sqrt p$ row-sum bound for $\bL\bD_h^{-1}$ gives the score
+envelope, and Minkowski's inequality gives the fourth-moment factor
+$p^2$. These estimates use the general dimension bounds under the
+stated assumptions. Since $h^2v_n^2\le h^2+h\le3/4$,
+we have $H_n\ge1$, so a separate constant in the maximum defining
+$B_n$ is unnecessary.
+
+Use $\gamma_n,e_n$ from \eqref{eq:gaussian-rate} and
+\eqref{eq:bootstrap-covariance-scales}, and write
+\[
+ r_{n,1}=\frac{\sqrt{np}\,\rho_n\delta_n}{v_n},\qquad
+ r_{n,2}=\frac{\sqrt{np}\,h^s}{v_n}.
+\]
+The quantitative version of Lemma~\ref{lem:hd-linear}, including the
+event controlling the centered Taylor score, gives, for every $u>0$,
+\begin{equation}
+ \prob\!\left\{\left\|
+  \sqrt n\,\operatorname{diag}(\tau_k^{-1})(\wh\bbeta-\bbeta)
+  -Z_n\right\|_{\infty,\mathcal T}>Cr_{n,2}+u\right\}
+ \le C\rho_n^2+Cr_{n,1}/u.
+ \label{eq:hd-transfer-input}
+\end{equation}
+In particular, the smoothing term in this bound is deterministic on an
+event whose complement has probability at most $C\rho_n^2$;
+an assertion in probability about the smoothing remainder alone would
+not suffice for the coverage calculation below.
+
+Let $\mathcal V_n$ be the event of uniform empirical design
+invertibility and positive fitted variances. On its complement, extend
+$T_n,S_n^*,G_n^*$ by zero and use empty bands. The statistic $T_n^\circ$
+is extended by zero only when the empirical design fails to be uniformly
+invertible. On $\mathcal V_n$, write
+\[
+ \vartheta_n=\max_k\sup_t
+ \left|\frac{\widehat\sigma_k(t)}{\tau_k(t)}-1\right|,
+ \qquad
+ \Delta_{Q,n}=\|\widehat Q_n-Q_n\|_{\infty,\mathcal T^2},
+\]
+where
+$\widehat Q_n(s,t)=n^{-1}\sum_i
+ \widehat M_i(s)\widehat M_i(t)^\trans$ and
+$\widehat M_{ik}=\widehat\Psi_{ik}/\widehat\sigma_k$.
+Set both discrepancies to $+\infty$ on $\mathcal V_n^c$.
+Lemma~\ref{lem:hd-feasible-covariance} supplies the quantitative bound
+\begin{equation}
+ \prob(\vartheta_n+\Delta_{Q,n}>u)\le Ce_n/u,
+ \qquad 0<u\le1/2.
+ \label{eq:hd-covariance-tail-input}
+\end{equation}
+This is a bound on an unconditional probability over the observations;
+it is stronger than the corresponding $O_P(e_n)$ assertion.
+
+\subsection{A fine grid and continuous Gaussian processes}
+
+Choose a regular grid $\chi_n\subset\mathcal T$ containing the endpoints
+and having mesh at most
+\[
+ \Delta_n=n^{-8}h^{10}(pK_n)^{-8},\qquad
+ \epsilon_n=n^{-2}L_n^{-1/2}.
+\]
+Its cardinality $|\chi_n|$ can be chosen of order $1+\Delta_n^{-1}$.
+Since $K_n\le Cp^{1/q}$,
+\begin{equation}
+ \log(2p|\chi_n|)\le CL_n.
+ \label{eq:hd-grid-size}
+\end{equation}
+Thus no polynomial lower bound on $h$ is needed. Let $\pi_n(t)$ be the
+nearest grid point to the left, with the right endpoint mapped to itself,
+and put
+$\omega_n(W)=\max_k\sup_t|W_k(t)-W_k(\pi_n(t))|$.
+
+\begin{lemma}[Oracle increments and discretization]
+\label{lem:hd-grid}
+There is a continuous version of $G_n$. Moreover,
+\begin{align}
+ \expect\{\omega_n(Z_n)\}&\le
+ C\sqrt{np}\,K_n h^{-2}\Delta_n/v_n,\label{eq:hd-score-grid-mean}\\
+ \expect\{\omega_n(G_n)\}&\le
+ Ch^{-1}\Delta_n\sqrt{L_n},\label{eq:hd-gaussian-grid-mean}\\
+ \prob\{\omega_n(Z_n)>\epsilon_n\}
+ +\prob\{\omega_n(G_n)>\epsilon_n\}&\le Cn^{-1}.
+ \label{eq:hd-oracle-grid-prob}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+The kernel and population inverse satisfy the uniform bounds
+$\|\bD_h(t)^{-1}\|_{\mathrm{op}}\le C$ and
+$\|\bD_h(t)^{-1}-\bD_h(s)^{-1}\|_{\mathrm{op}}
+ \le C|t-s|/h$.
+These follow from population invertibility and the $L^1$ increment
+bound for the kernel weights, using the operator bounds on the design
+covariance. The score envelopes consequently give
+\[
+ \max_k|\Psi_{ik}(t)|\le C\sqrt pF_i/h,
+ \qquad
+ \max_k|\Psi_{ik}(t)-\Psi_{ik}(s)|
+ \le C\sqrt pF_i h^{-2}|t-s|.
+\]
+For completeness, the exact covariance calculation also gives
+\begin{equation}
+ \frac1n\sum_i\expect\{|\Psi_{ik}(t)-\Psi_{ik}(s)|^2\}
+ \le C\{\kappa_{1,n}h^{-3}+h^{-2}\}|t-s|^2
+ =Cv_n^2h^{-2}|t-s|^2.
+ \label{eq:hd-oracle-l2-increments}
+\end{equation}
+To verify this, separate equal and distinct observation indices. For
+$|t-s|\le h$, the squared $L^2$ norm of the difference of the two
+coefficient-weight kernels is at most $Ch^{-3}|t-s|^2$, and its
+$L^1$ norm is at most $Ch^{-1}|t-s|$. The diagonal and off-diagonal
+covariance integrals are therefore bounded by the two terms in
+\eqref{eq:hd-oracle-l2-increments}, respectively, using the operator
+bound on the score covariance. For $|t-s|>h$, the variance bound
+$\tau_k^2\le Cv_n^2$ yields the same inequality.
+
+The reverse triangle inequality in the Hilbert space with squared norm
+$n^{-1}\sum_i\expect\{(\cdot)^2\}$ now implies
+$|\tau_k(t)-\tau_k(s)|\le Cv_nh^{-1}|t-s|$.
+Together with $\tau_k\ge cv_n$, this gives
+\begin{align}
+ \max_k|M_{ik}(t)-M_{ik}(s)|
+ &\le C\sqrt pF_i(v_nh^2)^{-1}|t-s|,
+ \label{eq:hd-oracle-path-increments}\\
+ \frac1n\sum_i\expect\{|M_{ik}(t)-M_{ik}(s)|^2\}
+ &\le Ch^{-2}|t-s|^2.
+ \label{eq:hd-oracle-canonical-increments}
+\end{align}
+Summing the first inequality and taking expectations proves
+\eqref{eq:hd-score-grid-mean}. The covariance $Q_n$ is positive
+semidefinite because it is an average of covariance kernels. Thus it
+defines a Gaussian process. Equation~\eqref{eq:hd-oracle-canonical-increments}
+and the Gaussian fourth-moment identity give a continuous version by
+the Kolmogorov continuity criterion.
+
+Refine every interval of $\chi_n$ dyadically. At refinement level $j$,
+there are at most $Cp|\chi_n|2^j$ relevant coordinate increments, each
+with standard deviation at most $Ch^{-1}\Delta_n2^{-j}$.
+The Gaussian maximal inequality and summation over $j\ge0$ give
+\[
+ \expect\{\omega_n(G_n)\}
+ \le Ch^{-1}\Delta_n\sum_{j\ge0}2^{-j}
+       \sqrt{\log(2p|\chi_n|)+j}
+ \le Ch^{-1}\Delta_n\sqrt{L_n}.
+\]
+Markov's inequality proves \eqref{eq:hd-oracle-grid-prob}.
+For example, $L_n\le Cnp/h$, $p,K_n,v_n\ge1$, and $h\le1$ show
+that each expectation in
+\eqref{eq:hd-score-grid-mean}--\eqref{eq:hd-gaussian-grid-mean},
+divided by $\epsilon_n$, is at most $Cn^{-1}$.
+\end{proof}
+
+The same grid suffices for the expected empirical covariance bounds.
+Indeed, \eqref{eq:hd-oracle-path-increments} and the subject envelopes
+bound increments of $M_{ik}(s)M_{il}(t)$ by
+$CpF_i^2(v_n^2h^3)^{-1}$ times the distance between the two
+time pairs. Their expected interpolation error is at most
+$CpK_n^2(v_n^2h^3)^{-1}\Delta_n$ and is absorbed by $e_n$.
+The logarithm of the number of coordinate-grid pairs is still $O(L_n)$.
+
+\begin{lemma}[Gaussian supremum bounds]
+\label{lem:hd-gaussian-supremum}
+The distribution function $F_G(z)=\prob(S_{G,n}\le z)$ is continuous and
+\[
+ \expect\{S_{G,n}\}\le C\sqrt{L_n},\qquad
+ \sup_z\prob(z<S_{G,n}\le z+u)\le Cu\sqrt{L_n}\quad(u>0).
+\]
+For $0<u\le1/2$,
+\begin{equation}
+ \sup_{z\ge0}|F_G((1\pm u)z)-F_G(z)|
+ \le C(uL_n+n^{-1}).
+ \label{eq:hd-gaussian-scale-shift}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Every coordinate variance equals one. The Gaussian maximal inequality
+on the signed grid and Lemma~\ref{lem:hd-grid} give
+\[
+\expect\{S_{G,n}\}\le\sqrt{2\log(2p|\chi_n|)}+\expect\{\omega_n(G_n)\}
+ \le C\sqrt{L_n}.
+\]
+Apply the equal-variance anti-concentration inequality in Theorem~3(i)
+of \citet{chernozhukov_comparison_2015} to signed coordinates on
+successively finer nested grids. Their maxima increase almost surely
+to $S_{G,n}$ and their expectations are bounded by $\expect\{S_{G,n}\}$.
+Taking limits gives the displayed anti-concentration bound and hence
+continuity of $F_G$.
+The Gaussian union bound on $\chi_n$, followed by
+\eqref{eq:hd-oracle-grid-prob}, gives
+$\prob(S_{G,n}>C_0\sqrt{L_n})\le Cn^{-1}$ for a fixed sufficiently large
+$C_0$. For $z\le2C_0\sqrt{L_n}$, anti-concentration bounds a
+multiplicative shift by $CuL_n$. For larger $z$, both thresholds
+exceed $C_0\sqrt{L_n}$, giving \eqref{eq:hd-gaussian-scale-shift}.
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:gaussian}}
+
+Stack both signs of the values of $M_i$ on $\chi_n$. These independent,
+centered vectors have dimension $2p|\chi_n|$, average coordinate variances
+one, average coordinate fourth moments at most $CA_n\le CB_n^2$,
+and $q$th moments of their maximum norm at most $CH_n^q\le CB_n^q$.
+Theorem~2.5 of \citet{chernozhukov_et_al_2022}, applied to this signed
+vector, and \eqref{eq:hd-grid-size} therefore give
+\[
+\begin{aligned}
+&\sup_z\left|\prob(\|Z_n\|_{\chi_n}\le z)
+             -\prob(\|G_n\|_{\chi_n}\le z)\right|\\
+&\quad\le C\left\{\left(\frac{B_n^2L_n^5}{n}\right)^{1/4}
++\frac{B_nL_n^{3/2-1/q}}{n^{1/2-1/q}}\right\}\le C\gamma_n.
+\end{aligned}
+\]
+This theorem permits singular full covariance matrices. Its variance
+condition is a coordinatewise condition, satisfied here by normalization.
+Lemma~\ref{lem:hd-grid} replaces grid maxima by continuous suprema.
+The resulting shifts are at most $2\epsilon_n$, costing
+$C\epsilon_n\sqrt{L_n}=Cn^{-2}$ by
+Lemma~\ref{lem:hd-gaussian-supremum}. Since $B_n\ge1$ and
+$L_n\ge\log2$, the first term of $\gamma_n$ absorbs $n^{-1}$.
+Consequently,
+\begin{equation}
+ \sup_z|\prob(\|Z_n\|_{\infty,\mathcal T}\le z)-F_G(z)|
+ \le C\gamma_n.
+ \label{eq:hd-oracle-gaussian-proof}
+\end{equation}
+
+For the estimator, combine \eqref{eq:hd-transfer-input} with
+\eqref{eq:hd-oracle-gaussian-proof} and Gaussian anti-concentration.
+For any $u>0$, the resulting bound is
+\[
+ C\{\gamma_n+\rho_n^2+r_{n,1}/u
+                  +(r_{n,2}+u)\sqrt{L_n}\}.
+\]
+Choose $u=(r_{n,1}/\sqrt{L_n})^{1/2}$. The definition of
+$\gamma_n$ includes the resulting term
+$(r_{n,1}\sqrt{L_n})^{1/2}$ and the bias term
+$r_{n,2}\sqrt{L_n}$. Also,
+\[
+r_{n,1}\sqrt{L_n}
+=\frac{\sqrt{npL_n}\,\rho_n\delta_n}{v_n}
+\ge\sqrt p\,L_n\rho_n,
+\]
+because $\delta_n\ge v_n\sqrt{L_n/n}$. Since $\rho_n\to0$,
+$\rho_n^2\lesssim(r_{n,1}\sqrt{L_n})^{1/2}$ for all sufficiently
+large $n$. Thus the exceptional-event probability is absorbed, giving
+\begin{equation}
+ \sup_z|\prob(T_n^\circ\le z)-F_G(z)|\le C\gamma_n.
+ \label{eq:hd-estimator-gaussian-proof}
+\end{equation}
+
+\subsection{Conditional bootstrap discretization}
+
+\begin{lemma}[Quantitative conditional discretization]
+\label{lem:hd-bootstrap-grid}
+Let
+\[
+r_n=\prob\{\omega_n(G_n^*)>\epsilon_n\mid\mathcal F_n\},
+\]
+with the zero extension already specified. Under the covariance and
+linearization rate conditions,
+\begin{equation}
+ \prob(r_n>n^{-1})\le C(e_n+n^{-1}),\qquad
+ r_n=O_P(n^{-1}).
+ \label{eq:hd-bootstrap-grid-tail}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $b_n=\sup_{t\in\mathcal T}
+ \|\wh\bbeta(t)-\bbeta(t)\|_2$ and
+$\overline F_a=n^{-1}\sum_i F_i^a$ for $a=1,2$.
+Use the event $\mathcal H_n$ on which the empirical inverse is uniformly
+bounded, $\vartheta_n\le1/2$, and $\sqrt p b_n\le1$.
+The quantitative linearization and covariance lemmas give
+\begin{equation*}
+ \prob(\mathcal H_n^c)\le Ce_n.
+\end{equation*}
+In particular, the truncated first moment bound
+$\expect[\mathbf1_{\mathcal E_n}b_n]
+ \le C\sqrt p(\delta_n+h^s)$ on the design event gives
+$\prob(\mathcal E_n\cap\{\sqrt p b_n>1\})
+ \le Cp(\delta_n+h^s)\le Ce_n$.
+
+On $\mathcal H_n$, the samplewise residual identity gives
+\[
+ \|\bX_{ij}\widehat\varepsilon_{ij}\|_2
+ \le\|\bX_{ij}\varepsilon_{ij}\|_2+\|\bX_{ij}\|_2^2 b_n
+ \le C\sqrt pF_i.
+\]
+Residuals are fixed as the evaluation point varies. The kernel increment
+bound and the empirical inverse identity therefore imply
+\begin{align*}
+ \|\wh\bu_i(t)-\wh\bu_i(s)\|_2
+ &\le C\sqrt pF_i h^{-2}|t-s|,\\
+ \|\wh{\bD}_h(t)^{-1}-\wh{\bD}_h(s)^{-1}\|_{\mathrm{op}}
+ &\le Cp\overline F_1h^{-2}|t-s|,\\
+ \max_k|\widehat\Psi_{ik}(t)-\widehat\Psi_{ik}(s)|
+ &\le Cp^{3/2}(1+\overline F_1)F_i h^{-3}|t-s|.
+\end{align*}
+Thus, with
+$D_n=Cp^{3/2}(1+\overline F_1)\overline F_2^{1/2}h^{-3}$,
+the empirical $L^2$ norm of each fitted contribution increment is at
+most $D_n|t-s|$. The reverse triangle inequality for this empirical
+norm also gives $|\widehat\sigma_k(t)-\widehat\sigma_k(s)|
+ \le D_n|t-s|$. Since $\widehat\sigma_k\ge cv_n$ on
+$\mathcal H_n$, direct normalization yields
+\[
+ \left[\expect\{(G_{n,k}^*(t)-G_{n,k}^*(s))^2
+                  \mid\mathcal F_n\}\right]^{1/2}
+ \le C D_n|t-s|/v_n.
+\]
+This argument avoids differentiating the estimated variance and retains
+the same observations used in the residual fit.
+
+Conditionally, the process is Gaussian and is continuous on
+$\mathcal V_n$. The dyadic argument in Lemma~\ref{lem:hd-grid} gives,
+on $\mathcal H_n$,
+\[
+ \expect\{\omega_n(G_n^*)\mid\mathcal F_n\}
+ \le CD_n\Delta_n\sqrt{L_n}/v_n.
+\]
+Since $\overline F_1\le\overline F_2^{1/2}$,
+$\expect\{(1+\overline F_1)\overline F_2^{1/2}\}
+ \le CK_n^2$. Conditional Markov's inequality and then unconditional
+Markov's inequality give
+\begin{align*}
+ \prob(r_n>n^{-1})
+ &\le\prob(\mathcal H_n^c)
+       +n\expect(\mathbf1_{\mathcal H_n}r_n)\\
+ &\le Ce_n+
+ Cn\epsilon_n^{-1}p^{3/2}K_n^2h^{-3}\Delta_n\sqrt{L_n}/v_n\\
+ &\le C(e_n+n^{-1}).
+\end{align*}
+The final inequality follows directly from the chosen mesh and
+$L_n\le Cnp/h$. The same calculation shows $r_n=O_P(n^{-1})$ because
+$\prob(\mathcal H_n^c)\to0$.
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:bootstrap}}
+
+On $\mathcal V_n$, conditional on the observations,
+\[
+ \expect\{G_n^*(s)G_n^*(t)^\trans\mid\mathcal F_n\}
+ =\widehat Q_n(s,t).
+\]
+In particular, every conditional coordinate variance is one; centering
+the fitted contributions across subjects is not required for this
+identity. Proposition~2.1 of \citet{chernozhukov_et_al_2022}, applied
+conditionally to the signed grid vectors, gives
+\[
+ \sup_z\left|\prob(\|G_n^*\|_{\chi_n}\le z\mid\mathcal F_n)
+             -\prob(\|G_n\|_{\chi_n}\le z)\right|
+ \le C(\Delta_{Q,n}L_n^2)^{1/2}.
+\]
+The result permits singular covariance matrices, including the empirical
+bootstrap covariance. Discretization and Gaussian anti-concentration
+give the samplewise bound
+\begin{equation}
+ \sup_z|\prob(S_n^*\le z\mid\mathcal F_n)-F_G(z)|
+ \le C\{(\Delta_{Q,n}L_n^2)^{1/2}+n^{-1}\}+r_n
+ \quad\hbox{on }\mathcal V_n.
+ \label{eq:hd-bootstrap-continuous-comparison}
+\end{equation}
+Equations~\eqref{eq:hd-covariance-tail-input} and
+\eqref{eq:hd-bootstrap-grid-tail} prove the conditional approximation
+rate $O_P(\sqrt{e_n}\,L_n)$. Here
+$e_n\ge p^{3/2}\delta_n\ge\sqrt{L_n/n}$ implies
+$n^{-1}\lesssim\sqrt{e_n}\,L_n$, so the discretization term is
+absorbed in the stated rate.
+
+We also need an unconditional approximation for the feasible statistic.
+On $\{\vartheta_n\le u\}$, where $0<u\le1/2$,
+$T_n^\circ/(1+u)\le T_n\le T_n^\circ/(1-u)$.
+Using \eqref{eq:hd-covariance-tail-input},
+\eqref{eq:hd-estimator-gaussian-proof}, and
+\eqref{eq:hd-gaussian-scale-shift} at deterministic thresholds gives
+\[
+ \sup_z|\prob(T_n\le z)-F_G(z)|
+ \le C\{\gamma_n+e_n/u+uL_n+n^{-1}\}.
+\]
+Taking $u=(e_n/L_n)^{1/2}$ proves
+\begin{equation}
+ \sup_z|\prob(T_n\le z)-F_G(z)|
+ \le C\{\gamma_n+(e_nL_n)^{1/2}\}.
+ \label{eq:hd-feasible-gaussian-proof}
+\end{equation}
+The triangle inequality now yields
+\[
+ \sup_z|\prob(T_n\le z)-\prob(S_n^*\le z\mid\mathcal F_n)|
+ =O_P\{\gamma_n+(e_nL_n^2)^{1/2}\}.
+\]
+All stochastic orders here are over the observations; the conditional
+distribution is explicitly evaluated given $\mathcal F_n$.
+
+\subsection{Proof of Theorem~\ref{thm:coverage}}
+
+For $0<u\le1/2$, put
+$a_n(u)=C_0\{(uL_n^2)^{1/2}+n^{-1}\}$, with $C_0$ sufficiently large.
+Equations~\eqref{eq:hd-bootstrap-continuous-comparison},
+\eqref{eq:hd-covariance-tail-input}, and
+\eqref{eq:hd-bootstrap-grid-tail} imply the deterministic tail bound
+\begin{equation}
+ \prob\!\left\{\sup_z|\prob(S_n^*\le z\mid\mathcal F_n)-F_G(z)|
+                   >a_n(u)\right\}
+ \le C\{e_n/u+n^{-1}\}.
+ \label{eq:hd-bootstrap-cdf-tail}
+\end{equation}
+In particular, this step does not substitute an $O_P$ statement into an
+unconditional coverage probability.
+
+Let $q_G(v)=\inf\{z:F_G(z)\ge v\}$ and define the conditional bootstrap
+quantile $\widehat q_v$ by the same generalized-inverse convention.
+On the event in \eqref{eq:hd-bootstrap-cdf-tail} where the supremum
+distance is at most $a=a_n(u)$,
+\begin{equation}
+ q_G(v-a)\le\widehat q_v\le q_G(v+a),\qquad a<v<1-a.
+ \label{eq:hd-quantile-bracket}
+\end{equation}
+For the lower inequality, if $z<q_G(v-a)$, then
+$F_G(z)<v-a$ and the conditional bootstrap distribution is less than
+$v$ at $z$. For the upper inequality, continuity of $F_G$ gives
+$F_G\{q_G(v+a)\}=v+a$, so the conditional bootstrap distribution
+is at least $v$ there. These arguments require no strict monotonicity
+of either distribution function.
+
+For fixed $\alpha\in(0,1)$, apply \eqref{eq:hd-quantile-bracket} at
+$v=1-\alpha$ and apply \eqref{eq:hd-feasible-gaussian-proof} at the
+two resulting deterministic thresholds. The probability of the
+exceptional event in \eqref{eq:hd-bootstrap-cdf-tail} is added explicitly.
+This gives
+\begin{align*}
+ \left|\prob(T_n\le\widehat q_{1-\alpha})-(1-\alpha)\right|
+ \le C\{\gamma_n+(e_nL_n)^{1/2}
+                  +e_n/u+\sqrt uL_n+n^{-1}\}.
+\end{align*}
+If the total bound is small, take $u=(e_n/L_n)^{2/3}$; otherwise the
+claimed bound follows by increasing its constant. Since
+$e_nL_n^2\to0$, this choice is eventually at most $1/2$ and
+$a_n(u)<\min(\alpha,1-\alpha)$. The last display becomes
+\[
+ \left|\prob(T_n\le\widehat q_{1-\alpha})-(1-\alpha)\right|
+ \le C\{\gamma_n+(e_nL_n^2)^{1/3}\}.
+\]
+Here $(e_nL_n)^{1/2}$ is absorbed by $(e_nL_n^2)^{1/3}$ for all
+sufficiently large $n$. On $\mathcal V_n$, the event on the left is
+exactly simultaneous coverage over all times and coordinates. The
+probability of $\mathcal V_n^c$ is at most $Ce_n$ by
+\eqref{eq:hd-covariance-tail-input}, and is absorbed by the same bound
+for any fixed convention for the bands on that event.
+
+\section{Sampling frequency, dimension, and bandwidth}
+\label{sec:sampling-density}\label{app:regime-proofs}
+
+This section records consequences of the main results and sharper inputs
+when observation counts are comparable. They are supplementary to the
+linearization, approximation, and coverage argument in the main article.
+
+\subsection{Approximation rates across sampling frequencies}
+\label{sec:phase-transitions}\label{app:refined-sampling-bounds}
+
+Suppose $c_m m\le m_i\le C_m m$ for fixed positive constants $c_m,C_m$.
+Writing $m_{H,n}=\kappa_{1,n}^{-1}$, define the effective sample size by
+\begin{equation}
+N_n=\frac{n}{v_n^2}=\frac{n}{1+(m_{H,n}h)^{-1}}
+\asymp n\min(1,mh).
+\label{eq:effective-sample-size}
+\end{equation}
+Thus the scale changes from the number of observations in local windows,
+$nmh$, to the number of independent subjects, $n$. To preserve this
+dependence in the approximation bounds, set
+\begin{equation*}
+\begin{aligned}
+\delta_n^\dagger&=\sqrt{\frac{L_n}{N_n}}
++\frac{K_n n^{1/q}L_n^2}{N_n},\\
+\rho_n^\dagger&=p^{q/(2q-2)}\sqrt{\frac{L_n}{N_n}}
++\frac{p n^{1/q}L_n^2}{N_n},\\
+B_n^\dagger&=v_n\max\{p,\sqrt p\,K_nL_n\},\\
+e_n^\dagger&=\frac{pK_n^2 n^{2/q}L_n^3}{N_n}
++p^{3/2}(\delta_n^\dagger+h^s).
+\end{aligned}
+\end{equation*}
+Let $\gamma_n^\dagger$ be defined by
+\eqref{eq:gaussian-rate} with $B_n^\dagger,\delta_n^\dagger,\rho_n^\dagger$
+in place of $B_n,\delta_n,\rho_n$.
+
+\begin{proposition}[Sampling-dependent approximation bounds]
+\label{prop:sampling-rates}
+Under Assumptions~\ref{ass:core}--\ref{ass:covariance} and comparable counts,
+Theorems~\ref{thm:linear}--\ref{thm:coverage} hold with each rate
+replaced by its dagger version, under the corresponding rate conditions.
+\end{proposition}
+
+\begin{proof}
+Let $H_i(t)=m_i^{-1}\sum_jK_h(T_{ij}-t)$.
+Partition $[0,1]$ into intervals of length between $h/2$ and $h$.
+Each kernel window intersects at most six intervals. Bernstein's inequality
+for their binomial counts and a union bound give
+\[
+\left\|\sup_t H_i(t)\right\|_{L^q}
+\le C\left\{1+\frac{\log(1/h)}{m_i h}\right\}
+\le CL_n v_n^2.
+\]
+For example, the maximum bin count exceeds
+$C\{m_i h+\log(1/h)+z\}$ with probability at most $e^{-z}$;
+integration proves the displayed moment bound.
+The envelope $F_i$ in Assumption~\ref{ass:moments} is independent of these
+counts. Every design or score entry is bounded by $CF_i H_i(t)$, so its
+supremum has $L^q$ norm at most $CK_nL_n v_n^2$.
+The coordinate variance remains at most $Cv_n^2$.
+The score maximal inequalities in Lemma~\ref{lem:hd-concentration}
+therefore give $\delta_n^\dagger$. The spectral design and normalized
+Euclidean Taylor envelopes are at most $CpL_n v_n^2$ in $L^q$,
+using independence of $\sup_u\|\bX_i(u)\|_2^2$ and the observation
+counts in the windows. Their matrix variance bounds remain
+$Cp^{q/(q-1)}v_n^2$.
+The matrix second-moment inequality thus gives $\rho_n^\dagger$.
+
+The standardized contribution envelope is at most
+$C\sqrt pK_nL_n v_n$. Furthermore,
+\[
+\Lambda_n\lesssim
+\frac{1+(mh)^{-3}}{\{1+(mh)^{-1}\}^2}\lesssim v_n^2,
+\]
+so its coordinate fourth moments are at most $Cp^2v_n^2$.
+These give the Gaussian approximation input $B_n^\dagger$ and
+an empirical covariance bound of order
+\[
+p\sqrt{L_n/N_n}+\frac{pK_n^2n^{2/q}L_n^3}{N_n}.
+\]
+The first term is absorbed by $p^{3/2}\delta_n^\dagger$.
+The samplewise residual discrepancy bounds are unchanged, giving
+$e_n^\dagger$. The original increment
+bounds remain available for interpolation. Substitution into the approximation and quantile proofs
+establishes the proposition.
+\end{proof}
+
+In particular, the leading Gaussian term is
+\[
+\left\{\frac{\max(p^2,pK_n^2L_n^2)L_n^5}{N_n}\right\}^{1/4},
+\]
+and the bias term is $\sqrt{pN_nL_n}\,h^s$.
+The expressions separate the effects of observation frequency and dimension.
+Once $mh$ is bounded away from zero, increasing the observation count no
+longer changes the polynomial order of $N_n$; dimension and smoothing still
+affect accuracy. This is a statement about the displayed sufficient bounds,
+not an optimality assertion.
+
+\begin{proof}[Proof of Corollary~\ref{cor:fixedp-phase}]
+With $m_i=m$, \eqref{eq:effective-sample-size} gives
+$N_n=n/(1+(mh)^{-1})\asymp n\wedge(nmh)$ and $m_{H,n}=m$.
+Also $K_n\le C$, and $h\ge n^{-A}$ implies $L_n\asymp\log n$.
+The two balances in \eqref{eq:fixedp-phase-conditions} therefore give
+\begin{equation}
+N_n\gtrsim n^{4/q}L_n^{3-4/q},\qquad
+N_n^{3/4}h^s\lesssim L_n^{5/4}.
+\label{eq:fixedp-phase-proof-balances}
+\end{equation}
+In particular $N_n$ grows at least polynomially, and the refined inputs
+satisfy
+\[
+\delta_n^\dagger+\rho_n^\dagger
+\le C\left\{\sqrt{\frac{L_n}{N_n}}
++\frac{n^{1/q}L_n^2}{N_n}\right\},\qquad
+B_n^\dagger\le Cv_nL_n.
+\]
+The first balance implies $\rho_n^\dagger\to0$.
+Substitution into the first two terms of
+\eqref{eq:gaussian-rate}, using $n/v_n^2=N_n$, gives
+\begin{align*}
+\left(\frac{(B_n^\dagger)^2L_n^5}{n}\right)^{1/4}
+&\le C\left(\frac{L_n^7}{N_n}\right)^{1/4},\\
+\frac{B_n^\dagger L_n^{3/2-1/q}}{n^{1/2-1/q}}
+&\le\frac{Cn^{1/q}L_n^{5/2-1/q}}{\sqrt{N_n}}.
+\end{align*}
+The stochastic linearization term is at most
+\[
+\begin{aligned}
+\left(\frac{\sqrt{npL_n}\,
+\rho_n^\dagger\delta_n^\dagger}{v_n}\right)^{1/2}
+&\le C(N_nL_n)^{1/4}
+\left\{\sqrt{\frac{L_n}{N_n}}
++\frac{n^{1/q}L_n^2}{N_n}\right\}\\
+&=C\left\{\frac{L_n^{3/4}}{N_n^{1/4}}
++\frac{n^{1/q}L_n^{9/4}}{N_n^{3/4}}\right\}.
+\end{aligned}
+\]
+Since $q\ge4$ and $L_n,N_n\ge1$ eventually, the first term is bounded
+by $C(L_n^7/N_n)^{1/4}$ and the second by
+$Cn^{1/q}L_n^{5/2-1/q}/\sqrt{N_n}$. The bias term is
+$O(\sqrt{N_nL_n}\,h^s)$. Finally,
+\[
+\frac{n^{1/q}L_n^{5/2-1/q}/\sqrt{N_n}}
+{(L_n^7/N_n)^{1/4}}
+=\left(\frac{n^{4/q}L_n^{3-4/q}}{N_n}\right)^{1/4},
+\]
+so the first balance in \eqref{eq:fixedp-phase-proof-balances} absorbs
+the finite-moment term. The second balance also gives
+\[
+\sqrt{N_nL_n}\,h^s
+\lesssim\frac{L_n^{7/4}}{N_n^{1/4}}.
+\]
+Thus $\gamma_n^\dagger\lesssim(L_n^7/N_n)^{1/4}\to0$.
+Proposition~\ref{prop:sampling-rates} and the substitutions
+$N_n\asymp n\wedge(nmh)$, $L_n\asymp\log n$ prove
+\eqref{eq:fixedp-phase-clt}.
+
+To verify that these same conditions also suffice for band coverage,
+use the definition of $e_n^\dagger$ and fixed $p,K_n$ to obtain
+\[
+e_n^\dagger L_n^2\le C\left\{
+\frac{L_n^{5/2}}{\sqrt{N_n}}
++\frac{n^{2/q}L_n^5}{N_n}+L_n^2h^s\right\}.
+\]
+Here the term $n^{1/q}L_n^4/N_n$ from
+$\delta_n^\dagger L_n^2$ is bounded by the displayed second term.
+By \eqref{eq:fixedp-phase-proof-balances}, the three displayed terms
+are bounded, respectively, by constant multiples of
+\[
+n^{-2/q}L_n^{1+2/q},\qquad
+n^{-2/q}L_n^{2+4/q},\qquad
+n^{-3/q}L_n^{1+3/q}.
+\]
+They tend to zero because $L_n\asymp\log n$. The coverage conclusion
+now follows from Proposition~\ref{prop:sampling-rates}.
+The width assertion \eqref{eq:fixedp-phase-width} follows from the two
+bounds in Section~\ref{app:proof-phase-components}, using fixed $p$,
+$\log(p/h)\asymp\log(1/h)$, and $m_{H,n}=m$.
+
+For the stated example, $q=8$, $r\ge1$, and $h=n^{-2/5}$ give
+$n\wedge(nmh)\ge n^{3/5}$ for every $m\ge1$. This exceeds
+$n^{1/2}(\log n)^{5/2}$ eventually. Since $s\ge2$, also
+\[
+\{n\wedge(nmh)\}^{3/4}h^s
+\le n^{3/4-4/5}=n^{-1/20},
+\]
+which verifies the second balance.
+\end{proof}
+
+\subsection{Covariance transitions and band width}
+\label{app:proof-phase-components}
+
+Write $\lambda_n=(m_{H,n}h)^{-1}$. The exact covariance identity in
+Section~\ref{app:covariance-proof} distinguishes identical from distinct
+observation indices of the same functional error. Its local part has
+order $\lambda_n$. The distinct-index component is $O(1)$ and has
+order one as $\kappa_{1,n}\to0$; it is zero when all $m_i=1$. Consequently
+$\lambda_n\to\infty$, $\lambda_n\asymp1$, and $\lambda_n\to0$
+describe local, mixed, and functional covariance scales. No sampling regime
+needs to be selected to implement the bootstrap.
+
+For clarity, a Gaussian process with the exact oracle covariance can be
+constructed as a sum of two independent auxiliary Gaussian processes.
+Using the weights $\bA_h$ from Lemma~\ref{lem:hd-covariance}, these are
+\[
+\begin{aligned}
+W_d(t)&=\int\bA_h(t,u)\bC(u,u)^{1/2}\sqrt{f(u)}\,dB(u),\\
+W_o(t)&=\int\bA_h(t,u)W(u)f(u)\,du,
+\end{aligned}
+\]
+where $B$ is vector white noise and $W$ is an independent Gaussian
+process with covariance $\bC(u,v)$.
+Multiplying these processes by $\sqrt{\kappa_{1,n}}$ and
+$\sqrt{1-\kappa_{1,n}}$, respectively, gives the covariance of the
+unstandardized oracle sum. This construction represents a covariance
+identity; the model still contains only $\varepsilon_i(t)$.
+
+The uniform operator bounds on the covariance and the local weights imply
+that the standardized full covariance differs from the standardized local
+one by $O(\lambda_n^{-1})$ when $\lambda_n\to\infty$.
+When $\lambda_n\to0$, it differs by $O(h+\lambda_n)$ from the correlation
+kernel of
+\[
+\bOmega(t)^{-1}W(t),\qquad
+\expect\{W(u)W(t)^\trans\}=\bC(u,t).
+\]
+Here $\bOmega(t)=\expect\{\bX(t)\bX(t)^\trans\}$.
+Applying the same grid comparison as in the bootstrap proof shows that
+the corresponding Gaussian suprema have distribution errors at most
+$C\{L_n/\sqrt{\lambda_n}+n^{-1}\}$ and
+$C\{L_n\sqrt{h+\lambda_n}+n^{-1}\}$, respectively.
+The first bound requires $\lambda_n^{-1}L_n^2\to0$ for convergence and
+the second requires $(h+\lambda_n)L_n^2\to0$.
+These sufficient conditions make explicit why a pointwise covariance
+transition alone does not justify a simultaneous distributional limit
+when dimension grows.
+
+Let $w_{n,k}(t)=\wh q_{1-\alpha}\wh\sigma_k(t)/\sqrt n$.
+Under the conditions of Theorem~\ref{thm:coverage}, there are constants
+$0<c<C$ such that, with probability tending to one,
+\begin{equation*}
+\begin{split}
+c\left\{\frac1{\sqrt n}+
+\sqrt{\frac{\log(1/h)}{nm_{H,n}h}}\right\}
+&\le\inf_{t,k}w_{n,k}(t),\\
+\sup_{t,k}w_{n,k}(t)
+&\le C\left\{\sqrt{\frac{\log(2p)}n}+
+\sqrt{\frac{\log(p/h)}{nm_{H,n}h}}\right\}.
+\end{split}
+\end{equation*}
+The same statement holds under the refined rate conditions in
+Proposition~\ref{prop:sampling-rates}.
+To see the upper bound, set $Z(t)=\bOmega(t)^{-1}W(t)$ and
+$\bB_h(t,u)=\bA_h(t,u)\bOmega(u)f(u)$. The exact reproduction identity
+\[
+\int_{\mathcal T}\bB_h(t,u)\,du=\bI_p
+\]
+follows from the definition of $\bD_h(t)$. The weights have uniformly
+bounded operator-norm $L^1$ norms, and their $L^1$ increments are at
+most $C|t-s|/h$. The increment covariance of $Z$ has operator norm at most $C|t-s|$. For $|t-s|\le h$, integrate
+$\{\bB_h(t,u)-\bB_h(s,u)\}\{Z(u)-Z(s)\}$ over the union of the
+kernel windows. Its coordinate $L^2$ norm is at most
+$C|t-s|/\sqrt h\le C\sqrt{|t-s|}$.
+For $|t-s|>h$, use
+$\max_{k\le p}\|W_{o,k}(t)-Z_k(t)\|_{L^2}\le C\sqrt h$.
+Thus the functional Gaussian component has coordinate increments
+bounded in mean square by $C|t-s|$ throughout $\mathcal T$.
+The local component has coordinate $L^2$ increments at most
+$Ch^{-1/2}\min\{1,|t-s|/h\}$.
+Gaussian entropy bounds over $p$ coordinates give expected suprema at most
+$C\sqrt{\log(2p)}$ and $Ch^{-1/2}\sqrt{\log(p/h)}$.
+Gaussian concentration transfers these bounds to fixed quantiles.
+For the lower bound, select one coordinate and $\asymp h^{-1}$ points
+with disjoint kernel windows. The local white-noise component at these
+points is independent, with variances bounded below by $c/h$.
+Condition on the independent functional Gaussian component. For each local
+normal variable, the probability of lying in an interval of a given length
+is maximized when that interval is centered. Hence, with $J\asymp h^{-1}$
+and every $x>0$, the probability that all selected sums have absolute value
+at most $x$ is at most
+$\{2\Phi(x/\sqrt{c\lambda_n})-1\}^{J}$.
+This gives a fixed-quantile lower bound of order
+$\sqrt{\lambda_n\log(1/h)}$. A single nondegenerate coordinate gives
+a lower bound of order $v_n$, which also supplies the stated
+constant-order term.
+Uniform variance consistency and the bootstrap quantile bracket transfer
+both bounds to $w_{n,k}$.
+
+When $p$ is bounded these two orders agree. For growing $p$, the displayed lower bound uses a single coordinate and
+is deliberately not sharpened in the dimension. The sparse-to-dense variance scale and the cost of simultaneous
+coverage over many functions are therefore distinct.
+
+\subsection{Bandwidth choice and implementation}\label{app:bandwidth-choices}
+\label{app:implementation}
+
+For increasing $p$, admissibility is determined by
+$\gamma_n\to0$ and $e_nL_n^2\to0$, or their refined versions.
+These conditions include the undersmoothing requirement
+$\sqrt{npL_n}\,h^s/v_n\to0$.
+They are nonempty for growing VCMs: with $r=1$, $q=8$, $m_i=1$,
+$h=n^{-1/4}$, and $p\asymp n^a$ for any $0<a<1/4$, the general bounds
+vanish even using $K_n\lesssim p^{1/8}$.
+Indeed,
+\[
+\gamma_n=O\{\sqrt p\,n^{-1/8}\sqrt{\log n}\},\qquad
+e_n=O\{p^{3/2}n^{-3/8}\sqrt{\log n}\},
+\]
+which verify both conditions throughout this range.
+The dimension restriction comes from the displayed sufficient bounds and
+is not claimed to be sharp.
+
+For the numerical comparisons, whose dimensions are specified in advance,
+we retain the local linear bandwidth
+\begin{equation}
+h=\{1+\log n\}^{-1/2}
+\max\{n^{-1/4},(nm_{H,n})^{-1/5}\}.
+\label{eq:local-linear-phase-bandwidth}
+\end{equation}
+For bounded $p$, this rule satisfies \eqref{eq:vcm-undersmoothing}.
+Indeed $L_n\asymp\log n$. If $n^{-1/4}$ is the larger term, use
+$v_n\ge1$ to obtain normalized bias $O\{(\log n)^{-1/2}\}$.
+If $(nm_{H,n})^{-1/5}$ is larger, use
+$v_n\ge(m_{H,n}h)^{-1/2}$ to obtain $O\{(\log n)^{-3/4}\}$.
+This formula specifies the numerical procedure. It is not a universal
+bandwidth rule for arbitrary growing dimension; the dimension-dependent
+conditions above must be checked for such sequences.
+All fits, residuals, and multiplier contributions use the selected common
+bandwidth. An independent pilot may select among bandwidths for which the
+displayed errors vanish uniformly: conditioning on that pilot and
+integrating the coverage bound proves the same conclusion for the
+inference sample.
+
+For implementation on a grid of mesh $\Delta$, the increment bound used in
+Section~\ref{app:approximation-proofs} gives, on the good design and variance
+event, a conditional expected interpolation error bounded by
+$C\mathcal L_n\Delta\sqrt{L_n+\log(1/\Delta)}$, where
+\[
+\expect\{\mathcal L_n\,\mathbf1_{\mathrm{good}}\}
+\le C p^{3/2}K_n^2/(v_nh^3).
+\]
+It is enough to use the theoretical grid constructed there, whose
+additional probability error is $O(n^{-1})$. More generally, a grid error
+term tends to zero whenever
+\[
+\frac{p^{3/2}K_n^2\Delta}{v_nh^3}
+\sqrt{L_n\{L_n+\log(1/\Delta)\}}\to0.
+\]
+To verify this assertion, use conditional Markov's inequality twice and
+Gaussian anti-concentration. Balancing the two Markov errors and the
+anti-concentration shift yields the cube root of this displayed quantity,
+which can be added to the coverage bound.
+This sufficient condition does not certify a fixed grid such as 201
+points. The simulations report coverage on their stated grid.
+
+With $B$ independent multiplier draws, the conditional empirical cdf has
+uniform error at most $\epsilon_B=\sqrt{\log(2/\eta)/(2B)}$ with conditional
+probability at least $1-\eta$, by the Dvoretzky--Kiefer--Wolfowitz inequality
+\citep{massart_dkw_1990}. Adding this cdf error to the same quantile bracket
+adds at most $C\epsilon_B+\eta$ to the coverage bound, including the
+multiplier randomness. This separates statistical, grid, and simulation errors.
+
+
+\section{Proof of the mean-function corollary}
+\label{app:highd-mean}
+
+We use the assumptions, rates, and mean-model statistics from
+Section~\ref{sec:mean-model}. All bounds below are uniform in $t,k$;
+$r,q$ are fixed, and constants are uniform in $n,p,h$ and the counts.
+The argument specializes the subject-level linearization and covariance
+bounds before applying any dimension-dependent coordinate-mixing bound.
+
+\begin{proof}[Proof of Corollary~\ref{cor:hdmean}]
+Let $H(t)=\expect\widehat H(t)$ and write the oracle contributions as
+\[
+\begin{aligned}
+w_h(t,u)&=\be_0^\trans H(t)^{-1}
+\btheta_r\!\left(\frac{u-t}{h}\right)K_h(u-t),\\
+\Psi_{ik}(t)&=\frac1{m_i}\sum_j
+w_h(t,T_{ij})\varepsilon_{i,k}(T_{ij}).
+\end{aligned}
+\]
+The population matrix $H$ has fixed size $r+1$ and is uniformly
+invertible by Lemma~\ref{lem:hd-population}, applied to scalar predictor
+one. The coordinatewise covariance calculation in
+Lemma~\ref{lem:hd-covariance} gives
+$c v_n^2\le\tau_k^2(t)\le C v_n^2$.
+Only the covariance entries involving the specified coordinates occur
+in these calculations; an operator-norm bound on a $p\times p$
+covariance matrix is unnecessary.
+
+Put
+\[
+\begin{aligned}
+D_n&=\sup_t\|\widehat H(t)-H(t)\|_{\mathrm{op}},\\
+U_n&=\sup_{t,k}\left\|\frac1n\sum_i\frac1{m_i}\sum_j
+K_h(T_{ij}-t)\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)
+\varepsilon_{i,k}(T_{ij})\right\|_2.
+\end{aligned}
+\]
+For each design entry, mutual independence of the observation times
+gives variance at most $C\kappa_{1,n}/(nh)$ and maximal centered
+summand at most $C/(nh)$. Use a design grid of mesh at most
+$n^{-8}h^{10}$, whose log cardinality is $O\{\log(n/h)\}$, independently
+of $p$. Each entry of $\widehat H-H$ has deterministic Lipschitz constant
+at most $Ch^{-2}$. Bernstein's inequality, integration of its tail,
+and interpolation therefore yield
+\[
+\expect D_n^2\le Ca_n^2.
+\]
+For the scores, the average coordinate second moment is at most $Cv_n^2$,
+and the common subject envelope has $L^q$ norm at most $CK_n/h$.
+The maximal inequality and grid interpolation used in
+Lemma~\ref{lem:hd-concentration} give
+\[
+\expect U_n^2\le C\delta_n^2.
+\]
+Moreover, $a_n\le\delta_n$, since $\log(n/h)\le L_n$, $K_n\ge1$,
+and the finite-moment term in $\delta_n$ dominates $L_n/(nh)$.
+
+On the good-design event $\mathcal E_n=\{D_n\le c_0\}$, inversion is
+Lipschitz and the Taylor remainder is uniformly bounded by $Ch^s$.
+Consequently,
+\[
+\|\widehat\bmu-\bmu\|_{\infty,\mathcal T}\le C(U_n+h^s),\qquad
+\|\bR_n\|_{\infty,\mathcal T}\le C(D_nU_n+h^s).
+\]
+Since $\prob(\mathcal E_n^c)\le Ca_n^2$ and
+$\expect(D_nU_n)\le Ca_n\delta_n$, these inequalities prove the
+linear representation and, for every $u>0$, the quantitative transfer
+\[
+\begin{split}
+\prob\left\{\sup_{t,k}
+\frac{\sqrt n|R_{nk}(t)|}{\tau_k(t)}
+>C\frac{\sqrt n h^s}{v_n}+u\right\}
+\le Ca_n^2+\frac{C\sqrt n\,a_n\delta_n}{v_nu}.
+\end{split}
+\]
+The smoothing shift is thus deterministic on an event with a controlled
+failure probability, as needed for the coverage argument.
+
+Let $M_{ik}(t)=\Psi_{ik}(t)/\tau_k(t)$. The repeated-observation-index
+moment calculation gives
+\[
+\begin{gathered}
+\max_i\left\|\sup_{t,k}|M_{ik}(t)|\right\|_{L^q}
+\le\frac{CK_n}{hv_n},\\
+\sup_{t,k}\frac1n\sum_i\expect|M_{ik}(t)|^4\le C\Lambda_n.
+\end{gathered}
+\]
+Because $\kappa_{3,n}\le\kappa_{1,n}$ and $h\le1$,
+$\Lambda_n\le C/(h^2v_n^2)\le CK_n^2/(h^2v_n^2)$.
+Also $h^2v_n^2\le3/4$ and $K_n\ge1$. Theorem~2.5 of
+\citet{chernozhukov_et_al_2022} therefore applies to the signed grid
+with moment scale $K_n/(hv_n)$, giving the first two terms of
+$\gamma_n^\mu$. The grid in Lemma~\ref{lem:hd-grid} has log cardinality
+$O(L_n)$ because $K_n\le Cp^{1/q}$. The same fixed-coordinate increment
+bounds give a continuous Gaussian version, an $O(n^{-1})$ continuum
+error, and anti-concentration at most $Cu\sqrt{L_n}$.
+Balancing this last error with the transfer probability gives
+\[
+C\left(\frac{\sqrt{nL_n}\,a_n\delta_n}{v_n}\right)^{1/2}
++\frac{C\sqrt{nL_n}\,h^s}{v_n}.
+\]
+The stochastic term is at least a constant times $\sqrt{L_na_n}$,
+so it absorbs $a_n^2$ when $a_n\to0$. The first Gaussian term absorbs
+$n^{-1}$. This proves \eqref{eq:mean-gaussian}.
+
+For oracle covariance products, the average coordinate variance is at
+most $C\Lambda_n$. The $L^2$ norm of their envelope maximized over
+subjects is at most $Cn^{2/q}K_n^2/(h^2v_n^2)$. Applying the product
+maximal inequality over coordinate and grid pairs, followed by
+interpolation, gives expected covariance error at most
+\[
+C\left\{\sqrt{\frac{\Lambda_nL_n}{n}}
++\frac{K_n^2L_n}{n^{1-2/q}h^2v_n^2}\right\}.
+\]
+The empirical quadratic averages of the oracle scores and local kernel
+masses are bounded by fixed constants outside an event with probability
+controlled by this same bound.
+On this event and $\mathcal E_n$, samplewise Cauchy--Schwarz gives
+\[
+\sup_{t,k}\left[\frac1n\sum_i
+\left\{\frac{\widehat\Psi_{ik}(t)-\Psi_{ik}(t)}{\tau_k(t)}\right\}^2
+\right]^{1/2}\le C(D_n+U_n+h^s).
+\]
+Here the exact residual identity is
+$\widehat\varepsilon_{ij,k}-\varepsilon_{i,k}(T_{ij})
+=-\{\widehat\mu_k(T_{ij})-\mu_k(T_{ij})\}$.
+The truncated first and second moments of the fitted-score discrepancy
+are $O(\delta_n+h^s)$ when $e_n^\mu\to0$, using $a_n\le\delta_n$.
+All exceptional probabilities are $O(e_n^\mu)$ as well.
+The covariance-product identity and variance normalization therefore
+imply
+\begin{equation}
+\prob(\Delta_n^\mu>u)\le\frac{Ce_n^\mu}{u},\qquad 0<u\le1/2,
+\label{eq:mean-covariance-tail}
+\end{equation}
+where $\Delta_n^\mu$ is the sum of relative variance error and standardized
+fitted covariance error, set to infinity on invalid samples.
+This also controls failure of fitted variance positivity.
+
+The conditional discretization proof in Lemma~\ref{lem:hd-bootstrap-grid}
+applies with fixed matrix size $r+1$. On its good event the expected
+random Lipschitz factor is at most $CK_n^2/(v_nh^3)$, and the event's
+complement has probability $O(e_n^\mu)$. For the conditional interpolation
+error probability $r_n$, the same grid and two applications of Markov's
+inequality give
+\[
+\prob(r_n>n^{-1})\le C(e_n^\mu+n^{-1}),\qquad r_n=O_P(n^{-1}).
+\]
+Conditional Gaussian comparison and \eqref{eq:mean-covariance-tail}
+now prove the first bootstrap assertion. The second follows from the
+same studentization bracket as in Theorem~\ref{thm:bootstrap}; the
+unconditional feasible-statistic error is at most
+$C\{\gamma_n^\mu+(e_n^\mu L_n)^{1/2}\}$.
+The discretization terms are absorbed because
+$e_n^\mu\ge\delta_n\ge v_n\sqrt{L_n/n}$.
+
+For coverage, \eqref{eq:mean-covariance-tail} and the conditional grid
+bound imply, for $0<u\le1/2$,
+\[
+\begin{aligned}
+&\prob\Bigl\{\sup_z\bigl|\prob(S_n^*\le z\mid\mathcal F_n)
+-\prob(S_{G,n}\le z)\bigr|\\
+&\qquad{}>C(\sqrt u L_n+n^{-1})\Bigr\}
+\le C(e_n^\mu/u+n^{-1}).
+\end{aligned}
+\]
+Bracket the random bootstrap quantile between the two Gaussian quantiles
+as in \eqref{eq:hd-quantile-bracket}, and add this bad-event probability.
+The resulting unconditional coverage error is at most
+\[
+C\{\gamma_n^\mu+(e_n^\mu L_n)^{1/2}
++e_n^\mu/u+\sqrt u L_n+n^{-1}\}.
+\]
+Taking $u=(e_n^\mu/L_n)^{2/3}$ proves \eqref{eq:mean-coverage} when the
+bound is small; otherwise the trivial bound suffices after increasing
+$C$. The probability of invalid design or variances is $O(e_n^\mu)$
+and is included explicitly. Thus the conclusion controls unconditional
+coverage, including estimation, residual fitting, studentization,
+and the random critical value.
+\end{proof}
+
+\subsection{A high-dimensional example with polynomial tails}
+\label{app:mean-heavy-tail-example}
+
+Let $V_i$ be a centered Student $t_\nu$ variable, standardized to have
+variance one, with $\nu>8$. Independently, let $R_{ik,0},R_{ik,1}$ be
+independent Rademacher variables, and set
+\[
+\varepsilon_{i,k}(t)=V_i\{R_{ik,0}+R_{ik,1}\sin(2\pi t)\}.
+\]
+The errors have polynomial tails and
+$\sup_{t,k}|\varepsilon_{i,k}(t)|\le2|V_i|$, so their $L^8$ envelope
+is bounded independently of $p$. Their covariance entries are
+$C_{kl}(u,t)=\mathbf1_{\{k=l\}}\{1+\sin(2\pi u)\sin(2\pi t)\}$,
+which are uniformly Lipschitz, with coordinate variances at least one.
+The shared scale $V_i$ permits dependence across coordinates.
+
+Take $q=8$, local linear fits, $m_i=1$, and $h=n^{-1/4}$.
+Then $v_n\asymp n^{1/8}$ and $K_n=O(1)$. The displayed rates give
+\begin{align*}
+\gamma_n^\mu
+&=O\{n^{-3/16}L_n^{5/4}+n^{-1/4}L_n^{11/8}
++n^{-1/8}L_n^{1/2}\},\\
+e_n^\mu L_n^2
+&=O\{n^{-3/8}L_n^{5/2}+n^{-1/2}L_n^3\}.
+\end{align*}
+If $\log p=o(n^{3/20})$, both vanish, and the first covariance term
+in $(e_n^\mu L_n^2)^{1/3}$ dominates all the displayed contributions
+to coverage. The resulting error is $O(n^{-1/8}L_n^{5/6})$.
+The undersmoothing condition is also explicit:
+$\sqrt{nL_n}\,h^2/v_n\asymp n^{-1/8}\sqrt{L_n}\to0$.
+Thus $p=\lceil\exp(n^\delta)\rceil$ is admissible for every fixed
+$0<\delta<3/20$ under polynomial moments, even with one observation
+per subject. This is a sufficient example, not an optimal dimension range.
+
+\input{numerical-supplement.tex}
+
+\referencefont
+\referencefont
+\bibliographystyle{Chicago}
+\bibliography{bibfile}
+\end{document}
