@@ -41,7 +41,7 @@ Their Section 3 critical-value simulation generates fresh independent $U_1,\ldot
 \max_{t\in\mathcal G}
 \frac{\left|\sum_{a=1}^N g_a K\{(U_a-t)/h\}\right|}{\sqrt{N h\nu_K}}.
 \]
-We use 20,000 independent draws for each $(n,m)$ combination. The empirical 0.95 quantile gives a single-coefficient band; the 0.99 quantile gives each of the five marginal bands in the Bonferroni comparison. Sorted uniform times are generated exactly from normalized exponential spacings, and the polynomial kernel sums are evaluated exactly. The calibration maxima are retained. CLZ's sparse-sampling theory does not provide a dense-sampling guarantee.
+We use 20,000 independent draws for each $(n,m)$ combination. The empirical 0.95 quantile gives a single-coefficient band; the 0.99 quantile, corresponding to $1-0.05/5$, gives each of the five marginal bands in the Bonferroni comparison. Sorted uniform times are generated exactly from normalized exponential spacings, and the polynomial kernel sums are evaluated exactly. The calibration maxima are retained. CLZ's sparse-sampling theory does not provide a dense-sampling guarantee.
 
 For the mean comparison, set $X_i(t)\equiv1$ and
 \[
@@ -70,14 +70,14 @@ Computational checks compare the prefix-sum local fits and subject contributions
 
 There are 54 configurations: three inferential targets, three innovation laws, two subject sample sizes, and three sampling frequencies. Each has 1,000 replications. The configuration's stored \texttt{seed\_id}, denoted by $j$, and replication $r$ specify the NumPy seed sequence $[20261015,100000(j+1)+r]$. Three independent child streams generate data and the two methods' multiplier draws. CLZ calibration uses the independent entropy $[713209,n,m]$. No configuration or replication is omitted according to its outcome.
 
-The supplied \texttt{replications.jsonl} records the error-model version, configuration, replication, bandwidth, critical values, coverage indicators, widths, minimum local eigenvalue, and failures. The summary contains Monte Carlo standard errors, Wilson intervals, and paired differences of coverage indicators. The complete experiment contains 54,000 datasets, with both methods fitted to every dataset. The six Gaussian joint cells use seed identifiers 2006, 2007, 2008, 2010, 2011, and 2012 and were recomputed independently with 1,000 datasets each. The current revision retains 36,000 unchanged Gaussian and Laplace records with source provenance and computes all 18,000 adjusted $\chi^2_5$ records afresh. All previous Gaussian joint records are archived; comparisons between independent cohorts and the $m=20$ versus 80 CP differences, including Monte Carlo uncertainty, are retained with the results. The runner and table generator check the error-model version and reject incomplete or duplicate records. Package versions and execution commands accompany the code.
+The supplied \texttt{replications.jsonl} records the error-model version, configuration, replication, bandwidth, critical values, coverage indicators, widths, minimum local eigenvalue, and failures. The summary contains Monte Carlo standard errors, Wilson intervals, and paired differences of coverage indicators. The complete experiment contains 54,000 datasets, with both methods fitted to every dataset. The six Gaussian joint cells use seed identifiers 2006, 2007, 2008, 2010, 2011, and 2012 and were recomputed independently with 1,000 datasets each. The current revision retains 36,000 unchanged Gaussian and Laplace records with source provenance and computes all 18,000 adjusted $\chi^2_5$ records afresh. All previous Gaussian joint records are archived; comparisons between independent cohorts and the $m=20$ versus 80 coverage differences, including Monte Carlo uncertainty, are retained with the results. The runner and table generator check the error-model version and reject incomplete or duplicate records. Package versions and execution commands accompany the code.
 
 For each of the six Gaussian joint configurations, an additional check computes weighted least-squares fits and subject contributions directly at all 201 grid points for all five coefficients, using replication zero. Residual fits are checked at 17 actual observation times, including both extremes. All 1,999 bootstrap maxima agree with the prefix-sum implementation to within $2\times10^{-10}$. This check retains the actual counts and bandwidth of each configuration.
 
 \subsection{Additional simulation results}\label{app:single-comparison}
 Table~\ref{tab:single-new} reports coverage and width for $\beta_2$ in the two-coefficient model. It complements the joint five-function comparison in main-text Table~\ref{tab:joint-new}; both tables retain every sampling frequency and error distribution in the factorial design.
 
-Table~\ref{tab:mean-new} reports the scalar-mean comparison, in which both procedures retain subject dependence. The growing-dimensional mean result is Corollary~\ref{cor:hdmean}; its proof is in Section~\ref{app:highd-mean}.
+Table~\ref{tab:mean-new} reports the scalar-mean comparison, in which both procedures retain subject dependence. Corollary~\ref{cor:hdmean} includes this scalar problem and extends it to multiple means with coordinate-specific errors; its proof is in Section~\ref{app:highd-mean}.
 \input{results/tables/single.tex}
 \input{results/tables/mean.tex}
 \FloatBarrier
@@ -104,16 +104,22 @@ $(\chi^2_5-5)/\sqrt{10}$. The $U$ terms are shared by all coordinates of a
 subject. Each error coordinate has variance $1.25$, and distinct
 coordinates have contemporaneous correlation $1/2$. Thus the Gaussian
 case is jointly Gaussian, while the other cases retain the selected
-innovations' heavier tails or skewness. All satisfy the polynomial-moment
-assumptions of Corollary~\ref{cor:hdmean}. There is one vector-valued
-functional error and no added observation noise.
+innovations' heavier tails or skewness. The innovations have moments
+of every fixed order. The fixed number of bounded smooth basis
+functions ensures uniform coordinate path moments and entrywise
+Lipschitz covariance, as required by Corollary~\ref{cor:hdmean}.
+A union bound on the innovation tails gives
+$K_n=O\{\sqrt{\log(ep)}\}$ in the Gaussian case and
+$K_n=O\{\log(ep)\}$ for Laplace and adjusted chi-square innovations.
+The simulations assess joint calibration at the stated finite sample
+sizes and evaluation grid. There is no added observation noise.
 
 Each $(n,m,\text{innovation law})$ uses 1,000 independent datasets,
 giving 18,000 independent datasets across the 18 sampling and innovation
 groups. The two dimensions use nested coordinate prefixes and the same
 datasets and multipliers, giving 36,000 dimensionwise evaluations in
 36 cells. Every configuration is reported regardless of its coverage.
-With 1,000 replications, the MCSE of CP near 0.95 is approximately 0.007.
+With 1,000 replications, the MCSE of coverage near 0.95 is approximately 0.007.
 Every band uses
 999 Gaussian multiplier draws, with one multiplier shared by all
 coordinates of a subject. Coverage requires every coordinate at all 51
@@ -144,7 +150,7 @@ common innovations, coordinate-specific innovations, and multipliers. The record
 \texttt{results/highd-mean/} retain coverage, width, critical values,
 design and variance diagnostics, conditional smoothing bias divided by
 the fitted standard error, failures, and time. They also retain code
-hashes and runtime versions. The fixed design and production-code hashes accompany the results. CP standard errors and Wilson intervals
+hashes and runtime versions. The fixed design and production-code hashes accompany the results. Coverage standard errors and Wilson intervals
 are computed from the 1,000 independent replications in each cell.
 The new implementation uses Python 3.12.14 and NumPy 2.5.4 with
 Accelerate BLAS. The mean production run uses six processes alongside four processes

@@ -3,6 +3,7 @@
 \usepackage[sectionbib,authoryear,round]{natbib}
 \usepackage{array,epsfig,fancyhdr,rotating}
 \usepackage{amsmath,amssymb,amsfonts,amsthm,graphicx,booktabs,multirow,placeins}
+\allowdisplaybreaks[1]
 \usepackage{sectsty,secdot}
 \usepackage{xr-hyper}
 \usepackage[hidelinks]{hyperref}
@@ -140,6 +141,10 @@ This supplement uses the notation of the main article. Sections S1--S2 prove the
 \renewcommand{\thefigure}{S\arabic{figure}}
 \section{Linearization and covariance bounds}
 \label{app:hd-linear-covariance}
+
+In the proofs, we use $1+F_i$ when an auxiliary envelope bounded below
+by one is convenient. Since $K_n\ge1$,
+$\|1+F_i\|_{L^q}\le1+K_n\le2K_n$, so this does not change any rate.
 
 We use Assumptions~\ref{ass:core}--\ref{ass:covariance} from the main
 article. Constants are uniform in $n,p,h$ and the observation counts;
@@ -784,10 +789,9 @@ The matching Gaussian process $G_n$, its supremum $S_{G,n}$, the
 statistics $T_n^\circ,T_n$, and the multiplier process and maximum
 $G_n^*,S_n^*$ are those defined in Section~\ref{sec:theory}.
 
-The preceding lemmas give the following inputs. With
-$F_i=1+\sup_t\|\bX_i(t)\|_\infty^2+
-\sup_t\|\bX_i(t)\varepsilon_i(t)\|_\infty$,
-we have $\|F_i\|_q\le CK_n$, where $1\le K_n\le Cp^{1/q}$.
+The preceding lemmas give the following inputs. The envelope $F_i$
+in Assumption~\ref{ass:moments} satisfies $\|F_i\|_q\le CK_n$,
+where $1\le K_n\le Cp^{1/q}$.
 Lemma~\ref{lem:hd-covariance} gives $\tau_k(t)\asymp v_n$ uniformly.
 The subject moment bounds imply
 \begin{equation}
@@ -1348,7 +1352,7 @@ longer changes the polynomial order of $N_n$; dimension and smoothing still
 affect accuracy. This is a statement about the displayed sufficient bounds,
 not an optimality assertion.
 
-\begin{proof}[Proof of Corollary~\ref{cor:fixedp-phase}]
+\begin{proof}[Proof of Corollaries~\ref{cor:fixedp-phase} and~\ref{cor:fixedp-width}]
 With $m_i=m$, \eqref{eq:effective-sample-size} gives
 $N_n=n/(1+(mh)^{-1})\asymp n\wedge(nmh)$ and $m_{H,n}=m$.
 Also $K_n\le C$, and $h\ge n^{-A}$ implies $L_n\asymp\log n$.
@@ -1612,86 +1616,115 @@ adds at most $C\epsilon_B+\eta$ to the coverage bound, including the
 multiplier randomness. This separates statistical, grid, and simulation errors.
 
 
-\section{Proof of the mean-function corollary}
+\section{Proof of the high-dimensional mean corollary}
 \label{app:highd-mean}
 
-We use the assumptions, rates, and mean-model statistics from
-Section~\ref{sec:mean-model}. All bounds below are uniform in $t,k$;
-$r,q$ are fixed, and constants are uniform in $n,p,h$ and the counts.
-The argument specializes the subject-level linearization and covariance
-bounds before applying any dimension-dependent coordinate-mixing bound.
+We use the model and rates of Section~\ref{sec:mean-model}. The degree
+$r$ and moment order $q$ are fixed. Constants depend only on the
+uniform smoothness, coordinate moment, covariance, kernel, and
+sampling-density bounds, and not on $n,p,h,K_n$ or the observation counts.
 
 \begin{proof}[Proof of Corollary~\ref{cor:hdmean}]
-Let $H(t)=\expect\widehat H(t)$ and write the oracle contributions as
+Write
 \[
 \begin{aligned}
-w_h(t,u)&=\be_0^\trans H(t)^{-1}
-\btheta_r\!\left(\frac{u-t}{h}\right)K_h(u-t),\\
-\Psi_{ik}(t)&=\frac1{m_i}\sum_j
-w_h(t,T_{ij})\varepsilon_{i,k}(T_{ij}).
+u_{ik}(t)&=\frac1{m_i}\sum_j K_h(T_{ij}-t)
+\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)\varepsilon_{i,k}(T_{ij}),\\
+\bar u_k(t)&=\frac1n\sum_i u_{ik}(t),\qquad
+\Psi_{ik}(t)=\be_0^\trans H(t)^{-1}u_{ik}(t).
 \end{aligned}
 \]
-The population matrix $H$ has fixed size $r+1$ and is uniformly
-invertible by Lemma~\ref{lem:hd-population}, applied to scalar predictor
-one. The coordinatewise covariance calculation in
-Lemma~\ref{lem:hd-covariance} gives
-$c v_n^2\le\tau_k^2(t)\le C v_n^2$.
-Only the covariance entries involving the specified coordinates occur
-in these calculations; an operator-norm bound on a $p\times p$
-covariance matrix is unnecessary.
+The matrix $H$ has fixed size $r+1$. The scalar-predictor argument in
+Lemma~\ref{lem:hd-population} gives uniformly bounded inverses.
+Applying the covariance calculation in Lemma~\ref{lem:hd-covariance}
+to each $C_{kk}$ gives
+$cv_n^2\le\tau_k^2(t)\le Cv_n^2$ uniformly in $t,k$.
+This calculation uses only coordinate covariance bounds.
+Define
+\[
+D_n=\sup_t\|\widehat H(t)-H(t)\|_{\mathrm{op}},
+\qquad U_n=\max_k\sup_t\|\bar u_k(t)\|_2 .
+\]
+For the design alone, the variance of each empirical entry is at most
+$C\kappa_{1,n}/(nh)$: observation times are mutually independent,
+including within subjects. Each centered, observation-weighted summand
+is bounded by $C/(nh)$. Bernstein's inequality on a grid of mesh
+$n^{-8}h^{10}$, and interpolation with the deterministic $Ch^{-2}$
+entrywise Lipschitz bound, give
+$\expect D_n^2\le Ca_n^2$. There is no response-coordinate maximum
+in this step.
 
-Put
+For scores and subsequent approximations, use a finer regular time grid
+$\chi_n$ of mesh at most
+\[
+\Delta_n=n^{-8}h^{10}(pK_n)^{-8},\qquad
+\epsilon_n=n^{-2}L_n^{-1/2}.
+\]
+Since $1\le K_n\le Cp^{1/q}$,
+$\log\{2p(r+1)|\chi_n|\}\le CL_n$.
+Each basis coordinate of $u_{ik}$ has average variance at most
+$Cv_n^2$, and all coordinates have envelope $CF_i/h$, with
+$\|F_i\|_{L^q}\le K_n$. Lemmas~E.1 and E.2(ii) of
+\citet{chernozhukov_central_2017}, applied to the coordinate-grid
+vector, give expected maximum at most $C\delta_n^\mu$ and, above
+twice this expectation, tail at most
+\[
+\exp(-cnx^2/v_n^2)+
+\frac{Cn^{1-q}K_n^q}{h^q x^q},\qquad x>0.
+\]
+Integrating this tail, capped at one, gives a second moment of order
+$(\delta_n^\mu)^2$, since $q>2$. Score increments are bounded by
+$CF_i h^{-2}|t-u|$, so interpolation preserves the same bound.
+Consequently $\expect U_n^2\le C(\delta_n^\mu)^2$ and
+$a_n\lesssim\delta_n^\mu$.
+
+Let $\mathcal E_n=\{D_n\le c_0\}$, with $c_0$ small enough to ensure
+uniform empirical invertibility. Then $\prob(\mathcal E_n^c)\le Ca_n^2$.
+For the Taylor remainder
+\[
+r_k(t,u)=\mu_k(u)-\sum_{a=0}^r
+\frac{\mu_k^{(a)}(t)}{a!}(u-t)^a,
+\]
+uniform smoothness gives $|r_k(t,u)|\le Ch^s$ for $|u-t|\le h$,
+simultaneously for every $k$. Polynomial reproduction gives the exact
+decomposition on $\mathcal E_n$,
+\[
+\widehat\mu_k(t)-\mu_k(t)
+=\be_0^\trans\widehat H(t)^{-1}\bar u_k(t)+b_{nk}(t),
+\]
+where
+\[
+b_{nk}(t)=\be_0^\trans\widehat H(t)^{-1}\frac1n\sum_i\frac1{m_i}
+\sum_jK_h(T_{ij}-t)\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)
+r_k(t,T_{ij}).
+\]
+Nonnegativity of the kernel and boundedness of the empirical kernel
+mass, the $(0,0)$ entry of $\widehat H$, imply
+$\sup_{t,k}|b_{nk}(t)|\le Ch^s$ on $\mathcal E_n$.
+This samplewise bound holds for the entire common smoothness class
+without a coordinate union bound. The resolvent identity gives
 \[
 \begin{aligned}
-D_n&=\sup_t\|\widehat H(t)-H(t)\|_{\mathrm{op}},\\
-U_n&=\sup_{t,k}\left\|\frac1n\sum_i\frac1{m_i}\sum_j
-K_h(T_{ij}-t)\btheta_r\!\left(\frac{T_{ij}-t}{h}\right)
-\varepsilon_{i,k}(T_{ij})\right\|_2.
+\|\widehat\bmu-\bmu\|_{\infty,\mathcal T}&\le C(U_n+h^s),\\
+\|\bR_n\|_{\infty,\mathcal T}&\le C(D_nU_n+h^s).
 \end{aligned}
 \]
-For each design entry, mutual independence of the observation times
-gives variance at most $C\kappa_{1,n}/(nh)$ and maximal centered
-summand at most $C/(nh)$. Use a design grid of mesh at most
-$n^{-8}h^{10}$, whose log cardinality is $O\{\log(n/h)\}$, independently
-of $p$. Each entry of $\widehat H-H$ has deterministic Lipschitz constant
-at most $Ch^{-2}$. Bernstein's inequality, integration of its tail,
-and interpolation therefore yield
-\[
-\expect D_n^2\le Ca_n^2.
-\]
-For the scores, the average coordinate second moment is at most $Cv_n^2$,
-and the common subject envelope has $L^q$ norm at most $CK_n/h$.
-The maximal inequality and grid interpolation used in
-Lemma~\ref{lem:hd-concentration} give
-\[
-\expect U_n^2\le C\delta_n^2.
-\]
-Moreover, $a_n\le\delta_n$, since $\log(n/h)\le L_n$, $K_n\ge1$,
-and the finite-moment term in $\delta_n$ dominates $L_n/(nh)$.
-
-On the good-design event $\mathcal E_n=\{D_n\le c_0\}$, inversion is
-Lipschitz and the Taylor remainder is uniformly bounded by $Ch^s$.
-Consequently,
-\[
-\|\widehat\bmu-\bmu\|_{\infty,\mathcal T}\le C(U_n+h^s),\qquad
-\|\bR_n\|_{\infty,\mathcal T}\le C(D_nU_n+h^s).
-\]
-Since $\prob(\mathcal E_n^c)\le Ca_n^2$ and
-$\expect(D_nU_n)\le Ca_n\delta_n$, these inequalities prove the
-linear representation and, for every $u>0$, the quantitative transfer
-\[
+This proves the estimation and linearization assertions. Moreover,
+Cauchy--Schwarz and Markov's inequality imply, for every $u>0$,
+\begin{equation}
 \begin{split}
-\prob\left\{\sup_{t,k}
-\frac{\sqrt n|R_{nk}(t)|}{\tau_k(t)}
->C\frac{\sqrt n h^s}{v_n}+u\right\}
-\le Ca_n^2+\frac{C\sqrt n\,a_n\delta_n}{v_nu}.
+&\prob\left\{\sup_{t,k}\frac{\sqrt n|R_{nk}(t)|}{\tau_k(t)}
+>C\frac{\sqrt n h^s}{v_n}+u\right\}\\
+&\qquad\le Ca_n^2+
+\frac{C\sqrt n\,a_n\delta_n^\mu}{v_nu}.
 \end{split}
-\]
-The smoothing shift is thus deterministic on an event with a controlled
-failure probability, as needed for the coverage argument.
+\label{eq:mean-linear-transfer}
+\end{equation}
 
-Let $M_{ik}(t)=\Psi_{ik}(t)/\tau_k(t)$. The repeated-observation-index
-moment calculation gives
+Put $M_{ik}(t)=\Psi_{ik}(t)/\tau_k(t)$ and
+$Z_{n,k}(t)=n^{-1/2}\sum_i M_{ik}(t)$. The bounded row norm of the
+fixed-size inverse $H^{-1}$ and the repeated-observation-index
+fourth-moment calculation give
 \[
 \begin{gathered}
 \max_i\left\|\sup_{t,k}|M_{ik}(t)|\right\|_{L^q}
@@ -1699,133 +1732,337 @@ moment calculation gives
 \sup_{t,k}\frac1n\sum_i\expect|M_{ik}(t)|^4\le C\Lambda_n.
 \end{gathered}
 \]
-Because $\kappa_{3,n}\le\kappa_{1,n}$ and $h\le1$,
-$\Lambda_n\le C/(h^2v_n^2)\le CK_n^2/(h^2v_n^2)$.
-Also $h^2v_n^2\le3/4$ and $K_n\ge1$. Theorem~2.5 of
-\citet{chernozhukov_et_al_2022} therefore applies to the signed grid
-with moment scale $K_n/(hv_n)$, giving the first two terms of
-$\gamma_n^\mu$. The grid in Lemma~\ref{lem:hd-grid} has log cardinality
-$O(L_n)$ because $K_n\le Cp^{1/q}$. The same fixed-coordinate increment
-bounds give a continuous Gaussian version, an $O(n^{-1})$ continuum
-error, and anti-concentration at most $Cu\sqrt{L_n}$.
-Balancing this last error with the transfer probability gives
+The fourth-moment bound uses uniform coordinate moments, so it
+introduces neither a factor $p$ nor $K_n^4$. Since
+$\kappa_{3,n}\le\kappa_{1,n}$ and $h\le1/2$,
+$\Lambda_n\le C/(h^2v_n^2)$ and $hv_n\le\sqrt{3/4}$.
+The signed coordinate-grid vector has dimension $2p|\chi_n|$ and
+unit average coordinate variances. Theorem~2.5 of
+\citet{chernozhukov_et_al_2022} applies with moment scale
+$CK_n/(hv_n)$, yielding the first two terms of $\gamma_n^\mu$.
+It permits singular covariance matrices.
+
+For clarity, the interpolation bounds used here also retain this
+dimension dependence. Uniformly in $k$,
 \[
-C\left(\frac{\sqrt{nL_n}\,a_n\delta_n}{v_n}\right)^{1/2}
+\begin{aligned}
+|M_{ik}(t)-M_{ik}(u)|
+&\le \frac{CF_i}{v_nh^2}|t-u|,\\
+\frac1n\sum_i\expect|M_{ik}(t)-M_{ik}(u)|^2
+&\le Ch^{-2}|t-u|^2 .
+\end{aligned}
+\]
+The second inequality follows from the scalar covariance calculation
+and normalization, using only $C_{kk}$. As in
+Lemma~\ref{lem:hd-grid}, it supplies a continuous Gaussian version.
+Writing $\omega_n$ for the maximum interpolation increment over all
+coordinates gives
+\[
+\expect\omega_n(Z_n)\le
+\frac{C\sqrt n K_n\Delta_n}{v_nh^2},\qquad
+\expect\omega_n(G_n)\le Ch^{-1}\Delta_n\sqrt{L_n}.
+\]
+Both probabilities of exceeding $\epsilon_n$ are $O(n^{-1})$.
+The signed-grid Gaussian maximal inequality gives
+$\expect S_{G,n}\le C\sqrt{L_n}$, and the equal-variance
+anti-concentration argument in Lemma~\ref{lem:hd-gaussian-supremum}
+gives
+$\sup_z\prob(z<S_{G,n}\le z+u)\le Cu\sqrt{L_n}$.
+Combining these bounds with \eqref{eq:mean-linear-transfer} and
+balancing the stochastic tail against anti-concentration adds
+\[
+C\left(\frac{\sqrt{nL_n}\,a_n\delta_n^\mu}{v_n}\right)^{1/2}
 +\frac{C\sqrt{nL_n}\,h^s}{v_n}.
 \]
-The stochastic term is at least a constant times $\sqrt{L_na_n}$,
-so it absorbs $a_n^2$ when $a_n\to0$. The first Gaussian term absorbs
+The first term absorbs $a_n^2$ when $a_n\to0$, since
+$\delta_n^\mu\ge v_n\sqrt{L_n/n}$; the first Gaussian term absorbs
 $n^{-1}$. This proves \eqref{eq:mean-gaussian}.
 
-For oracle covariance products, the average coordinate variance is at
-most $C\Lambda_n$. The $L^2$ norm of their envelope maximized over
-subjects is at most $Cn^{2/q}K_n^2/(h^2v_n^2)$. Applying the product
-maximal inequality over coordinate and grid pairs, followed by
-interpolation, gives expected covariance error at most
+For covariance estimation, set
+$Q_{kl}(u,t)=n^{-1}\sum_i\expect\{M_{ik}(u)M_{il}(t)\}$ and
 \[
-C\left\{\sqrt{\frac{\Lambda_nL_n}{n}}
-+\frac{K_n^2L_n}{n^{1-2/q}h^2v_n^2}\right\}.
+R_{Q,n}=\sup_{u,t,k,l}\left|
+\frac1n\sum_i M_{ik}(u)M_{il}(t)-Q_{kl}(u,t)\right|.
 \]
-The empirical quadratic averages of the oracle scores and local kernel
-masses are bounded by fixed constants outside an event with probability
-controlled by this same bound.
-On this event and $\mathcal E_n$, samplewise Cauchy--Schwarz gives
+The average variance of every product is at most $C\Lambda_n$ by
+Cauchy--Schwarz. Its envelope is $CF_i^2/(h^2v_n^2)$, whose maximum
+over subjects has $L^2$ norm at most
+$Cn^{2/q}K_n^2/(h^2v_n^2)$, since $q\ge4$.
+Lemma~E.1 of \citet{chernozhukov_central_2017}, on pairs of
+coordinate-grid indices, gives
+\[
+\expect R_{Q,n}\le Cd_n^\mu,\qquad
+d_n^\mu=\sqrt{\frac{\Lambda_nL_n}{n}}+
+\frac{K_n^2L_n}{n^{1-2/q}h^2v_n^2}.
+\]
+Here $\log\{p^2|\chi_n|^2\}\lesssim L_n$.
+Product interpolation has expected error at most
+$CK_n^2\Delta_n/(h^3v_n^2)$, absorbed by this rate.
+The same bounds apply to the empirical squares of each coordinate
+of $u_{ik}/v_n$ and of the subject kernel mass
+$J_i(t)=m_i^{-1}\sum_j K_h(T_{ij}-t)$ divided by $v_n$.
+Their population second moments are bounded uniformly. Thus, except
+on an event of probability $Cd_n^\mu$, their empirical averages are
+uniformly bounded over all basis coordinates, response coordinates,
+and times.
+
+Intersect the event where these empirical bounds hold with
+$\mathcal E_n$ and $\{R_{Q,n}\le1\}$, and denote the result by
+$\mathcal H_n$. Its complement has
+probability at most $C(a_n^2+d_n^\mu)$. Define $\widehat u_{ik}$
+by replacing the error in $u_{ik}$ with its own fitted residual.
+For $b_n^{\rm fit}=\|\widehat\bmu-\bmu\|_{\infty,\mathcal T}$,
+the exact residual identity implies, samplewise,
+\[
+\|\widehat u_{ik}(t)-u_{ik}(t)\|_2
+\le C b_n^{\rm fit}J_i(t).
+\]
+There is no sum over response coordinates. Together with
+\[
+\widehat\Psi_{ik}-\Psi_{ik}
+=\be_0^\trans(\widehat H^{-1}-H^{-1})u_{ik}
++\be_0^\trans\widehat H^{-1}(\widehat u_{ik}-u_{ik}),
+\]
+the empirical second-moment bounds give, on $\mathcal H_n$,
 \[
 \sup_{t,k}\left[\frac1n\sum_i
 \left\{\frac{\widehat\Psi_{ik}(t)-\Psi_{ik}(t)}{\tau_k(t)}\right\}^2
-\right]^{1/2}\le C(D_n+U_n+h^s).
+\right]^{1/2}
+\le \zeta_n:=C(D_n+U_n+h^s).
 \]
-Here the exact residual identity is
-$\widehat\varepsilon_{ij,k}-\varepsilon_{i,k}(T_{ij})
-=-\{\widehat\mu_k(T_{ij})-\mu_k(T_{ij})\}$.
-The truncated first and second moments of the fitted-score discrepancy
-are $O(\delta_n+h^s)$ when $e_n^\mu\to0$, using $a_n\le\delta_n$.
-All exceptional probabilities are $O(e_n^\mu)$ as well.
-The covariance-product identity and variance normalization therefore
-imply
-\begin{equation}
-\prob(\Delta_n^\mu>u)\le\frac{Ce_n^\mu}{u},\qquad 0<u\le1/2,
-\label{eq:mean-covariance-tail}
-\end{equation}
-where $\Delta_n^\mu$ is the sum of relative variance error and standardized
-fitted covariance error, set to infinity on invalid samples.
-This also controls failure of fitted variance positivity.
+Its first and second moment bounds are
+$\expect\zeta_n\le C(\delta_n^\mu+h^s)$ and
+$\expect\zeta_n^2\le C(\delta_n^\mu+h^s)^2$.
+No independence between fitted residuals and fitting observations is used.
 
-The conditional discretization proof in Lemma~\ref{lem:hd-bootstrap-grid}
-applies with fixed matrix size $r+1$. On its good event the expected
-random Lipschitz factor is at most $CK_n^2/(v_nh^3)$, and the event's
-complement has probability $O(e_n^\mu)$. For the conditional interpolation
-error probability $r_n$, the same grid and two applications of Markov's
-inequality give
+Before dividing by fitted variances, define
 \[
-\prob(r_n>n^{-1})\le C(e_n^\mu+n^{-1}),\qquad r_n=O_P(n^{-1}).
+\mathcal W_n=\sup_{u,t,k,l}\left|
+\frac{n^{-1}\sum_i\widehat\Psi_{ik}(u)\widehat\Psi_{il}(t)}
+{\tau_k(u)\tau_l(t)}-Q_{kl}(u,t)\right|.
 \]
-Conditional Gaussian comparison and \eqref{eq:mean-covariance-tail}
-now prove the first bootstrap assertion. The second follows from the
-same studentization bracket as in Theorem~\ref{thm:bootstrap}; the
-unconditional feasible-statistic error is at most
-$C\{\gamma_n^\mu+(e_n^\mu L_n)^{1/2}\}$.
-The discretization terms are absorbed because
-$e_n^\mu\ge\delta_n\ge v_n\sqrt{L_n/n}$.
-
-For coverage, \eqref{eq:mean-covariance-tail} and the conditional grid
-bound imply, for $0<u\le1/2$,
+On $\mathcal H_n$, empirical oracle coordinate second moments are
+at most two. Expanding products and applying Cauchy--Schwarz
+entrywise yields
+$\mathcal W_n\le R_{Q,n}+C\zeta_n+\zeta_n^2$, and hence
+\[
+\expect\{\mathbf1_{\mathcal H_n}\mathcal W_n\}
+\le C\{d_n^\mu+\delta_n^\mu+h^s+(\delta_n^\mu+h^s)^2\}
+\le Ce_n^\mu
+\]
+when $e_n^\mu\to0$. The integrand is defined as zero off $\mathcal H_n$.
+The diagonal controls fitted variances. On valid samples put
 \[
 \begin{aligned}
-&\prob\Bigl\{\sup_z\bigl|\prob(S_n^*\le z\mid\mathcal F_n)
--\prob(S_{G,n}\le z)\bigr|\\
-&\qquad{}>C(\sqrt u L_n+n^{-1})\Bigr\}
-\le C(e_n^\mu/u+n^{-1}).
+\vartheta_n^\mu&=\sup_{t,k}|\widehat\sigma_k(t)/\tau_k(t)-1|,\\
+\widehat Q_{kl}(u,t)&=\frac1n\sum_i
+\frac{\widehat\Psi_{ik}(u)\widehat\Psi_{il}(t)}
+{\widehat\sigma_k(u)\widehat\sigma_l(t)},\\
+\Delta_n^\mu&=\vartheta_n^\mu+
+\sup_{u,t,k,l}|\widehat Q_{kl}(u,t)-Q_{kl}(u,t)|.
 \end{aligned}
 \]
-Bracket the random bootstrap quantile between the two Gaussian quantiles
-as in \eqref{eq:hd-quantile-bracket}, and add this bad-event probability.
-The resulting unconditional coverage error is at most
+Set $\Delta_n^\mu=+\infty$ on invalid samples. Since
+$|Q_{kl}(u,t)|\le1$, Lipschitz continuity of square roots and inverse
+square roots near one, and Markov's inequality, give
+\begin{equation}
+\prob(\Delta_n^\mu>u)\le Ce_n^\mu/u,\qquad 0<u\le1/2.
+\label{eq:mean-covariance-tail}
+\end{equation}
+Here $a_n^2\lesssim(\delta_n^\mu)^2\lesssim e_n^\mu$.
+In particular, invalid samples have probability $O(e_n^\mu)$.
+
+For conditional discretization, use the event where the empirical
+inverse is bounded, $\vartheta_n^\mu\le1/2$, and $b_n^{\rm fit}\le1$.
+Its complement has probability $O(e_n^\mu)$. With
+$F_i^+=1+F_i$, the residual envelope on this event is at most $CF_i^+$.
+The empirical inverse has deterministic
+Lipschitz bound $Ch^{-2}$, and therefore
+\[
+\max_k|\widehat\Psi_{ik}(t)-\widehat\Psi_{ik}(u)|
+\le CF_i^+ h^{-3}|t-u|.
+\]
+The reverse triangle inequality for empirical $L^2$ norms also
+controls the increment of each $\widehat\sigma_k$.
+Consequently the conditional Gaussian canonical metric of each
+normalized coordinate is bounded by
+$C\{n^{-1}\sum_i(F_i^+)^2\}^{1/2}|t-u|/(v_nh^3)$.
+The expectation of this random factor is at most $CK_n/(v_nh^3)$.
+The dyadic-grid argument over $p$ coordinates and two applications
+of Markov's inequality yield, for
+$r_n=\prob\{\omega_n(G_n^*)>\epsilon_n\mid\mathcal F_n\}$,
+\[
+\begin{aligned}
+\prob(r_n>n^{-1})&\le Ce_n^\mu+
+\frac{Cn\epsilon_n^{-1}K_n\Delta_n\sqrt{L_n}}{v_nh^3}
+\\
+&\le C(e_n^\mu+n^{-1}),\qquad r_n=O_P(n^{-1}).
+\end{aligned}
+\]
+These follow from the stated mesh and $L_n\lesssim np/h$.
+
+Conditionally, the joint multiplier process is Gaussian with covariance
+$\widehat Q$ and unit coordinate variances. Proposition~2.1 of
+\citet{chernozhukov_et_al_2022}, applied to the signed coordinate-grid
+vector, gives error at most
+$C\sqrt{\Delta_n^\mu}\,L_n$. Together with interpolation and
+\eqref{eq:mean-covariance-tail}, this proves the first bootstrap assertion.
+On $\{\vartheta_n^\mu\le u\}$,
+$T_n^\circ/(1+u)\le T_n\le T_n^\circ/(1-u)$ simultaneously for all
+coordinates, even though their fitted variances differ.
+The Gaussian scale-shift argument of
+\eqref{eq:hd-gaussian-scale-shift}, with the same $L_n$, gives
+\[
+\sup_z|\prob(T_n\le z)-\prob(S_{G,n}\le z)|
+\le C\{\gamma_n^\mu+e_n^\mu/u+uL_n+n^{-1}\}.
+\]
+Taking $u=(e_n^\mu/L_n)^{1/2}$ and using the triangle inequality
+proves the second bootstrap assertion.
+
+Finally, covariance and interpolation tails imply
+\[
+\begin{aligned}
+&\prob\left\{\sup_z|\prob(S_n^*\le z\mid\mathcal F_n)
+-\prob(S_{G,n}\le z)|>C(\sqrt u\,L_n+n^{-1})\right\}\\
+&\qquad\le C(e_n^\mu/u+n^{-1}),\qquad 0<u\le1/2 .
+\end{aligned}
+\]
+Bracket the conditional bootstrap quantile between deterministic
+Gaussian quantiles as in \eqref{eq:hd-quantile-bracket}. Continuity of
+the Gaussian maximum law and the unconditional bound for $T_n$ give
+coverage error at most
 \[
 C\{\gamma_n^\mu+(e_n^\mu L_n)^{1/2}
-+e_n^\mu/u+\sqrt u L_n+n^{-1}\}.
++e_n^\mu/u+\sqrt u\,L_n+n^{-1}\}.
 \]
-Taking $u=(e_n^\mu/L_n)^{2/3}$ proves \eqref{eq:mean-coverage} when the
-bound is small; otherwise the trivial bound suffices after increasing
-$C$. The probability of invalid design or variances is $O(e_n^\mu)$
-and is included explicitly. Thus the conclusion controls unconditional
-coverage, including estimation, residual fitting, studentization,
-and the random critical value.
+Taking $u=(e_n^\mu/L_n)^{2/3}$ proves \eqref{eq:mean-coverage}.
+Under the stated vanishing-rate conditions this choice is admissible,
+the quantile bracket lies in $(0,1)$, and the remaining terms are
+absorbed. The invalid-sample probability is absorbed as well.
+This completes the transfer from approximation to joint coverage
+without an additional polynomial factor in $p$.
 \end{proof}
 
-\subsection{A high-dimensional example with polynomial tails}
+\subsection{Tail envelopes and examples for multivariate means}
 \label{app:mean-heavy-tail-example}
 
-Let $V_i$ be a centered Student $t_\nu$ variable, standardized to have
-variance one, with $\nu>8$. Independently, let $R_{ik,0},R_{ik,1}$ be
-independent Rademacher variables, and set
+We first distinguish the coordinate moment assumption from a bound
+on the largest-coordinate envelope. Write
+$A_{ik}=\sup_t|\varepsilon_{i,k}(t)|$. Then
 \[
-\varepsilon_{i,k}(t)=V_i\{R_{ik,0}+R_{ik,1}\sin(2\pi t)\}.
+\expect\max_{k\le p}A_{ik}^q
+\le\sum_{k=1}^p\expect A_{ik}^q\le Cp .
 \]
-The errors have polynomial tails and
-$\sup_{t,k}|\varepsilon_{i,k}(t)|\le2|V_i|$, so their $L^8$ envelope
-is bounded independently of $p$. Their covariance entries are
-$C_{kl}(u,t)=\mathbf1_{\{k=l\}}\{1+\sin(2\pi u)\sin(2\pi t)\}$,
-which are uniformly Lipschitz, with coordinate variances at least one.
-The shared scale $V_i$ permits dependence across coordinates.
+This proves $K_n\lesssim p^{1/q}$. Logarithmic growth does not follow
+from these moments alone. For example, let
+$\varepsilon_{i,k}(t)=V_{ik}$, where all $V_{ik}$ are independent
+standardized Student $t_\nu$ variables with fixed $\nu>q$.
+These processes satisfy the covariance and coordinate moment conditions.
+The polynomial tail $\prob(|V_{ik}|>x)\asymp x^{-\nu}$ implies
+$\|\max_k|V_{ik}|\|_{L^q}\asymp p^{1/\nu}$.
+For the lower bound, take $x$ of order $p^{1/\nu}$, at which the
+maximum exceeds $x$ with probability bounded away from zero.
+Integrating $\min(1,Cp x^{-\nu})$ gives the matching upper bound.
+
+\noindent\textbf{Sub-Gaussian paths.}
+Suppose the coordinate path suprema satisfy
+\begin{equation}
+\max_{k\le p}\left\|\sup_t|\varepsilon_{i,k}(t)|\right\|_{\psi_2}\le C,
+\label{eq:mean-subgaussian-envelope}
+\end{equation}
+where $\|Z\|_{\psi_2}=\inf\{c>0:\expect\exp(Z^2/c^2)\le2\}$.
+A union bound gives
+\[
+\prob(\max_k A_{ik}>x)\le
+\min\{1,2p\exp(-x^2/C^2)\}.
+\]
+Integrating $q x^{q-1}$ times this tail, with a split at
+$C\sqrt{\log(2p)}$, gives
+\[
+\|\max_k A_{ik}\|_{L^q}\le C_q\sqrt{\log(ep)}
+\]
+for fixed $q$.
+No cross-coordinate independence is needed.
+One sufficient process-level condition is
+\[
+\max_k\|\varepsilon_{i,k}(0)\|_{\psi_2}\le C,\qquad
+\max_k\|\varepsilon_{i,k}(t)-\varepsilon_{i,k}(u)\|_{\psi_2}
+\le C|t-u|^\beta
+\]
+for some fixed $\beta>0$. On a dyadic grid at level $j$, the maximum
+of the $O(2^j)$ parent-child increments of a single coordinate has
+$\psi_2$ norm at most $C2^{-j\beta}\sqrt{j+1}$, by the same tail
+bound. The sum of these norms is finite uniformly in the coordinate.
+The increment condition gives a continuous modification by taking
+a sufficiently high moment in the Kolmogorov continuity criterion.
+Telescoping along the dyadic grids and the triangle inequality for
+the $\psi_2$ norm then establish
+\eqref{eq:mean-subgaussian-envelope} for this separable version.
+For centered Gaussian coordinates, the assumed covariance regularity
+gives $\expect|\varepsilon_{i,k}(t)-\varepsilon_{i,k}(u)|^2
+\le C|t-u|$ uniformly in $k$. Gaussian increments therefore satisfy
+the displayed condition with $\beta=1/2$.
+
+\noindent\textbf{Different coordinates with a bounded polynomial-moment envelope.}
+Let $V_i$ be a centered Student $t_\nu$ variable, standardized to
+variance one, with $\nu>8$. Independently, let
+$\{R_{ik0},R_{ik1}:k\ge1\}$ be mutually independent Rademacher
+variables, and set
+\[
+\varepsilon_{i,k}(t)=V_i\{R_{ik0}+R_{ik1}\sin(2\pi t)\}.
+\]
+Generate these objects independently across subjects.
+The coordinates have different random trajectories, while
+$\sup_{t,k}|\varepsilon_{i,k}(t)|\le2|V_i|$ yields $K_n=O(1)$
+for $q=8$. Their covariance is
+\[
+C_{kl}(u,t)=\mathbf1_{\{k=l\}}
+\{1+\sin(2\pi u)\sin(2\pi t)\}.
+\]
+Thus all covariance conditions hold, and the matching Gaussian
+coordinate processes are independent, rather than identical.
+The common heavy-tailed scale bounds the envelope without collapsing
+the coordinatewise Gaussian maximum. Any collection of means in a
+common bounded $C^{1,1}$ class is admissible.
 
 Take $q=8$, local linear fits, $m_i=1$, and $h=n^{-1/4}$.
-Then $v_n\asymp n^{1/8}$ and $K_n=O(1)$. The displayed rates give
-\begin{align*}
-\gamma_n^\mu
-&=O\{n^{-3/16}L_n^{5/4}+n^{-1/4}L_n^{11/8}
-+n^{-1/8}L_n^{1/2}\},\\
-e_n^\mu L_n^2
-&=O\{n^{-3/8}L_n^{5/2}+n^{-1/2}L_n^3\}.
-\end{align*}
-If $\log p=o(n^{3/20})$, both vanish, and the first covariance term
-in $(e_n^\mu L_n^2)^{1/3}$ dominates all the displayed contributions
-to coverage. The resulting error is $O(n^{-1/8}L_n^{5/6})$.
-The undersmoothing condition is also explicit:
-$\sqrt{nL_n}\,h^2/v_n\asymp n^{-1/8}\sqrt{L_n}\to0$.
-Thus $p=\lceil\exp(n^\delta)\rceil$ is admissible for every fixed
-$0<\delta<3/20$ under polynomial moments, even with one observation
-per subject. This is a sufficient example, not an optimal dimension range.
+Then $v_n\asymp n^{1/8}$, $\Lambda_n\asymp n^{1/4}$, and
+$a_n=O(n^{-3/8}\sqrt{\log n})$. For general $K_n$,
+\[
+\delta_n^\mu=O\{n^{-3/8}L_n^{1/2}+K_n n^{-5/8}L_n\}.
+\]
+For the bounded-envelope example, suppose $L_n=o(n^{3/20})$.
+Substitution into \eqref{eq:mean-rates} gives
+\[
+\begin{aligned}
+\gamma_n^\mu&=O\{n^{-3/16}L_n^{5/4}
++n^{-1/4}L_n^{11/8}+n^{-1/8}L_n^{1/2}\},\\
+e_n^\mu L_n^2&=O\{n^{-3/8}L_n^{5/2}+n^{-1/2}L_n^3\}.
+\end{aligned}
+\]
+For example, the design-score transfer term is
+$O\{n^{-3/16}(\log n)^{1/4}L_n^{1/2}\}$ and is absorbed by
+the first Gaussian term. Both approximation conditions hold, and
+the joint coverage error is $O(n^{-1/8}L_n^{5/6})$.
+Polynomially growing $p$ recovers
+$O\{n^{-1/8}(\log n)^{5/6}\}$; exponentially growing dimensions
+are also allowed provided $\log p=o(n^{3/20})$.
+
+Finally, under \eqref{eq:mean-subgaussian-envelope} one can use
+$K_n\lesssim\sqrt{L_n}$ in the same fixed-$q$ argument.
+For the preceding $q,r,m_i,h$, if $L_n=o(n^{1/8})$, then
+\[
+\begin{aligned}
+\gamma_n^\mu&=O\{n^{-3/16}L_n^{3/2}
++n^{-1/4}L_n^{15/8}+n^{-1/8}L_n^{1/2}\},\\
+e_n^\mu L_n^2&=O\{n^{-3/8}L_n^{5/2}+n^{-1/2}L_n^4\}.
+\end{aligned}
+\]
+The design-score transfer term is again absorbed, and the coverage
+error is
+$O\{n^{-1/8}L_n^{5/6}+n^{-1/6}L_n^{4/3}\}=o(1)$.
+This is a sufficient consequence of the polynomial-moment theorem;
+a separate argument using exponential tails could sharpen these rates.
 
 \input{numerical-supplement.tex}
 

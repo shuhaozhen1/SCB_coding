@@ -9,6 +9,7 @@ preamble=r'''
 \usepackage[sectionbib,authoryear,round]{natbib}
 \usepackage{array,epsfig,fancyhdr,rotating}
 \usepackage{amsmath,amssymb,amsfonts,amsthm,graphicx,booktabs,multirow,placeins}
+\allowdisplaybreaks[1]
 \usepackage{sectsty,secdot}
 \usepackage{xr-hyper}
 \usepackage[hidelinks]{hyperref}
@@ -102,7 +103,7 @@ main=r'\documentclass[12pt]{article}'+'\n'+preamble+r'\externaldocument[][nocite
 \vspace{9pt}
 \noindent {\it Key words and phrases:} Functional data, Gaussian approximation, multiplier bootstrap, simultaneous inference, varying-coefficient model.
 \end{quotation}
-\newpage\bodyfont
+\bodyfont
 '''+body+back
 supp=r'\documentclass[10pt]{book}'+'\n'+preamble.replace(r'\rm Statistica Sinica}',r'\rm Statistica Sinica: Supplement}')+r'\externaldocument[][nocite]{fscb-draft}'+'\n'+header+r'''
 \raggedbottom
