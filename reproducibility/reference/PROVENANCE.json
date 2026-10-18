@@ -1,0 +1,29 @@
+{
+  "independent_datasets": 72000,
+  "counts": {
+    "scalar": 18000,
+    "single": 18000,
+    "joint": 18000,
+    "highd": 18000
+  },
+  "design_cells": 90,
+  "R_per_cell": 1000,
+  "source_file_sha256": {
+    "results/linear-only-20261018/clz-section4/replications.jsonl": "d9c20aa4764bdf3d34a1ab85cfee32efa8f7e5f468e3747b0aeb0ebb011d1a97",
+    "results/numerical-optimization-20261018/validation-p1.jsonl": "8c1c5066ece0323f46106a2a0c962aeb22d46ac8fe421d06852fb68b06eb5d63",
+    "results/numerical-optimization-20261018/validation-p2.jsonl": "5fbb1528c0a17dc3467c22d1abedd979ffa42c09d831142134c788c93436b761",
+    "results/numerical-optimization-20261018/validation-p5.jsonl": "df2b6473ff75130eed4a9285d6f79b9bda87274ce2cf234bf357a2e4755b3f21",
+    "results/coordinate-mean-20261018/replications.jsonl": "fa690763d1574999d1785ab51e773d7e09e9d487b91bb82586fb1c746096534b"
+  },
+  "canonical_records_sha256": "8015e30af22da73c449d83d1774e03d0ddcd542302e5b6cefc6a414764b05636",
+  "canonical_projection": "Only current proposed estimates and current comparators; scalar baseline, coefficient selected constants, CV CLZ, coordinate-specific-error high-dimensional means. Runtime and historical alternatives omitted.",
+  "source_plot_npz_sha256": {
+    "results/figures/vcm-estimation-bands.npz": "e2bbdde8f703d56745649b754e50960515e8cf76a29152108f0bc02bb9c80cf1",
+    "results/figures/highd-mean-estimation-bands.npz": "04f77d07bf70e84cff36d1caab7a710fcff51b98aec2a0cb9218af4b83a00b8b",
+    "results/realdata/pbc_vcm_comparison.npz": "ef0a8ae2241a084274fa9ebf0ff9a08cd1dbcd1c2b779e7db5d279757385ae27",
+    "results/realdata/pbc_scalar_mean_comparison.npz": "e5aceb41fa761ba04b48f86acfb3bbee9f969941b733d0b711607b7479e94086",
+    "results/realdata/pbc_joint_mean_comparison.npz": "42b18528a569056bbb932dada5383db53e8be62766826d3bd5bfa97c19f5e22f"
+  },
+  "plot_data": "Numerical plotting arrays and calibration maxima retained. Full observations and Gaussian multipliers regenerate exactly from documented seeds; no numerical arrays rounded.",
+  "retained_reference_chunk_source_sha256": "dc9c886d543fe93761731bae4fd1681312045e1ebdea8febcf5b3a73d831206b"
+}

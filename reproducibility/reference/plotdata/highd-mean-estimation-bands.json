@@ -1,0 +1,27 @@
+{
+  "model": "100 distinct means with correlated coordinate-specific functional errors",
+  "p": 100,
+  "B": 1000,
+  "degree": 1,
+  "bandwidth": 0.08456699960233298,
+  "bandwidth_scale": 1.0,
+  "critical_value": 4.0204295108528845,
+  "seed_sequence": [
+    20261018,
+    184700,
+    400,
+    20,
+    0,
+    0
+  ],
+  "displayed_coordinates_one_based": [
+    1,
+    50,
+    100
+  ],
+  "full_grid_cp": 1,
+  "rep": 0,
+  "n": 400,
+  "m": 20,
+  "selection": "First jointly covered replication in fixed order, using all target functions on the full 51-point grid plus a 1001-point graphical check. Illustrative selection only; all Monte Carlo datasets remain in the tables."
+}

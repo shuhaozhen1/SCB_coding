@@ -1,0 +1,36 @@
+{
+  "release": "current-manuscript-2026-10-18",
+  "retained_independent_datasets": 72000,
+  "summary_cells": 90,
+  "replications_per_cell": 1000,
+  "manuscript_tables_byte_identical": 4,
+  "tests_passed": 12,
+  "tests_failed": 0,
+  "seed_replay": {
+    "passed": true,
+    "datasets_replayed": 72,
+    "all_design_cells": true,
+    "rtol": 5e-07,
+    "atol": 5e-08,
+    "coverage_indicators_exact": true
+  },
+  "realdata": {
+    "passed": true,
+    "analyses": 3,
+    "grid_points": 201,
+    "B": 10000,
+    "CLZ_bandwidth": "matched",
+    "mean_bandwidth_scale": 1.25,
+    "rtol": 5e-07,
+    "atol": 5e-08
+  },
+  "simulation_illustrations_regenerated_and_numerically_verified": 2,
+  "figures_redrawn": 6,
+  "fresh_simulation_smoke": {
+    "independent_datasets": 8,
+    "summary_cells": 5,
+    "resume_added_datasets": 0
+  },
+  "full_72000_dataset_rerun_performed_during_packaging": false,
+  "verification_scope": "All retained records summarized and verified; one exact original seed replay per design group; both simulation illustrations and all three real-data analyses regenerated; separate fresh-run/resume smoke and direct numerical tests."
+}

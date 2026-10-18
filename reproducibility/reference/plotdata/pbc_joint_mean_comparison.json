@@ -1,0 +1,23 @@
+{
+  "analysis": "four-function joint means",
+  "labels": [
+    "Log bilirubin",
+    "Albumin",
+    "Prothrombin time",
+    "Log alkaline phosphatase"
+  ],
+  "n": 312,
+  "N": 1741,
+  "mH": 3.4889572267263067,
+  "horizon_days": 3000,
+  "B": 10000,
+  "proposed_q": 3.310086794762288,
+  "comparator_q": [
+    3.1566665576046837,
+    3.2038659428639074,
+    3.22431864823606,
+    3.190172012212497
+  ],
+  "clz_bandwidth_rule": "matched",
+  "mean_bandwidth_scale": 1.25
+}

@@ -1,0 +1,31 @@
+{
+  "model": "five-coefficient VCM",
+  "p": 5,
+  "B": 2000,
+  "degree": 1,
+  "bandwidth": 0.10570874950291623,
+  "bandwidth_scale": 1.25,
+  "critical_value": 3.351850099485155,
+  "seed_sequence": [
+    20261018,
+    771211,
+    2,
+    400,
+    20,
+    5,
+    0,
+    0
+  ],
+  "displayed_coordinates_one_based": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "full_grid_cp": 1,
+  "rep": 0,
+  "n": 400,
+  "m": 20,
+  "selection": "First jointly covered replication in fixed order, using all target functions on the full 51-point grid plus a 1001-point graphical check. Illustrative selection only; all Monte Carlo datasets remain in the tables."
+}

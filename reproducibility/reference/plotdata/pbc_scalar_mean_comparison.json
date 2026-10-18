@@ -1,0 +1,17 @@
+{
+  "analysis": "scalar mean",
+  "labels": [
+    "Log bilirubin"
+  ],
+  "n": 312,
+  "N": 1790,
+  "mH": 3.60880570222546,
+  "horizon_days": 3000,
+  "B": 10000,
+  "proposed_q": 2.8350340311197963,
+  "comparator_q": [
+    2.6600221114240123
+  ],
+  "clz_bandwidth_rule": "matched",
+  "mean_bandwidth_scale": 1.25
+}

@@ -1,0 +1,20 @@
+{
+  "analysis": "six-coefficient VCM",
+  "labels": [
+    "Intercept",
+    "D-penicillamine",
+    "Edema (standardized)",
+    "Albumin (standardized)",
+    "Prothrombin time (standardized)",
+    "Log ALP (standardized)"
+  ],
+  "n": 312,
+  "N": 1741,
+  "mH": 3.4889572267263067,
+  "horizon_days": 3000,
+  "B": 10000,
+  "proposed_q": 3.537881231824237,
+  "comparator_q": 3.583055671241191,
+  "clz_bandwidth_rule": "matched",
+  "mean_bandwidth_scale": 1.25
+}

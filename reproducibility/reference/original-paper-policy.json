@@ -1,0 +1,29 @@
+{
+  "complete": true,
+  "current_high_dimensional_error": "coordinate-specific",
+  "original_coefficient_and_scalar_cells": 54,
+  "new_mean_cells": 36,
+  "independent_datasets_in_paper": 72000,
+  "new_independent_mean_datasets": 18000,
+  "R_per_cell": 1000,
+  "B_mean": 1000,
+  "proposed_degree": 1,
+  "coordinate_correlation": 0.5,
+  "mean_bandwidth_scale": 1.0,
+  "mean_protocol_sha256": "2a65f8dd3a98d75d224991f350a4523bc1401b4df5e958b90118fadff9265e4d",
+  "mean_replications_sha256": "fa690763d1574999d1785ab51e773d7e09e9d487b91bb82586fb1c746096534b",
+  "original_nonmean_summary_sha256": "e6638f983dc7f241365c91a5bb6d25d5d2a7a588ce0df3f3f7c7487d3667ab94",
+  "current_summary": "results/coordinate-mean-20261018/current-paper-summary.csv",
+  "current_summary_sha256": "8194850d68fba63206be1fb79889c86131734a28b0a62395aa8d9cd716a84b43",
+  "reporter_sha256": "f618bfc477cd1c742f2474cd51af243345cc46526f09616d74a813de29130588",
+  "formatter_sha256": "81748dca1893fdfa518e14095eb43bf0bc9619f12a729e401a7240611fa28b30",
+  "mean_table_updated": true,
+  "mean_table_sha256": "61be51d36bac21ab971ac491369599cff165f7368dd52182394728263238d027",
+  "preserved_table_sha256": {
+    "results/tables/single.tex": "1f473489bb6e240517f21ff78103b9982ac5da68fff02ba2aa35066f7d0feb11",
+    "results/tables/joint.tex": "a6d578f4be83f6362f3224f901419f31e05169dfd79232a0517766e3df23304b",
+    "results/tables/mean.tex": "01f2590f4798fd0d0054bb226a7683c9351276fb3ff9483beb1ccbcb334b0d7f"
+  },
+  "historical_shared_error_results_excluded": true,
+  "reporting_entry": "code/report_coordinate_mean.py --update-table"
+}

@@ -1,0 +1,7 @@
+Dataset: survival::pbcseq (Mayo PBC sequential biomarkers).
+Retrieved 2026-10-15 from https://github.com/shuhaozhen1/SCB_coding/tree/main/data/pbcseq.csv
+Public snapshot preserved locally; no claim that this matches the original manuscript commit.
+Documentation: https://stat.ethz.ch/R-manual/R-devel/library/survival/html/pbcseq.html
+Raw CSV SHA-256: 08fe2121f8b6941f3fb2865791e24397bf609459fd1aa68760ca5290646184d8
+Full CSV: 1945 rows; 312 patients.
+R package documentation warns that extra visits and missing laboratory measurements may be informative.
