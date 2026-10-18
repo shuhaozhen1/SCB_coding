@@ -3,6 +3,7 @@
   "independent_datasets": 72000,
   "design_cells": 90,
   "sha256": {
+    ".gitattributes": "272398dcf39afa3c3bbc3a981cd01770bbbf388f0298b1b18dc733ab0d740d81",
     ".gitignore": "41312caa5cf069127b492b53feaed7239c87bd97375ecd3ca625d1bca8937222",
     "LICENSE": "966cbf10bda012224088da20acb09943ae0ed68d0189f97a25ce6758d0b91b74",
     "Makefile": "76f1c1fdd0526ea42295778b4c03473cf50c3390f3a9fd378904744d93069e8e",
